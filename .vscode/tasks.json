@@ -1,0 +1,28 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build + Flash",
+            "type": "shell",
+            "command": "build.bat",
+            "group": "build",
+            "presentation": { "reveal": "always", "panel": "shared" },
+            "problemMatcher": []
+        },
+        {
+            "label": "Tylko Build",
+            "command": "build.bat & echo. & pause",
+            "problemMatcher": []
+        },
+        {
+            "label": "Clean",
+            "command": "clean.bat",
+            "problemMatcher": []
+        },
+        {
+            "label": "Production (build + czysty hex)",
+            "command": "production.bat",
+            "problemMatcher": []
+        }
+    ]
+}

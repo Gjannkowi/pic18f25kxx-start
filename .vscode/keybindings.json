@@ -1,0 +1,43 @@
+// keybindings.json – Twoje osobiste skróty
+[
+    // F7 = Build + Flash (główny klawisz – zawsze działa)
+    {
+        "key": "f7",
+        "command": "workbench.action.tasks.runTask",
+        "args": "Build + Flash",
+        "when": "editorTextFocus"
+    },
+
+    // Ctrl+F7 = tylko kompilacja
+    {
+        "key": "ctrl+f7",
+        "command": "workbench.action.tasks.runTask",
+        "args": "Tylko Build"
+    },
+
+    // Shift+F7 = clean
+    {
+        "key": "shift+f7",
+        "command": "workbench.action.tasks.runTask",
+        "args": "Clean"
+    },
+
+    // Ctrl+Shift+F7 = tryb produkcyjny
+    {
+        "key": "ctrl+shift+f7",
+        "command": "workbench.action.tasks.runTask",
+        "args": "Production (build + czysty hex)"
+    },
+
+    // Wyłączamy domyślne akcje debugera na F-klawiszach (to jest kluczowe!)
+    {
+        "key": "f7",
+        "command": "-workbench.action.debug.start",
+        "when": "debuggersAvailable && !inDebugMode"
+    },
+    {
+        "key": "f7",
+        "command": "-workbench.action.debug.run",
+        "when": "debuggersAvailable && !inDebugMode"
+    }
+]

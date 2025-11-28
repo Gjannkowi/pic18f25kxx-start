@@ -1,0 +1,30 @@
+{
+    "configurations": [
+        {
+            "name": "XC8 PIC18F25K42",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "C:/Program Files/Microchip/xc8/v3.10/include",
+                "C:/Program Files/Microchip/PIC18F-K_DFP/dev/PIC18F25K42"
+            ],
+            "defines": [
+                "__18F25K42",
+                "_PIC18",
+                "__XC8"
+            ],
+            "compilerPath": "C:/Program Files/Microchip/xc8/v3.10/bin/xc8-cc.exe",
+            "cStandard": "c99",
+            "cppStandard": "c++11",
+            "intelliSenseMode": "gcc-x64",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}",
+                    "C:/Program Files/Microchip/xc8/v3.10/include",
+                    "C:/Program Files/Microchip/PIC18F-K_DFP/dev/PIC18F25K42"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            }
+        }
+    ],
+    "version": 4
+}
