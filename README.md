@@ -59,7 +59,7 @@ Addressing Tools - Narz?dzie do ustawiania i sprawdzania adresu dali lamp latern
 # Kompilacja z XC8
 .\build.ps1 -Compiler XC8
 
-# Czyszczenie plik體
+# Czyszczenie plik贸w
 .\build.ps1 -Clean
 
 # Czyszczenie i budowanie
@@ -71,12 +71,12 @@ Addressing Tools - Narz?dzie do ustawiania i sprawdzania adresu dali lamp latern
 
 2. Visual Studio Code
 
-   - U?yj skr髏u klawiszowego: `Ctrl+Shift+B`
-   - Lub otw髍z palet? polece? (`Ctrl+Shift+P`) ? `Tasks: Run Build Task`
+   - U?yj skr贸tu klawiszowego: `Ctrl+Shift+B`
+   - Lub otw贸rz palet? polece? (`Ctrl+Shift+P`) ? `Tasks: Run Build Task`
 
    **Dost?pne zadania:**
    - **Build PIC18F25K42 (XC8)** - Kompilacja z kompilatorem XC8
-   - **Clean Build Files** - Czyszczenie plik體 kompilacji
+   - **Clean Build Files** - Czyszczenie plik贸w kompilacji
    - **Build with PowerShell Script (XC8)** - Kompilacja przez skrypt PowerShell
 
    **Wyniki kompilacji:**
@@ -85,8 +85,3 @@ Addressing Tools - Narz?dzie do ustawiania i sprawdzania adresu dali lamp latern
    - Pliki tymczasowe w katalogu `build/`
 
 
-
-
-=======
-# pic18f25kxx-start
->>>>>>> 5e879c666dc6d70e778ca470761e7eb6d842c016
