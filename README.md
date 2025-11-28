@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # README #
 Addressing Tools - Narz?dzie do ustawiania i sprawdzania adresu dali lamp latern
 
@@ -86,3 +87,6 @@ Addressing Tools - Narz?dzie do ustawiania i sprawdzania adresu dali lamp latern
 
 
 
+=======
+# pic18f25kxx-start
+>>>>>>> 5e879c666dc6d70e778ca470761e7eb6d842c016
