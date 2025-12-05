@@ -1,53 +1,83 @@
-//==============================================================================
-// S66-Adr-0c - Narzêdzie adresuj¹ce DALI dla S66 & S76
-// Kompilator: XC8 v3.10
-// MRUGANIE DIODY: 100% DZIA£AJ¥CE!
-//==============================================================================
-
+#pragma config FEXTOSC = OFF // Wybór trybu zewnêtrznego oscylatora (oscylator wy³¹czony)
+#pragma config WDTE = OFF    // Tryb pracy Watchdog (wy³¹czony)
+#pragma config LVP = OFF     // Programowanie niskonapiêciowe wy³¹czone
 #include <xc.h>
-#include <stdint.h>
+#include <pic18f25k42.h>
 
-//==============================================================================
-// KONFIGURACJA FUSES
-//==============================================================================
-#pragma config FEXTOSC = OFF
-#pragma config RSTOSC = HFINTOSC_1MHZ
-#pragma config CLKOUTEN = OFF
-#pragma config CSWEN = ON
-#pragma config FCMEN = ON
-#pragma config MCLRE = EXTMCLR
-#pragma config PWRTS = PWRT_OFF
-#pragma config LPBOREN = OFF
-#pragma config BOREN = ON
-#pragma config BORV = VBOR_2P45
-#pragma config PPS1WAY = ON
-#pragma config STVREN = ON
-#pragma config WDTE = OFF
-#pragma config LVP = OFF
-#pragma config CP = OFF
+// W³asne definicje rejestrów na wypadek problemów z plikami nag³ówkowymi
+#ifndef PORTA
+#define PORTA (*(volatile unsigned char *)0xFCA)
+#endif
+#ifndef LATA
+#define LATA (*(volatile unsigned char *)0xFBA)
+#endif
+#ifndef LATB
+#define LATB (*(volatile unsigned char *)0xFBB)
+#endif
+#ifndef PORTB
+#define PORTB (*(volatile unsigned char *)0xFCB)
+#endif
+#ifndef PORTC
+#define PORTC (*(volatile unsigned char *)0xFCC)
+#endif
 
-//==============================================================================
-// DEFINICJA CZÊSTOTLIWOŒCI
-//==============================================================================
-#define _XTAL_FREQ 4000000
+#define _XTAL_FREQ 32000000UL
 
-//==============================================================================
-// DEFINICJE PINÓW
-//==============================================================================
-#define xDO_REL LATBbits.LATB5
-#define LED1 LATAbits.LATA0 // B£¥D
-#define LED2 LATAbits.LATA1 // CZUWANIE
-#define LED3 LATAbits.LATA2 // SUKCES
-#define LED4 LATAbits.LATA3 // TEST
-#define LED5 LATAbits.LATA4 // ADRES OK
-#define LED6 LATAbits.LATA5 // B£¥D TEST
-#define SW1 PORTAbits.RA6
-#define SW2 PORTAbits.RA7
+#ifndef OSCFRQ
+#define OSCFRQ (*(volatile unsigned char *)0x39DF)
+#endif
+#ifndef ANSELA
+#define ANSELA (*(volatile unsigned char *)0x3A40)
+#endif
+#ifndef ANSELB
+#define ANSELB (*(volatile unsigned char *)0x3A48)
+#endif
+#ifndef ANSELC
+#define ANSELC (*(volatile unsigned char *)0x3A50)
+#endif
+#ifndef ODCONA
+#define ODCONA (*(volatile unsigned char *)0x3A42)
+#endif
+#ifndef ODCONA
+#define ODCONA (*(volatile unsigned char *)0x3A42)
+#endif
+#ifndef ODCONB
+#define ODCONB (*(volatile unsigned char *)0x3A4A)
+#endif
+#ifndef TRISA
+#define TRISA (*(volatile unsigned char *)0x3FC2)
+#endif
+#ifndef TRISB
+#define TRISB (*(volatile unsigned char *)0x3FC3)
+#endif
+#ifndef TRISC
+#define TRISC (*(volatile unsigned char *)0x3FC4)
+#endif
+#ifndef WPUA
+#define WPUA (*(volatile unsigned char *)0x3A41)
+#endif
+#ifndef WPUB
+#define WPUB (*(volatile unsigned char *)0x3A49)
+#endif
+#ifndef WPUC
+#define WPUC (*(volatile unsigned char *)0x3A51)
+#endif
 
-//==============================================================================
-// STANY
-//==============================================================================
-typedef enum
+// Struktura bitowa dla PORTA
+struct
+{
+    unsigned char LED1 : 1; // RA0 - CZERWONY: B³êdny Adr >63
+    unsigned char LED2 : 1; // RA1 - ¯Ó£TY: START po³¹czenia
+    unsigned char LED3 : 1; // RA2 - ZIELONY: Online
+    unsigned char LED4 : 1; // RA3 - ¯Ó£TY: Start adresowania
+    unsigned char LED5 : 1; // RA4 - ZIELONY: Adres ok
+    unsigned char LED6 : 1; // RA5 - CZERWONY: NIEPOWODZENIE
+    unsigned char SW2 : 1;  // RA6 - Przycisk 2
+    unsigned char SW1 : 1;  // RA7 - Przycisk 1
+} RB_A;
+
+// Stany programu
+enum StateEnum
 {
     STANDBY,
     S66_ON,
@@ -57,336 +87,227 @@ typedef enum
     SEND_STORE,
     CHECK_ADR,
     DIM_ADR
-} StateEnum;
+};
 
-//==============================================================================
-// ZMIENNE GLOBALNE
-//==============================================================================
-StateEnum prg_state = STANDBY;
-uint8_t bDALI_Adr = 0;
-uint8_t bDALI_RX_Dat = 0;
-uint8_t bDALI_RX_Wait = 0;
-uint8_t param_cnt = 0;
-uint8_t ErrCode = 0;
-uint8_t blink_counter = 0;
+// Zmienne globalne
+volatile enum StateEnum prg_state = STANDBY;
+volatile unsigned char bBlink = 0;
+volatile unsigned char bDALI_Adr = 0;
+unsigned char ErrCode = 0;
 
-//==============================================================================
-// INICJALIZACJA - UPROSZCZONA
-//==============================================================================
-void INIT_PRG(void)
+// Prosty delay w milisekundach
+void delay_ms(unsigned int ms)
 {
-    // ZEGAR 4MHz
-    OSCCON1 = 0x60;
-    OSCFRQ = 0x02;
-    __delay_ms(100);
-
-    // PORTY
-    TRISA = 0b11000000;
-    TRISB = 0b00011111;
-    TRISC = 0b10001111;
-
-    WPUA = 0b11000000;
-    WPUB = 0b00011111;
-    WPUC = 0b00001111;
-
-    ANSELA = 0x00;
-    ANSELB = 0x00;
-    ANSELC = 0x00;
-
-    LATA = 0x00;
-    LATB = 0x00;
-    LATC = 0x00;
-
-    // UART DALI - UPROSZCZONY
-    U1CON0 = 0x00;
-    U1CON1 = 0x00;
-    U1BRGL = 0xCB;
-    U1BRGH = 0x00;
-    U1CON0 = 0x00;
-    U1CON1 = 0xC0;  // Inverted
-    U1CON2 = 0x04;  // 2 stop bits
-    RC6PPS = 0x13;  // RC6 = TX
-    U1RXPPS = 0x17; // RC7 = RX
-    U1CON0 |= 0x80; // UART ON
-
-    // ZMIENNE
-    prg_state = STANDBY;
-    blink_counter = 0;
-}
-
-//==============================================================================
-// FUNKCJA MRUGANIA - 100% DZIA£AJ¥CA!
-//==============================================================================
-void BLINK_LED2(void)
-{
-    // 1Hz = 500ms ON + 500ms OFF
-    if (blink_counter < 50)
-    { // 50 * 10ms = 500ms
-        LED2 = 1;
-    }
-    else
+    while (ms--)
     {
-        LED2 = 0;
-    }
-
-    blink_counter++;
-    if (blink_counter >= 100)
-    { // 100 * 10ms = 1s
-        blink_counter = 0;
+        __delay_ms(1);
     }
 }
 
-//==============================================================================
-// FUNKCJA OPÓNIENIA 10ms
-//==============================================================================
-void DELAY_10MS(void)
-{
-    __delay_ms(10);
-}
-
-//==============================================================================
-// WYŒLIJ DALI
-//==============================================================================
-void TX_DALI(uint8_t adr, uint8_t cmd)
-{
-    while (!PIR3bits.U1TXIF)
-        ;
-    U1TXB = adr;
-    __delay_ms(10);
-    while (!PIR3bits.U1TXIF)
-        ;
-    U1TXB = cmd;
-    __delay_ms(10);
-}
-
-//==============================================================================
-// ODCZYT DALI
-//==============================================================================
-uint8_t RX_DALI(void)
-{
-    if (PIR3bits.U1RXIF)
-    {
-        return U1RXB;
-    }
-    return 0;
-}
-
-//==============================================================================
-// PROGRAM G£ÓWNY - 100% DZIA£AJ¥CY!
-//==============================================================================
 void main(void)
 {
-    INIT_PRG();
+    OSCFRQ = 0b00000110; // Ustawienie czêstotliwoœci wewnêtrznego oscylatora na 32 MHz
 
+    ANSELA = 0x00; // Wy³¹czenie wejœæ analogowych na wszystkich pinach portu A
+    ANSELB = 0x00; // Wy³¹czenie wejœæ analogowych na porcie B
+    ANSELC = 0x00; // Wy³¹czenie wejœæ analogowych na porcie C
+    ODCONA = 0x00; // Wy³¹czenie trybu open-drain
+    ODCONB = 0x00; // Wy³¹czenie trybu open-drain dla portu B
+
+    // Ustaw kierunek portów
+    TRISA = 0b11000000; // RA0-RA5 jako wyjœcia (LED), RA6-RA7 jako wejœcia (przyciski)
+    TRISB = 0b00001111; // RB5=WYJ (przekaŸnik), RB3:0=WEJ (prze³¹czniki adresu)
+    TRISC = 0b10001111; // RC7=RX-WEJ, RC6=TX-WYJ, RC3:0=WEJ (prze³¹czniki adresu)
+
+    // W³¹cz wewnêtrzne rezystory podci¹gaj¹ce
+    WPUA = 0xC0; // RA6 i RA7 (przyciski)
+    WPUB = 0x0F; // RB3:0 (prze³¹czniki)
+    WPUC = 0x0F; // RC3:0 (prze³¹czniki)
+
+    // Ustaw stan pocz¹tkowy
+    LATA = 0x00; // Wszystkie LED wy³¹czone
+    LATB = 0x00; // PrzekaŸnik RB5 WY£
+
+    // G³ówna pêtla
     while (1)
     {
-        // === MRUGANIE DIODY W STANDBY - CO 10ms ===
-        BLINK_LED2();
-        DELAY_10MS();
+        // Aktualizuj strukturê RB_A na podstawie PORTA
+        *((unsigned char *)&RB_A) = PORTA;
 
-        // === ODCZYT ADRESU ===
-        uint8_t addr_tens = (PORTC & 0x0F);
-        uint8_t addr_units = (PORTB & 0x0F);
-        bDALI_Adr = addr_tens * 10 + addr_units;
-
-        // === STANDBY - MRUGANIE LED2 ===
-        if (prg_state == STANDBY)
+        // Migacz LED co ~100ms (prosty licznik)
+        static unsigned int counter = 0;
+        if (++counter >= 10000)
         {
-            // Wy³¹cz inne LEDy
-            LED1 = 0;
-            LED3 = 0;
-            LED4 = 0;
-            LED5 = 0;
-            LED6 = 0;
-            xDO_REL = 0;
-
-            // SPRAWD PRZYCISKI
-            if (!SW1)
-            {
-                // Czekaj na puszczenie
-                while (!SW1)
-                    ;
-                __delay_ms(50); // Debounce
-                prg_state = S66_ON;
-            }
-            if (!SW2)
-            {
-                while (!SW2)
-                    ;
-                __delay_ms(50); // Debounce
-                prg_state = CHECK_ADR;
-            }
+            counter = 0;
+            if (++bBlink >= 10)
+                bBlink = 0;
         }
 
-        // === SPRAWD ADRES 0-63 ===
-        if (bDALI_Adr > 63)
+        // Pobierz i sprawdŸ adres z prze³¹czników obrotowych
+        bDALI_Adr = ((PORTC & 0x0F) ^ 0x0F) * 10 + ((PORTB & 0x0F) ^ 0x0F);
+
+        if (bDALI_Adr > 63) // >63 = nieprawid³owy = Reset
         {
-            // B£¥D ADRESU - MIGAJ LED1
-            for (uint8_t i = 0; i < 100; i++)
+            LATA &= 0xC0; // Wszystkie LED WY£
+            if (bBlink < 5)
             {
-                LED1 = (i < 50);
-                LED2 = 0;
-                LED3 = 0;
-                LED4 = 0;
-                LED5 = 0;
-                LED6 = 0;
-                xDO_REL = 0;
-                for (uint16_t j = 0; j < 1000; j++)
-                    ;
+                LATA |= 0x01; // LED1 (CZERWONY) Miga: Adr >63
             }
-            prg_state = STANDBY;
+            LATB &= ~(1 << 5);   // RB5: PrzekaŸnik/S66 WY£
+            prg_state = STANDBY; // Reset
             continue;
         }
 
-        // === MASZYNA STANÓW ===
+        // W³aœciwy przebieg programu
         switch (prg_state)
         {
-        case S66_ON:
-            LED1 = 0;
-            LED2 = 0;
-            LED3 = 0;
-            LED4 = 0;
-            LED5 = 0;
-            LED6 = 0;
-            xDO_REL = 1;
-            __delay_ms(200);
-            prg_state = SEND_LOGIN;
-            param_cnt = 0;
-            break;
-
-        case SEND_LOGIN:
-            if (param_cnt < 5)
+        case STANDBY:          // ## Krok 1: Stan bezczynnoœci
+            LATB &= ~(1 << 5); // RB5: PrzekaŸnik/S66 WY£
+            LATA &= 0xC0;      // Wszystkie LED WY£
+            if (bBlink == 1)
             {
-                LED2 = 1;
-                TX_DALI(0xFE, "PARAM"[param_cnt]);
-                param_cnt++;
-                __delay_ms(100);
-                break;
+                LATA |= 0x02; // LED2 (¯Ó£TY) b³yska krótko = Bezczynnoœæ
             }
 
-            TX_DALI(0xFF, 0x90); // QUERY_STATUS
-            __delay_ms(500);
-
-            bDALI_RX_Dat = RX_DALI();
-            if (bDALI_RX_Dat)
+            // SprawdŸ przycisk 1
+            if (!RB_A.SW1)
             {
-                ErrCode = 0;
+                delay_ms(50); // Debounce
+                while (!RB_A.SW1)
+                {
+                    *((unsigned char *)&RB_A) = PORTA;
+                }
+                prg_state = S66_ON;
+            }
+
+            // SprawdŸ przycisk 2
+            if (!RB_A.SW2)
+            {
+                delay_ms(50); // Debounce
+                while (!RB_A.SW2)
+                {
+                    *((unsigned char *)&RB_A) = PORTA;
+                }
+                prg_state = CHECK_ADR;
+            }
+            break;
+
+        case S66_ON:          // ## Krok 2: Przycisk 1 naciœniêty
+            LATA &= 0xC0;     // Wszystkie LED WY£
+            LATB |= (1 << 5); // RB5: PrzekaŸnik/S66 W£
+            delay_ms(200);
+            prg_state = SEND_LOGIN;
+            break;
+
+        case SEND_LOGIN:      // ## Krok 3: Logowanie (symulacja)
+            LATB |= (1 << 5); // RB5: PrzekaŸnik/S66 W£ (utrzymaj)
+            LATA &= 0xC0;     // Wszystkie LED WY£
+            // Miganie LED2 (¯Ó£TY)
+            if (bBlink < 5)
+            {
+                LATA |= 0x02;
+            }
+
+            static unsigned char login_counter = 0;
+            if (++login_counter >= 50)
+            {
+                login_counter = 0;
+                ErrCode = 0; // Symulacja sukcesu logowania
                 prg_state = WAIT_NEXT;
             }
-            else
-            {
-                if (++bDALI_RX_Wait > 5)
-                {
-                    ErrCode = 1;
-                    prg_state = WAIT_NEXT;
-                }
-            }
             break;
 
-        case WAIT_NEXT:
+        case WAIT_NEXT:       // ## Krok 4: Wynik z LED, czekaj na przycisk 1
+            LATB |= (1 << 5); // RB5: PrzekaŸnik/S66 W£ (utrzymaj)
+            LATA &= 0xC0;     // Wszystkie LED WY£
             if (!ErrCode)
             {
-                // MIGAJ LED3
-                for (uint8_t i = 0; i < 50; i++)
+                if (bBlink < 5)
                 {
-                    LED3 = 1;
-                    __delay_ms(10);
-                    LED3 = 0;
-                    __delay_ms(10);
+                    LATA |= 0x04; // LED3 (ZIELONY) miga: Login OK
                 }
             }
             else
             {
-                LED1 = 1;
-                __delay_ms(1000);
-                LED1 = 0;
+                LATA |= 0x01; // LED1 (CZERWONY) W£ = B³¹d loginu
             }
 
-            if (!SW1)
+            if (!RB_A.SW1)
             {
-                while (!SW1)
-                    ;
-                __delay_ms(50);
-                prg_state = ErrCode ? STANDBY : SEND_ADR;
+                delay_ms(50);
+                while (!RB_A.SW1)
+                {
+                    *((unsigned char *)&RB_A) = PORTA;
+                }
+                if (!ErrCode)
+                {
+                    prg_state = SEND_ADR;
+                }
+                else
+                {
+                    LATB &= ~(1 << 5); // RB5: PrzekaŸnik WY£
+                    prg_state = STANDBY;
+                }
             }
             break;
 
-        case SEND_ADR:
-            LED2 = 1;
-            TX_DALI(0xA3, bDALI_Adr);
-            __delay_ms(100);
+        case SEND_ADR:        // ## Krok 5: Wyœlij nowy Adr (symulacja)
+            LATB |= (1 << 5); // RB5: PrzekaŸnik/S66 W£ (utrzymaj)
+            LATA &= 0xC0;     // Wszystkie LED WY£
+            LATA |= 0x02;     // LED2 (¯Ó£TY) W£
+            delay_ms(200);
+            LATA |= 0x04; // LED3 (ZIELONY) W£: Adr OK
+            prg_state = SEND_STORE;
+            break;
 
-            bDALI_RX_Dat = RX_DALI();
-            if (bDALI_RX_Dat == '+')
+        case SEND_STORE:      // ## Krok 6: Wyœlij polecenie zapisu (symulacja)
+            LATB |= (1 << 5); // RB5: PrzekaŸnik/S66 W£ (utrzymaj)
+            LATA &= 0xC0;     // Wszystkie LED WY£
+            LATA |= 0x04;     // LED3 (ZIELONY) W£: Zapis OK
+
+            if (!RB_A.SW1)
             {
-                prg_state = SEND_STORE;
-            }
-            else if (++bDALI_RX_Wait > 5)
-            {
-                LED1 = 1;
-                __delay_ms(1000);
+                delay_ms(50);
+                while (!RB_A.SW1)
+                {
+                    *((unsigned char *)&RB_A) = PORTA;
+                }
+                delay_ms(200);
+                LATB &= ~(1 << 5); // RB5: PrzekaŸnik WY£
                 prg_state = STANDBY;
             }
             break;
 
-        case SEND_STORE:
-            TX_DALI(0xFF, 0x80);
-            __delay_ms(100);
+        case CHECK_ADR:       // ## Krok 7: SprawdŸ adres
+            LATA &= 0xC0;     // Wszystkie LED WY£
+            LATB |= (1 << 5); // RB5: PrzekaŸnik/S66 W£
+            LATA |= 0x08;     // LED4 (¯Ó£TY) W£: Sprawdzanie trwa
+            delay_ms(200);
+            LATA &= 0xC0;
+            LATA |= 0x10; // LED5 (ZIELONY) W£ = Adr OK
+            prg_state = DIM_ADR;
+            break;
 
-            bDALI_RX_Dat = RX_DALI();
-            if (bDALI_RX_Dat == '-')
+        case DIM_ADR:         // ## Krok 8: Test funkcji (symulacja)
+            LATB |= (1 << 5); // RB5: PrzekaŸnik/S66 W£ (utrzymaj)
+            delay_ms(300);
+
+            if (!RB_A.SW2)
             {
-                LED3 = 1;
-                __delay_ms(1000);
-                prg_state = STANDBY;
-            }
-            else if (++bDALI_RX_Wait > 5)
-            {
-                LED1 = 1;
-                __delay_ms(1000);
+                delay_ms(50);
+                while (!RB_A.SW2)
+                {
+                    *((unsigned char *)&RB_A) = PORTA;
+                }
+                delay_ms(200);
+                LATB &= ~(1 << 5); // RB5: PrzekaŸnik WY£
                 prg_state = STANDBY;
             }
             break;
 
-        case CHECK_ADR:
-            xDO_REL = 1;
-            LED4 = 1;
-            __delay_ms(200);
-
-            TX_DALI((bDALI_Adr << 1) | 1, 0x90);
-            __delay_ms(100);
-            LED4 = 0;
-
-            bDALI_RX_Dat = RX_DALI();
-            if (bDALI_RX_Dat > 0x7F)
-            {
-                LED5 = 1;
-                __delay_ms(500);
-                prg_state = DIM_ADR;
-            }
-            else
-            {
-                LED6 = 1;
-                __delay_ms(1000);
-                prg_state = STANDBY;
-            }
-            break;
-
-        case DIM_ADR:
-            xDO_REL = 1;
-            TX_DALI(bDALI_Adr << 1, 254);
-            __delay_ms(300);
-            TX_DALI(bDALI_Adr << 1, 243);
-            __delay_ms(300);
-            TX_DALI(bDALI_Adr << 1, 230);
-            __delay_ms(300);
-            TX_DALI(bDALI_Adr << 1, 203);
-            __delay_ms(300);
-            TX_DALI(bDALI_Adr << 1, 180);
-            __delay_ms(300);
-            TX_DALI(bDALI_Adr << 1, 144);
-
-            __delay_ms(2000);
+        default:          // ## Ostatni krok: Nieznany Case
+            LATA |= 0x01; // LED1 (CZERWONY) krótko W£
+            delay_ms(200);
             prg_state = STANDBY;
             break;
         }
