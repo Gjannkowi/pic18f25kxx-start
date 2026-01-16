@@ -69,9 +69,9 @@ struct
     unsigned char LED1 : 1; // RA0 - CZERWONY: B³êdny Adr >63
     unsigned char LED2 : 1; // RA1 - ¯Ó£TY: START po³¹czenia
     unsigned char LED3 : 1; // RA2 - ZIELONY: Online
-    unsigned char LED4 : 1; // RA3 - ¯Ó£TY: Start adresowania
-    unsigned char LED5 : 1; // RA4 - ZIELONY: Adres ok
-    unsigned char LED6 : 1; // RA5 - CZERWONY: NIEPOWODZENIE
+    unsigned char LED4 : 1; // RA3 - CZERWONY: Start adresowania
+    unsigned char LED5 : 1; // RA4 - ¯Ó£TY: Adres ok
+    unsigned char LED6 : 1; // RA5 - ZIELONY: NIEPOWODZENIE
     unsigned char SW2 : 1;  // RA6 - Przycisk 2
     unsigned char SW1 : 1;  // RA7 - Przycisk 1
 } RB_A;
@@ -148,8 +148,8 @@ void main(void)
 
         if (bDALI_Adr > 63) // >63 = nieprawid³owy = Reset
         {
-            LATA &= 0xC0; // Wszystkie LED WY£
-            if (bBlink < 5)
+            LATA &= 0xC0;   // Wszystkie LED WY£
+            if (bBlink < 5) // 0.5s ON / 0.5s OFF
             {
                 LATA |= 0x01; // LED1 (CZERWONY) Miga: Adr >63
             }
@@ -164,9 +164,9 @@ void main(void)
         case STANDBY:          // ## Krok 1: Stan bezczynnoœci
             LATB &= ~(1 << 5); // RB5: PrzekaŸnik/S66 WY£
             LATA &= 0xC0;      // Wszystkie LED WY£
-            if (bBlink == 1)
+            if (bBlink < 5)    // 0.5s ON / 0.5s OFF
             {
-                LATA |= 0x02; // LED2 (¯Ó£TY) b³yska krótko = Bezczynnoœæ
+                LATA |= 0x02; // LED2 (¯Ó£TY) Miga = Bezczynnoœæ
             }
 
             // SprawdŸ przycisk 1
@@ -202,7 +202,7 @@ void main(void)
         case SEND_LOGIN:      // ## Krok 3: Logowanie (symulacja)
             LATB |= (1 << 5); // RB5: PrzekaŸnik/S66 W£ (utrzymaj)
             LATA &= 0xC0;     // Wszystkie LED WY£
-            // Miganie LED2 (¯Ó£TY)
+            // Miganie LED2 (¯Ó£TY) 0.5s ON / 0.5s OFF
             if (bBlink < 5)
             {
                 LATA |= 0x02;
@@ -222,7 +222,7 @@ void main(void)
             LATA &= 0xC0;     // Wszystkie LED WY£
             if (!ErrCode)
             {
-                if (bBlink < 5)
+                if (bBlink < 5) // 0.5s ON / 0.5s OFF
                 {
                     LATA |= 0x04; // LED3 (ZIELONY) miga: Login OK
                 }
@@ -281,10 +281,10 @@ void main(void)
         case CHECK_ADR:       // ## Krok 7: SprawdŸ adres
             LATA &= 0xC0;     // Wszystkie LED WY£
             LATB |= (1 << 5); // RB5: PrzekaŸnik/S66 W£
-            LATA |= 0x08;     // LED4 (¯Ó£TY) W£: Sprawdzanie trwa
+            LATA |= 0x10;     // LED5 (¯Ó£TY) W£: Sprawdzanie trwa
             delay_ms(200);
             LATA &= 0xC0;
-            LATA |= 0x10; // LED5 (ZIELONY) W£ = Adr OK
+            LATA |= 0x20; // LED6 (ZIELONY) W£ = Adr OK
             prg_state = DIM_ADR;
             break;
 
