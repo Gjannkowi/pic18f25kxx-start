@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # README #
 Addressing Tools - Narz?dzie do ustawiania i sprawdzania adresu dali lamp latern
 
