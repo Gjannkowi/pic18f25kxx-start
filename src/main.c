@@ -243,6 +243,19 @@ void TX_DALI(unsigned char adr, unsigned char cmd)
     U1FIFO |= 0x22; // TXBE (bit 5) + RXBE (bit 1) - WyczyúÊ oba
 }
 
+// Odczytaj dane z UART DALI (zwraca 1 jeúli dane dostÍpne, 0 jeúli nie)
+unsigned char RX_DALI(unsigned char *data)
+{
+    // Sprawdü czy sπ dane w buforze (RXBE = 0 oznacza dane dostÍpne)
+    // U1FIFO bit 0 (RXBE) = 0 gdy bufor niepusty
+    if (!(U1FIFO & 0x01)) // Bit 0 = RXBE (RX Buffer Empty)
+    {
+        *data = U1RXB; // Odczytaj dane
+        return 1;      // Dane odebrane
+    }
+    return 0; // Brak danych
+}
+
 // Inicjalizacja UART1 dla protoko≥u DALI
 void INIT_DALI(void)
 {
@@ -570,43 +583,44 @@ void main(void)
             }
             break;
 
-        case CHECK_ADR:       // ## Krok 7: Sprawdü nowy Adr (zgodnie z orygina≥em)
+        case CHECK_ADR:       // ## Krok 7: Sprawdü nowy Adr (UPROSZCZONA WERSJA)
             LATA &= 0xC0;     // Wszystkie LED WY£
             LATB |= (1 << 5); // RB5: Przekaünik/S66 W£
             LATA |= 0x10;     // LED5 (Ø”£TY) W£: Sprawdzanie Adr trwa...
             delay_ms(200);    // Czekaj aø S66 gotowe
 
-            // WyczyúÊ przed wys≥aniem
-            bDALI_RX_Dat = 0;
-            xDALI_RX_OK = 0;
+            // WyczyúÊ bufor przed wys≥aniem
+            U1FIFO |= 0x02; // RXBE (bit 1) - WyczyúÊ bufor RX
 
+            // Wyúlij QUERY_STATUS do danego adresu
             TX_DALI((unsigned char)((bDALI_Adr << 1) | 1), D_QUERY_STATUS);
 
-            // Aktywnie sprawdzaj odpowiedü przez 100ms
+            // Czekaj na odpowiedü (maksymalnie 100ms)
+            bDALI_RX_Dat = 0;
+            xDALI_RX_OK = 0;
             {
-                unsigned char timeout = 100; // 100 cykli po 1ms
-                while (timeout-- > 0)
+                unsigned char timeout = 0;
+                unsigned char rx_data = 0;
+                while (timeout < 100) // Timeout 100ms
                 {
-                    delay_ms(1);
-                    if (PIR3 & 0x08) // U1RXIF - dane przysz≥y
+                    if (RX_DALI(&rx_data))
                     {
-                        bDALI_RX_Dat = U1RXB; // Odczytaj
+                        bDALI_RX_Dat = rx_data;
                         xDALI_RX_OK = 1;
-                        PIR3 &= ~0x08; // WyczyúÊ flagÍ
                         break;
                     }
+                    delay_ms(1);
+                    timeout++;
                 }
             }
 
-            // DEBUG: Wyúwietl wartoúÊ bDALI_RX_Dat na LEDach
+            // DEBUG: Pokaø wartoúÊ przez 1 sekundÍ
             LATA &= 0xC0;
-            LATA |= (bDALI_RX_Dat & 0x3F); // 6 dolnych bitÛw na LED0-5
-            delay_ms(2000);                // Trzymaj 2 sekundy
-
-            // WyczyúÊ LED
+            LATA |= (bDALI_RX_Dat & 0x3F);
+            delay_ms(1000);
             LATA &= 0xC0;
 
-            if (bDALI_RX_Dat > 0x7F) // Odpowiedü OK (0x80 lub 0x81)
+            if (xDALI_RX_OK && bDALI_RX_Dat >= 0x80) // Odpowiedü OK (0x80 lub wyøsza)
             {
                 LATA |= 0x20;        // LED6 (ZIELONY) W£ = Adr OK
                 prg_state = DIM_ADR; // Przejdü do úciemniania
