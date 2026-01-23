@@ -1,0 +1,252 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.5.4	//
+!_TAG_REVISION_NAME	MCHPTags	//
+!_TAG_REVISION_VERSION	6.0.1	//
+ADD_TO_GROUP::0x60	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	33;"	d	line:33
+ADR_POTI200K::0b01011100	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	27;"	d	line:27
+ADR_POTI20K::0b01011010	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	28;"	d	line:28
+BLINK	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	64;"	v	line:64
+DALICMD_H	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	2;"	d	line:2
+DALI_DAT::0x08	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	133;"	d	line:133
+DALI_IN::pin_b4	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	136;"	d	line:136
+DALI_MAX_LEVEL::254	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	138;"	d	line:138
+DALI_MIN_LEVEL::144	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	139;"	d	line:139
+DALI_RCV::0x02	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	131;"	d	line:131
+DALI_SBIT::0x01	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	130;"	d	line:130
+DALI_SND::0x04	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	132;"	d	line:132
+DALI_STBY::0x00	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	129;"	d	line:129
+DALI_TEST_CNT::5	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	140;"	d	line:140
+DALI_TIMEOUT::50	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	137;"	d	line:137
+DIMM::0b00000010	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	41;"	d	line:41
+DOWN::0x02	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	7;"	d	line:7
+DTR0::0xA3	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	69;"	d	line:69
+EE_ADDRESS::0x14	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	52;"	d	line:52
+EE_BLINK::0x17	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	55;"	d	line:55
+EE_CIRCUITS::0x11	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	49;"	d	line:49
+EE_GROUP_0_7::0x15	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	53;"	d	line:53
+EE_GROUP_8_15::0x16	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	54;"	d	line:54
+EE_OHC_START::0x30	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	56;"	d	line:56
+EE_PARAM::0x10	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	48;"	d	line:48
+EE_POTI::0x13	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	51;"	d	line:51
+EE_STATUS::0x12	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	50;"	d	line:50
+ENABLE::DAPCSEQUENCE0x09	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	14;"	d	line:14
+EOL::6000000	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	32;"	d	line:32
+EOL_CNT::20	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	33;"	d	line:33
+GO::TOLASTACTIVELEVEL0x0A	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	15;"	d	line:15
+HEATER_PWM	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	60;"	v	line:60
+HOUR::60	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	34;"	d	line:34
+LED_FAIL::0b00001000	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	43;"	d	line:43
+LED_TEST_TIME::600	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	25;"	d	line:25
+LED_TEST_TOL::3	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	24;"	d	line:24
+MINUTE::60	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	35;"	d	line:35
+OFF::0x00	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	5;"	d	line:5
+ON_AND_STEP_UP::0x08	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	13;"	d	line:13
+ON_OFF::0b00000001	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	40;"	d	line:40
+OUT_FAIL::0b00010000	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	44;"	d	line:44
+PARAM	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	142;"	v	line:142
+PARAM_START::0	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	31;"	d	line:31
+POTI_CH_A::0b00000000	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	29;"	d	line:29
+POTI_CH_B::0b10000000	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	30;"	d	line:30
+POWER::0b10000000	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	45;"	d	line:45
+PULSE_TIME::1	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	26;"	d	line:26
+PWM_MAX::1000	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	58;"	d	line:58
+PWM_STEP::20	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	59;"	d	line:59
+QUERY_ACTUAL_LEVEL::0xA0	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	52;"	d	line:52
+QUERY_BALLAST::0x91	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	40;"	d	line:40
+QUERY_CONTENT_DTR::0x98	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	47;"	d	line:47
+QUERY_DEVICE_TYPE::0x99	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	48;"	d	line:48
+QUERY_FADE::0xA5	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	57;"	d	line:57
+QUERY_GROUPS_0_7::0xC0	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	61;"	d	line:61
+QUERY_GROUPS_8_15::0xC1	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	62;"	d	line:62
+QUERY_LAMP_FAILURE::0x92	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	41;"	d	line:41
+QUERY_LAMP_POWER_ON::0x93	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	42;"	d	line:42
+QUERY_LIMIT_ERROR::0x94	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	43;"	d	line:43
+QUERY_MANUFACTURER_SPECIFIC_MODE::0xA6	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	58;"	d	line:58
+QUERY_MAX_LEVEL::0xA1	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	53;"	d	line:53
+QUERY_MIN_LEVEL::0xA2	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	54;"	d	line:54
+QUERY_MISSING_SHORT_ADDRESS::0x96	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	45;"	d	line:45
+QUERY_PHYSICAL_MINIMUM_LEVEL::0x9A	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	49;"	d	line:49
+QUERY_POWER_FAILURE::0x9B	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	50;"	d	line:50
+QUERY_POWER_ON_LEVEL::0xA3	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	55;"	d	line:55
+QUERY_RANDOM_ADDRESS_H::0xC2	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	63;"	d	line:63
+QUERY_RANDOM_ADDRESS_L::0xC4	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	65;"	d	line:65
+QUERY_RANDOM_ADDRESS_M::0xC3	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	64;"	d	line:64
+QUERY_RESET_STATE::0x95	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	44;"	d	line:44
+QUERY_SCENE_LEVEL::0xB0	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	60;"	d	line:60
+QUERY_STATUS::0x90	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	39;"	d	line:39
+QUERY_SYSTEM_FAILURE_LEVEL::0xA4	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	56;"	d	line:56
+QUERY_VERSION_NUMBER::0x97	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	46;"	d	line:46
+RECALL_MAX_LEVEL::0x05	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	10;"	d	line:10
+RECALL_MIN_LEVEL::0x06	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	11;"	d	line:11
+REMOVE_FROM_GROUP::0x70	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	34;"	d	line:34
+REMOVE_FROM_SCENE::0x50	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	32;"	d	line:32
+RESET::0x20	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	21;"	d	line:21
+SCENE::0x10	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	17;"	d	line:17
+SEQ::5	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	62;"	d	line:62
+STEP_DOWN::0x04	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	9;"	d	line:9
+STEP_DOWN_AND_OFF::0x07	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	12;"	d	line:12
+STEP_UP::0x03	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	8;"	d	line:8
+STORE_ACTUAL_LEVEL_IN_THE_DTR::0x21	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	22;"	d	line:22
+STORE_DTR_AS_SHORT_ADDRESS::0x80	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	35;"	d	line:35
+STORE_THE_DTR_AS_FADE_RATE::0x2F	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	29;"	d	line:29
+STORE_THE_DTR_AS_FADE_TIME::0x2E	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	28;"	d	line:28
+STORE_THE_DTR_AS_MAX_LEVEL::0x2A	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	24;"	d	line:24
+STORE_THE_DTR_AS_MIN_LEVEL::0x2B	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	25;"	d	line:25
+STORE_THE_DTR_AS_POWER_ON_LEVEL::0x2D	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	27;"	d	line:27
+STORE_THE_DTR_AS_SCENE::0x40	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	31;"	d	line:31
+STORE_THE_DTR_AS_SYSTEM_FAILURE_LEVEL::0x2C	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	26;"	d	line:26
+ST_EOL::0b00000100	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	42;"	d	line:42
+TAKT::3	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	63;"	d	line:63
+TERMINATE::0xA1	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	68;"	d	line:68
+TIMER3::12580	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	36;"	d	line:36
+UP::0x01	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dalicmd.h	6;"	d	line:6
+VERSION_NO::"7366500802rev0a"	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\main.c	88;"	d	line:88	file:
+aValues	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	230;"	l	line:230
+ack	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	446;"	l	line:446
+bADC_Ch0	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	84;"	v	line:84
+bADC_Ch1	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	85;"	v	line:85
+bADC_Ch10	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	89;"	v	line:89
+bADC_Ch2	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	86;"	v	line:86
+bADC_Ch3	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	87;"	v	line:87
+bADC_Ch8	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	88;"	v	line:88
+bBlinkCnt	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	103;"	v	line:103
+bBlinkPhase	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	105;"	v	line:105
+bBlinkSeq	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	102;"	v	line:102
+bBlinkdauer	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	104;"	v	line:104
+bCircuitNumber	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	91;"	v	line:91
+bCmdCnt	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	172;"	v	line:172
+bCount1000ms	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	93;"	v	line:93
+bCount500ms	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	92;"	v	line:92
+bCountEOL	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	95;"	v	line:95
+bCountMin	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	94;"	v	line:94
+bCountPulse	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	96;"	v	line:96
+bDaliBit	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	157;"	v	line:157
+bDaliBitCnt	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	155;"	v	line:155
+bDaliBusTimeout	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	168;"	v	line:168
+bDaliDTR	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	154;"	v	line:154
+bDaliGroup0_7	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	169;"	v	line:169
+bDaliGroup8_15	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	170;"	v	line:170
+bDaliLastDAP	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	167;"	v	line:167
+bDaliMaxLevel	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	159;"	v	line:159
+bDaliMinLevel	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	160;"	v	line:160
+bDaliMode	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	156;"	v	line:156
+bDaliPowerLevel	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	162;"	v	line:162
+bDaliRcvAdr	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	152;"	v	line:152
+bDaliRcvCmd	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	153;"	v	line:153
+bDaliShortAdr	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	161;"	v	line:161
+bDaliSndBuff	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	164;"	v	line:164
+bDaliSndClk	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	166;"	v	line:166
+bDaliSndCnt	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	165;"	v	line:165
+bDaliTestCnt	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	175;"	v	line:175
+bHeaterFullCnt	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	101;"	v	line:101
+bHeaterHalfCnt	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	100;"	v	line:100
+bLastCmd	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	173;"	v	line:173
+bLastPowerLevel	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	163;"	v	line:163
+bOHoffset	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	98;"	v	line:98
+bParam	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	174;"	v	line:174
+bParamCnt	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	171;"	v	line:171
+bPotiValue	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	99;"	v	line:99
+bReadIOC	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	158;"	v	line:158
+bStatus	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	97;"	v	line:97
+bTmpVar	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dali.h	138;"	l	line:138
+blink	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	120;"	m	line:120	struct:flags1
+broadcast	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	182;"	m	line:182	struct:dali1
+check_blink	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	19;"	p	line:19	signature:(void)
+check_blink	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	428;"	f	line:428	signature:()
+check_converter	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	198;"	f	line:198	signature:(void)
+check_converter	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	8;"	p	line:8	signature:(void)
+check_current	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	179;"	f	line:179	signature:(void)
+check_current	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	6;"	p	line:6	signature:(void)
+check_param	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	14;"	p	line:14	signature:(void)
+check_param	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	390;"	f	line:390	signature:(void)
+check_status	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	16;"	p	line:16	signature:(void)
+check_status	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	407;"	f	line:407	signature:(void)
+cmd	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	180;"	m	line:180	struct:dali1
+controller_ok_led	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	324;"	f	line:324	signature:(void)
+controller_ok_led	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	7;"	p	line:7	signature:(void)
+dActValue	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	40;"	l	line:40
+dLastValue	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	40;"	l	line:40
+dOHC	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	76;"	v	line:76
+dali	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dali.h	28;"	f	line:28	signature:(void)
+dali	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dali.h	4;"	p	line:4	signature:(void)
+dali1	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	178;"	s	line:178
+dali_check_bus	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dali.h	446;"	f	line:446	signature:(void)
+dali_check_bus	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dali.h	9;"	p	line:9	signature:(void)
+dali_cmd	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dali.h	136;"	f	line:136	signature:(unsigned int8 command)
+dali_cmd	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dali.h	6;"	p	line:6	signature:(unsigned int8 command)
+dali_dap	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dali.h	349;"	f	line:349	signature:(unsigned int8 value)
+dali_dap	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dali.h	7;"	p	line:7	signature:(unsigned int8 value)
+dali_dim	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	113;"	m	line:113	struct:flags1
+dali_rcv	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	111;"	m	line:111	struct:flags1
+dali_special	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dali.h	404;"	f	line:404	signature:(unsigned int8 command, value)
+dali_special	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dali.h	8;"	p	line:8	signature:(unsigned int8 command, value)
+daliflag	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	186;"	v	line:186
+dat	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	465;"	l	line:465
+eeprom_read	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	22;"	p	line:22	signature:(unsigned char address)
+eeprom_read	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	33;"	f	line:33	signature:(unsigned char address)
+eeprom_read	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	85;"	p	line:85	signature:(EE_POTI)
+eeprom_write	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	21;"	p	line:21	signature:(char address, value)
+eeprom_write	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	28;"	f	line:28	signature:(char address, value)
+flag	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	121;"	v	line:121
+flags1	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	108;"	s	line:108
+group	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	183;"	m	line:183	struct:dali1
+heat_full	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	119;"	m	line:119	struct:flags1
+heat_half	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	118;"	m	line:118	struct:flags1
+heater_control	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	11;"	p	line:11	signature:(char mode)
+heater_control	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	329;"	f	line:329	signature:(char mode)
+i	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	230;"	l	line:230
+i	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	41;"	l	line:41
+init_dali	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dali.h	424;"	f	line:424	signature:(void)
+init_dali	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dali.h	5;"	p	line:5	signature:(void)
+init_lantern	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	38;"	f	line:38	signature:(void)
+init_lantern	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	4;"	p	line:4	signature:(void)
+init_test	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	18;"	p	line:18	signature:(void)
+init_test	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\test.h	33;"	f	line:33	signature:(void)
+ioc	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	181;"	m	line:181	struct:dali1
+j	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	230;"	l	line:230
+kill_fuse	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	10;"	p	line:10	signature:(void)
+kill_fuse	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	220;"	f	line:220	signature:(void)
+lamp_eol	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	116;"	m	line:116	struct:flags1
+lantern	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	137;"	f	line:137	signature:(void)
+lantern	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	5;"	p	line:5	signature:(void)
+led_monitoring	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	13;"	p	line:13	signature:(void)
+led_monitoring	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	225;"	f	line:225	signature:(void)
+ms100	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	110;"	m	line:110	struct:flags1
+ms100	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	185;"	m	line:185	struct:dali1
+ms1000	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	115;"	m	line:115	struct:flags1
+ms500	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	112;"	m	line:112	struct:flags1
+nop	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	83;"	v	line:83
+operating_hours	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	12;"	p	line:12	signature:(void)
+operating_hours	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	296;"	f	line:296	signature:(void)
+param	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	117;"	m	line:117	struct:flags1
+poti_ack	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	23;"	p	line:23	signature:(unsigned int8 adr)
+poti_ack	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	444;"	f	line:444	signature:(unsigned int8 adr)
+pulse	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	114;"	m	line:114	struct:flags1
+read_i2c	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	25;"	p	line:25	signature:(unsigned int8 adr)
+read_i2c	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	463;"	f	line:463	signature:(unsigned int8 adr)
+set_led_current	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	15;"	p	line:15	signature:(unsigned int8 poti_val)
+set_led_current	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	398;"	f	line:398	signature:(unsigned int8 poti_val)
+snd	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	184;"	m	line:184	struct:dali1
+testmode	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	17;"	p	line:17	signature:(void)
+testmode	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	9;"	p	line:9	signature:(void)
+testmode	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\test.h	4;"	f	line:4	signature:(void)
+tol	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	230;"	l	line:230
+value_high	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\test.h	35;"	l	line:35
+value_low	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\test.h	35;"	l	line:35
+wDaliRcv	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	148;"	v	line:148
+wLedTestTime	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	79;"	v	line:79
+wPwmDuty	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\dali_table.h	6;"	v	line:6
+write_i2c	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	24;"	p	line:24	signature:(unsigned int8 adr, unsigned int8 ch, unsigned int8 data)
+write_i2c	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\func.h	453;"	f	line:453	signature:(unsigned int8 adr, unsigned int8 ch, unsigned int8 data)
+xConverterOn::pin_a7	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	16;"	d	line:16
+xCurrentPulse::pin_c4	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	17;"	d	line:17
+xDaliSend::pin_b3	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	21;"	d	line:21
+xHeater1::pin_c0	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	19;"	d	line:19
+xHeater2::pin_c1	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	20;"	d	line:20
+xKill24V::pin_a5	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	14;"	d	line:14
+xLedOut::pin_a4	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	15;"	d	line:15
+xTestJumper::pin_c5	S:\Elektronik\_Brand\__KA_und_sonstiges\KA010979_Serie66\Firmware\7366500802_rev0\defvar.h	18;"	d	line:18

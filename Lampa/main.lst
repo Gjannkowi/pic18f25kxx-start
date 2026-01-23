@@ -1,0 +1,4497 @@
+CCS PCH C Compiler, Version 5.096, 54251               29-Jun-21 16:08
+
+               Filename:   C:\Users\VM\Desktop\7366500802rev1_Stand290621_AOPS\main.lst
+
+               ROM used:   5986 bytes (18%)
+                           Largest free fragment is 26782
+               RAM used:   83 (5%) at main() level
+                           114 (7%) worst case
+               Stack used: 6 locations (4 in main + 2 for interrupts)
+               Stack size: 31
+
+0000:  GOTO   1690
+*
+0008:  MOVWF  04
+000A:  MOVFF  FD8,05
+000E:  MOVFF  FE0,06
+0012:  MOVLB  0
+0014:  MOVFF  FE9,0C
+0018:  MOVFF  FEA,07
+001C:  MOVFF  FE1,08
+0020:  MOVFF  FE2,09
+0024:  MOVFF  FD9,0A
+0028:  MOVFF  FDA,0B
+002C:  MOVFF  FF3,12
+0030:  MOVFF  FF4,13
+0034:  MOVFF  FFA,14
+0038:  MOVFF  FF5,15
+003C:  MOVFF  FF6,16
+0040:  MOVFF  FF7,17
+0044:  MOVFF  00,0E
+0048:  MOVFF  01,0F
+004C:  MOVFF  02,10
+0050:  MOVFF  03,11
+0054:  BTFSS  F9D.0
+0056:  GOTO   0060
+005A:  BTFSC  F9E.0
+005C:  GOTO   038E
+0060:  BTFSS  FF2.3
+0062:  GOTO   006C
+0066:  BTFSC  FF2.0
+0068:  GOTO   04C0
+006C:  BTFSS  FF2.5
+006E:  GOTO   0078
+0072:  BTFSC  FF2.2
+0074:  GOTO   034C
+0078:  BTFSS  FA0.1
+007A:  GOTO   0084
+007E:  BTFSC  FA1.1
+0080:  GOTO   0462
+0084:  MOVFF  0E,00
+0088:  MOVFF  0F,01
+008C:  MOVFF  10,02
+0090:  MOVFF  11,03
+0094:  MOVFF  0C,FE9
+0098:  MOVFF  07,FEA
+009C:  BSF    07.7
+009E:  MOVFF  08,FE1
+00A2:  MOVFF  09,FE2
+00A6:  MOVFF  0A,FD9
+00AA:  MOVFF  0B,FDA
+00AE:  MOVFF  12,FF3
+00B2:  MOVFF  13,FF4
+00B6:  MOVFF  14,FFA
+00BA:  MOVFF  15,FF5
+00BE:  MOVFF  16,FF6
+00C2:  MOVFF  17,FF7
+00C6:  MOVF   04,W
+00C8:  MOVFF  06,FE0
+00CC:  MOVFF  05,FD8
+00D0:  RETFIE 0
+.................... /********************************************************************************
+.................... Navigationslaterne S60, S61, S66 
+.................... - Dimmbar über DALI
+.................... 
+.................... FIRMWARE     : Navigationslaterne S60, S61, S66... - Dimmbar über DALI                                         
+.................... FIRMWARE-Nr. : 7366500802                                       
+.................... Rev          : 1, xxxxx, ÄM 24195                                                 
+.................... ORT+DATUM    : Bremen, 18.05.2021                                        
+.................... AUTOR        : Brand                                
+.................... COMPILER     : PIC C-Compiler CCS V5.096
+.................... 
+.................... ---------------------------------------------------------------------------------
+.................... Revision:  ursprünglich 7366500800rev4
+.................... 			  
+.................... rev0 :     Brand, 28.01.2019
+....................                      
+....................            Blinkfunktionen :  als feste szene im EEPROM hinterlegen und 
+....................                               dann vom controller entsprechend starten oder parametriert
+....................                               -> es soll KEINE DIMMUNG bei Blinkfunktion möglich sein!!!! -> MOMs PG S66N GL
+.................... 										
+....................            Heizungsteuerung : 1. Temperaturmessungen an der Elektronik wenn Gehäuse
+....................                                  mit Heizung vorhanden
+....................                               2. Das Einschalten der Heizung soll durch PWM erfolgen für 2s 
+....................                                  "Langsames einschalten" (Serfass)
+....................                                  Dafür wird CCP2 und CCP4 benutzt. Statt AN12 wird AN10 benutzt.
+.................... 
+.................... rev1 :     Brand, 24.06.2021
+.................... 
+....................            - Dimmung nun auch bei fester Sequenz/Blinkfunktion möglich 
+....................              (Änderung wegen AOPS). Ein "springen" der Intensität(5ms) sowie Aussetzer
+....................              im Blinktakt sind weiterhin nicht auszuschliessen! 
+....................              
+....................            - Fehler bei Auswertung Kurz- und Gruppenadresse behoben
+....................              (Kurzadresse hat auch auf Gruppenadresse reagiert)
+....................             
+....................            - Statusantwort meldet im Blinkmodus durch Sequenz immer AN (flag.blink),
+....................              anstatt abhängig von Converter AN/AUS
+.................... ---------------------------------------------------------------------------------
+.................... 
+.................... PIC18F25K22
+.................... 
+.................... I/O's:
+.................... RA0   Analog IN 0 -> Kreis 1
+.................... RA1   Analog IN 1 -> Kreis 2
+.................... RA2   Analog IN 2 -> Kreis 3
+.................... RA3   Analog IN 3 -> Netzstrommessung
+.................... RA4   Digi Out    -> LED Controller läuft 
+.................... RA5   Digi Out    -> 24v Fuse Killer
+.................... RA6   
+.................... RA7   Digi Out    -> Wandler Ein/Aus
+.................... 
+.................... RB0   CCP4 -> Heizung halbe Leistung                                 
+.................... RB1   Analog IN 10 -> Ausgangsspannung Wandler (Leerlauferkennung)   
+.................... RB2   Analog IN 8  -> Temperatursensor
+.................... RB3   Digi Out -> DALI SND
+.................... RB4   Digi In  -> DALI RCV    (Interrupt on change)
+.................... RB5   Digi Out -> Pulsen 
+.................... RB6   PGC
+.................... RB7   PGD
+.................... 
+.................... RC0   Digi Out -> 
+.................... RC1   CCP2 -> Heizung volle Leistung                                 
+.................... RC2   Digi Out -> SDA  (I²C) Digitalpoti
+.................... RC3   Digi Out -> SCL  (I²C) Digitalpoti
+.................... RC4   Digi OUT -> Pulsen 
+.................... RC5   Digi IN -> Testmodus
+.................... RC6   CCP3 / PWM Out 0-5V 
+.................... RC7   
+.................... 
+.................... RE3   MCLR
+.................... 
+.................... EEPROM:  0x00 - 0x0F   Version_No
+....................          0x10          First start?
+....................          0x11          Number of circuits
+....................          0x12          Status       Bit 0: Laterne AN/AUS, 1: Gedimmter Zustand, 2: EOL, 
+....................                                         3: LED failure (kill), 4: circuit failure
+....................          0x13          Digi Poti Value / Parameter
+....................          0x14          DALI Address
+....................          0x15          DALI Group 0-7
+....................          0x16          DALI Group 8-15
+....................          0x30 - 0x43   5x 4Byte for Operation hour counting (due to byte endurance of EEPROM)
+....................                           
+.................... Timer0:  100ms Takt
+.................... Timer1:  Timing für DALI
+.................... Timer2:  von use pwm verwendet -> Dimmung
+.................... Timer3:  Blinktakt erzeugen
+.................... Timer4:  von use pwm verwendet -> Heizung halbe Leistung
+.................... Timer5:  n.v.
+.................... Timer6:  von use pwm verwendet -> Heizung volle Leistung
+.................... ********************************************************************************/
+.................... #define VERSION_NO "7366500802rev1"
+.................... 
+.................... #include <18F25K22.h>
+.................... //////////// Standard Header file for the PIC18F25K22 device ////////////////
+.................... ///////////////////////////////////////////////////////////////////////////
+.................... ////        (C) Copyright 1996, 2020 Custom Computer Services          ////
+.................... //// This source code may only be used by licensed users of the CCS C  ////
+.................... //// compiler.  This source code may only be distributed to other      ////
+.................... //// licensed users of the CCS C compiler.  No other use, reproduction ////
+.................... //// or distribution is permitted without written permission.          ////
+.................... //// Derivative programs created using this software in object code    ////
+.................... //// form are not restricted in any way.                               ////
+.................... ///////////////////////////////////////////////////////////////////////////
+.................... #device PIC18F25K22
+00D2:  CLRF   FF7
+00D4:  ADDLW  E2
+00D6:  MOVWF  FF6
+00D8:  MOVLW  00
+00DA:  ADDWFC FF7,F
+00DC:  TBLRD*+
+00DE:  MOVF   FF5,W
+00E0:  RETURN 0
+00E2:  DATA 32,00
+00E4:  DATA 64,00
+00E6:  DATA 96,00
+00E8:  DATA C8,00
+00EA:  DATA FA,00
+00EC:  DATA 2C,01
+00EE:  DATA 5E,01
+00F0:  DATA 90,01
+00F2:  DATA C2,01
+00F4:  DATA F4,01
+00F6:  DATA 26,02
+00F8:  DATA 58,02
+00FA:  DATA 8A,02
+00FC:  DATA BC,02
+00FE:  DATA EE,02
+0100:  DATA 20,03
+0102:  DATA 52,03
+0104:  DATA 84,03
+0106:  DATA B6,03
+0108:  DATA E8,03
+010A:  CLRF   FF7
+010C:  ADDLW  1A
+010E:  MOVWF  FF6
+0110:  MOVLW  01
+0112:  ADDWFC FF7,F
+0114:  TBLRD*+
+0116:  MOVF   FF5,W
+0118:  RETURN 0
+011A:  DATA 01,01
+011C:  DATA 00,03
+011E:  DATA 03,00
+0120:  DATA 05,05
+0122:  DATA 00,0A
+0124:  DATA 0A,00
+0126:  DATA 06,04
+0128:  DATA 00,00
+012A:  CLRF   FF7
+012C:  ADDLW  3A
+012E:  MOVWF  FF6
+0130:  MOVLW  01
+0132:  ADDWFC FF7,F
+0134:  TBLRD*+
+0136:  MOVF   FF5,W
+0138:  RETURN 0
+013A:  DATA 50,41
+013C:  DATA 52,41
+013E:  DATA 4D,00
+0140:  ADDLW  4E
+0142:  MOVWF  FF6
+0144:  MOVLW  01
+0146:  ADDWFC FF7,F
+0148:  TBLRD*+
+014A:  MOVF   FF5,W
+014C:  RETURN 0
+014E:  DATA 00,00
+0150:  DATA 01,00
+0152:  DATA 01,00
+0154:  DATA 01,00
+0156:  DATA 01,00
+0158:  DATA 01,00
+015A:  DATA 01,00
+015C:  DATA 01,00
+015E:  DATA 01,00
+0160:  DATA 01,00
+0162:  DATA 01,00
+0164:  DATA 01,00
+0166:  DATA 01,00
+0168:  DATA 01,00
+016A:  DATA 01,00
+016C:  DATA 01,00
+016E:  DATA 02,00
+0170:  DATA 02,00
+0172:  DATA 02,00
+0174:  DATA 02,00
+0176:  DATA 02,00
+0178:  DATA 02,00
+017A:  DATA 02,00
+017C:  DATA 02,00
+017E:  DATA 02,00
+0180:  DATA 02,00
+0182:  DATA 02,00
+0184:  DATA 02,00
+0186:  DATA 02,00
+0188:  DATA 02,00
+018A:  DATA 02,00
+018C:  DATA 02,00
+018E:  DATA 02,00
+0190:  DATA 02,00
+0192:  DATA 02,00
+0194:  DATA 03,00
+0196:  DATA 03,00
+0198:  DATA 03,00
+019A:  DATA 03,00
+019C:  DATA 03,00
+019E:  DATA 03,00
+01A0:  DATA 03,00
+01A2:  DATA 03,00
+01A4:  DATA 03,00
+01A6:  DATA 03,00
+01A8:  DATA 03,00
+01AA:  DATA 03,00
+01AC:  DATA 04,00
+01AE:  DATA 04,00
+01B0:  DATA 04,00
+01B2:  DATA 04,00
+01B4:  DATA 04,00
+01B6:  DATA 04,00
+01B8:  DATA 04,00
+01BA:  DATA 04,00
+01BC:  DATA 04,00
+01BE:  DATA 04,00
+01C0:  DATA 05,00
+01C2:  DATA 05,00
+01C4:  DATA 05,00
+01C6:  DATA 05,00
+01C8:  DATA 05,00
+01CA:  DATA 05,00
+01CC:  DATA 05,00
+01CE:  DATA 06,00
+01D0:  DATA 06,00
+01D2:  DATA 06,00
+01D4:  DATA 06,00
+01D6:  DATA 06,00
+01D8:  DATA 06,00
+01DA:  DATA 07,00
+01DC:  DATA 07,00
+01DE:  DATA 07,00
+01E0:  DATA 07,00
+01E2:  DATA 07,00
+01E4:  DATA 08,00
+01E6:  DATA 08,00
+01E8:  DATA 08,00
+01EA:  DATA 08,00
+01EC:  DATA 08,00
+01EE:  DATA 09,00
+01F0:  DATA 09,00
+01F2:  DATA 09,00
+01F4:  DATA 09,00
+01F6:  DATA 0A,00
+01F8:  DATA 0A,00
+01FA:  DATA 0A,00
+01FC:  DATA 0A,00
+01FE:  DATA 0B,00
+0200:  DATA 0B,00
+0202:  DATA 0B,00
+0204:  DATA 0C,00
+0206:  DATA 0C,00
+0208:  DATA 0C,00
+020A:  DATA 0D,00
+020C:  DATA 0D,00
+020E:  DATA 0D,00
+0210:  DATA 0E,00
+0212:  DATA 0E,00
+0214:  DATA 0F,00
+0216:  DATA 0F,00
+0218:  DATA 0F,00
+021A:  DATA 10,00
+021C:  DATA 10,00
+021E:  DATA 11,00
+0220:  DATA 11,00
+0222:  DATA 12,00
+0224:  DATA 12,00
+0226:  DATA 13,00
+0228:  DATA 13,00
+022A:  DATA 14,00
+022C:  DATA 14,00
+022E:  DATA 15,00
+0230:  DATA 15,00
+0232:  DATA 16,00
+0234:  DATA 16,00
+0236:  DATA 17,00
+0238:  DATA 18,00
+023A:  DATA 18,00
+023C:  DATA 19,00
+023E:  DATA 1A,00
+0240:  DATA 1A,00
+0242:  DATA 1B,00
+0244:  DATA 1C,00
+0246:  DATA 1D,00
+0248:  DATA 1E,00
+024A:  DATA 1E,00
+024C:  DATA 1F,00
+024E:  DATA 20,00
+0250:  DATA 21,00
+0252:  DATA 22,00
+0254:  DATA 23,00
+0256:  DATA 24,00
+0258:  DATA 25,00
+025A:  DATA 26,00
+025C:  DATA 27,00
+025E:  DATA 28,00
+0260:  DATA 29,00
+0262:  DATA 2A,00
+0264:  DATA 2B,00
+0266:  DATA 2C,00
+0268:  DATA 2E,00
+026A:  DATA 2F,00
+026C:  DATA 30,00
+026E:  DATA 32,00
+0270:  DATA 33,00
+0272:  DATA 34,00
+0274:  DATA 36,00
+0276:  DATA 37,00
+0278:  DATA 39,00
+027A:  DATA 3A,00
+027C:  DATA 3C,00
+027E:  DATA 3E,00
+0280:  DATA 3F,00
+0282:  DATA 41,00
+0284:  DATA 43,00
+0286:  DATA 45,00
+0288:  DATA 47,00
+028A:  DATA 49,00
+028C:  DATA 4B,00
+028E:  DATA 4D,00
+0290:  DATA 4F,00
+0292:  DATA 51,00
+0294:  DATA 53,00
+0296:  DATA 56,00
+0298:  DATA 58,00
+029A:  DATA 5A,00
+029C:  DATA 5D,00
+029E:  DATA 60,00
+02A0:  DATA 62,00
+02A2:  DATA 65,00
+02A4:  DATA 68,00
+02A6:  DATA 6B,00
+02A8:  DATA 6E,00
+02AA:  DATA 71,00
+02AC:  DATA 74,00
+02AE:  DATA 77,00
+02B0:  DATA 7A,00
+02B2:  DATA 7E,00
+02B4:  DATA 81,00
+02B6:  DATA 85,00
+02B8:  DATA 88,00
+02BA:  DATA 8C,00
+02BC:  DATA 90,00
+02BE:  DATA 94,00
+02C0:  DATA 98,00
+02C2:  DATA 9C,00
+02C4:  DATA A1,00
+02C6:  DATA A5,00
+02C8:  DATA AA,00
+02CA:  DATA AE,00
+02CC:  DATA B3,00
+02CE:  DATA B8,00
+02D0:  DATA BD,00
+02D2:  DATA C2,00
+02D4:  DATA C8,00
+02D6:  DATA CD,00
+02D8:  DATA D3,00
+02DA:  DATA D9,00
+02DC:  DATA DF,00
+02DE:  DATA E5,00
+02E0:  DATA EB,00
+02E2:  DATA F2,00
+02E4:  DATA F8,00
+02E6:  DATA FF,00
+02E8:  DATA 06,01
+02EA:  DATA 0E,01
+02EC:  DATA 15,01
+02EE:  DATA 1D,01
+02F0:  DATA 25,01
+02F2:  DATA 2D,01
+02F4:  DATA 35,01
+02F6:  DATA 3E,01
+02F8:  DATA 46,01
+02FA:  DATA 4F,01
+02FC:  DATA 59,01
+02FE:  DATA 62,01
+0300:  DATA 6C,01
+0302:  DATA 76,01
+0304:  DATA 81,01
+0306:  DATA 8B,01
+0308:  DATA 96,01
+030A:  DATA A1,01
+030C:  DATA AD,01
+030E:  DATA B9,01
+0310:  DATA C5,01
+0312:  DATA D2,01
+0314:  DATA DE,01
+0316:  DATA EC,01
+0318:  DATA F9,01
+031A:  DATA 07,02
+031C:  DATA 16,02
+031E:  DATA 24,02
+0320:  DATA 34,02
+0322:  DATA 43,02
+0324:  DATA 53,02
+0326:  DATA 64,02
+0328:  DATA 75,02
+032A:  DATA 86,02
+032C:  DATA 98,02
+032E:  DATA AA,02
+0330:  DATA BD,02
+0332:  DATA D1,02
+0334:  DATA E5,02
+0336:  DATA F9,02
+0338:  DATA 0E,03
+033A:  DATA 24,03
+033C:  DATA 3A,03
+033E:  DATA 51,03
+0340:  DATA 68,03
+0342:  DATA 81,03
+0344:  DATA 99,03
+0346:  DATA B3,03
+0348:  DATA CD,03
+034A:  DATA E8,03
+*
+04F6:  CLRF   x6A
+04F8:  CLRF   x6B
+04FA:  MOVLW  01
+04FC:  MOVWF  x6C
+04FE:  CLRF   FDA
+0500:  CLRF   FD9
+0502:  CLRF   x6F
+0504:  MOVLW  62
+0506:  MOVWF  x6E
+0508:  CLRF   FEA
+050A:  MOVLW  66
+050C:  MOVWF  FE9
+050E:  MOVFF  6F,FE2
+0512:  MOVFF  6E,FE1
+0516:  MOVFF  6C,6D
+051A:  BCF    FD8.0
+051C:  MOVF   FE5,W
+051E:  MULWF  FEE
+0520:  MOVF   FF3,W
+0522:  ADDWFC x6A,F
+0524:  MOVF   FF4,W
+0526:  ADDWFC x6B,F
+0528:  DECFSZ x6D,F
+052A:  BRA    051A
+052C:  MOVFF  6A,FDE
+0530:  MOVFF  6B,6A
+0534:  CLRF   x6B
+0536:  BTFSC  FD8.0
+0538:  INCF   x6B,F
+053A:  INCF   x6E,F
+053C:  BTFSC  FD8.2
+053E:  INCF   x6F,F
+0540:  INCF   x6C,F
+0542:  MOVF   x6C,W
+0544:  SUBLW  05
+0546:  BNZ   0508
+0548:  RETURN 0
+054A:  BTFSC  FD8.1
+054C:  BRA    0554
+054E:  CLRF   FEA
+0550:  MOVLW  6A
+0552:  MOVWF  FE9
+0554:  CLRF   00
+0556:  CLRF   01
+0558:  CLRF   02
+055A:  CLRF   03
+055C:  CLRF   x6A
+055E:  CLRF   x6B
+0560:  CLRF   x6C
+0562:  CLRF   x6D
+0564:  MOVF   x69,W
+0566:  IORWF  x68,W
+0568:  IORWF  x67,W
+056A:  IORWF  x66,W
+056C:  BZ    05C6
+056E:  MOVLW  20
+0570:  MOVWF  x6E
+0572:  BCF    FD8.0
+0574:  RLCF   x62,F
+0576:  RLCF   x63,F
+0578:  RLCF   x64,F
+057A:  RLCF   x65,F
+057C:  RLCF   x6A,F
+057E:  RLCF   x6B,F
+0580:  RLCF   x6C,F
+0582:  RLCF   x6D,F
+0584:  MOVF   x69,W
+0586:  SUBWF  x6D,W
+0588:  BNZ   059A
+058A:  MOVF   x68,W
+058C:  SUBWF  x6C,W
+058E:  BNZ   059A
+0590:  MOVF   x67,W
+0592:  SUBWF  x6B,W
+0594:  BNZ   059A
+0596:  MOVF   x66,W
+0598:  SUBWF  x6A,W
+059A:  BNC   05BA
+059C:  MOVF   x66,W
+059E:  SUBWF  x6A,F
+05A0:  MOVF   x67,W
+05A2:  BTFSS  FD8.0
+05A4:  INCFSZ x67,W
+05A6:  SUBWF  x6B,F
+05A8:  MOVF   x68,W
+05AA:  BTFSS  FD8.0
+05AC:  INCFSZ x68,W
+05AE:  SUBWF  x6C,F
+05B0:  MOVF   x69,W
+05B2:  BTFSS  FD8.0
+05B4:  INCFSZ x69,W
+05B6:  SUBWF  x6D,F
+05B8:  BSF    FD8.0
+05BA:  RLCF   00,F
+05BC:  RLCF   01,F
+05BE:  RLCF   02,F
+05C0:  RLCF   03,F
+05C2:  DECFSZ x6E,F
+05C4:  BRA    0572
+05C6:  MOVFF  6A,FEF
+05CA:  MOVFF  6B,FEC
+05CE:  MOVFF  6C,FEC
+05D2:  MOVFF  6D,FEC
+05D6:  RETURN 0
+.................... 
+.................... #list
+.................... 
+.................... 
+.................... #fuses INTRC_IO,WDT,PUT,BROWNOUT,BORV29,noLVP,noCPB,noCPD,noWRT,noWRTB,noWRTC,noWRTD,noPLLEN,CCP3C6
+.................... #ifdef DEBUG   
+....................   #device ICD=TRUE                // ICD im Debug Modus aktivieren, -> Fuses nicht aktiv!  
+.................... #endif
+.................... 
+.................... #device ADC=8                     // 8-Bit ADC
+.................... 
+.................... #use delay(internal=8M)           // µC interner Takt / Zeitbasis für Delay (ohne WDT-Reset !)
+*
+0742:  CLRF   FEA
+0744:  MOVLW  5D
+0746:  MOVWF  FE9
+0748:  MOVF   FEF,W
+074A:  BZ    0766
+074C:  MOVLW  02
+074E:  MOVWF  01
+0750:  CLRF   00
+0752:  DECFSZ 00,F
+0754:  BRA    0752
+0756:  DECFSZ 01,F
+0758:  BRA    0750
+075A:  MOVLW  97
+075C:  MOVWF  00
+075E:  DECFSZ 00,F
+0760:  BRA    075E
+0762:  DECFSZ FEF,F
+0764:  BRA    074C
+0766:  RETURN 0
+.................... #use fast_IO(ALL)                 // TRIS-Register manuell verwalten !
+.................... 
+.................... #use pwm(stream=pwm_out, output=pin_c6, timer=2, frequency=500, duty=100, disable_level=high)   // Pin C6 -> CCP3
+*
+05D8:  MOVFF  FBB,5E
+05DC:  CLRF   5F
+05DE:  INCF   5E,F
+05E0:  BTFSC  FD8.2
+05E2:  INCF   5F,F
+05E4:  BCF    FD8.0
+05E6:  RLCF   5E,F
+05E8:  RLCF   5F,F
+05EA:  RLCF   5E,F
+05EC:  RLCF   5F,F
+05EE:  CLRF   x65
+05F0:  CLRF   x64
+05F2:  MOVFF  5F,63
+05F6:  MOVFF  5E,62
+05FA:  CLRF   x69
+05FC:  CLRF   x68
+05FE:  MOVFF  5D,67
+0602:  MOVFF  5C,66
+0606:  RCALL  04F6
+0608:  BCF    FD8.1
+060A:  MOVFF  03,65
+060E:  MOVFF  02,64
+0612:  MOVFF  01,63
+0616:  MOVFF  00,62
+061A:  CLRF   x69
+061C:  CLRF   x68
+061E:  MOVLW  03
+0620:  MOVWF  x67
+0622:  MOVLW  E8
+0624:  MOVWF  x66
+0626:  RCALL  054A
+0628:  MOVF   01,W
+062A:  SUBLW  03
+062C:  BC    0634
+062E:  MOVLW  03
+0630:  MOVWF  01
+0632:  SETF   00
+0634:  MOVFF  00,02
+0638:  RRCF   01,F
+063A:  RRCF   00,F
+063C:  RRCF   01,F
+063E:  RRCF   00,F
+0640:  MOVFF  00,F5E
+0644:  RLCF   02,F
+0646:  RLCF   02,F
+0648:  RLCF   02,F
+064A:  RLCF   02,F
+064C:  MOVLW  CF
+064E:  MOVLB  F
+0650:  ANDWF  x5D,F
+0652:  MOVLW  30
+0654:  ANDWF  02,W
+0656:  IORWF  x5D,F
+0658:  MOVLB  0
+065A:  RETURN 0
+.................... 
+.................... #use pwm(stream=heater_half, output=pin_b0, timer=4, frequency=500, duty=100, disable_level=high) // Pin B0 -> CCP4
+*
+0AA2:  MOVFF  F52,58
+0AA6:  CLRF   59
+0AA8:  INCF   58,F
+0AAA:  BTFSC  FD8.2
+0AAC:  INCF   59,F
+0AAE:  BCF    FD8.0
+0AB0:  RLCF   58,F
+0AB2:  RLCF   59,F
+0AB4:  RLCF   58,F
+0AB6:  RLCF   59,F
+0AB8:  CLRF   x65
+0ABA:  CLRF   x64
+0ABC:  MOVFF  59,63
+0AC0:  MOVFF  58,62
+0AC4:  CLRF   x69
+0AC6:  CLRF   x68
+0AC8:  MOVFF  57,67
+0ACC:  MOVFF  56,66
+0AD0:  RCALL  04F6
+0AD2:  BCF    FD8.1
+0AD4:  MOVFF  03,65
+0AD8:  MOVFF  02,64
+0ADC:  MOVFF  01,63
+0AE0:  MOVFF  00,62
+0AE4:  CLRF   x69
+0AE6:  CLRF   x68
+0AE8:  MOVLW  03
+0AEA:  MOVWF  x67
+0AEC:  MOVLW  E8
+0AEE:  MOVWF  x66
+0AF0:  RCALL  054A
+0AF2:  MOVF   01,W
+0AF4:  SUBLW  03
+0AF6:  BC    0AFE
+0AF8:  MOVLW  03
+0AFA:  MOVWF  01
+0AFC:  SETF   00
+0AFE:  MOVFF  00,02
+0B02:  RRCF   01,F
+0B04:  RRCF   00,F
+0B06:  RRCF   01,F
+0B08:  RRCF   00,F
+0B0A:  MOVFF  00,F58
+0B0E:  RLCF   02,F
+0B10:  RLCF   02,F
+0B12:  RLCF   02,F
+0B14:  RLCF   02,F
+0B16:  MOVLW  CF
+0B18:  MOVLB  F
+0B1A:  ANDWF  x57,F
+0B1C:  MOVLW  30
+0B1E:  ANDWF  02,W
+0B20:  IORWF  x57,F
+0B22:  MOVLB  0
+0B24:  RETURN 0
+.................... #use pwm(stream=heater_full, output=pin_c1, timer=6, frequency=500, duty=100, disable_level=high) // Pin C1 -> CCP2
+0B26:  MOVFF  F4B,58
+0B2A:  CLRF   59
+0B2C:  INCF   58,F
+0B2E:  BTFSC  FD8.2
+0B30:  INCF   59,F
+0B32:  BCF    FD8.0
+0B34:  RLCF   58,F
+0B36:  RLCF   59,F
+0B38:  RLCF   58,F
+0B3A:  RLCF   59,F
+0B3C:  CLRF   x65
+0B3E:  CLRF   x64
+0B40:  MOVFF  59,63
+0B44:  MOVFF  58,62
+0B48:  CLRF   x69
+0B4A:  CLRF   x68
+0B4C:  MOVFF  57,67
+0B50:  MOVFF  56,66
+0B54:  RCALL  04F6
+0B56:  BCF    FD8.1
+0B58:  MOVFF  03,65
+0B5C:  MOVFF  02,64
+0B60:  MOVFF  01,63
+0B64:  MOVFF  00,62
+0B68:  CLRF   x69
+0B6A:  CLRF   x68
+0B6C:  MOVLW  03
+0B6E:  MOVWF  x67
+0B70:  MOVLW  E8
+0B72:  MOVWF  x66
+0B74:  RCALL  054A
+0B76:  MOVF   01,W
+0B78:  SUBLW  03
+0B7A:  BC    0B82
+0B7C:  MOVLW  03
+0B7E:  MOVWF  01
+0B80:  SETF   00
+0B82:  MOVFF  00,02
+0B86:  RRCF   01,F
+0B88:  RRCF   00,F
+0B8A:  RRCF   01,F
+0B8C:  RRCF   00,F
+0B8E:  MOVFF  00,F67
+0B92:  RLCF   02,F
+0B94:  RLCF   02,F
+0B96:  RLCF   02,F
+0B98:  RLCF   02,F
+0B9A:  MOVLW  CF
+0B9C:  ANDWF  F66,F
+0B9E:  MOVLW  30
+0BA0:  ANDWF  02,W
+0BA2:  IORWF  F66,F
+0BA4:  RETURN 0
+.................... 
+.................... #use I2C(master, stream=poti, sda=PIN_C2, scl=PIN_C3, fast=200000)        // fast=200000
+*
+065C:  MOVLW  08
+065E:  MOVWF  01
+0660:  NOP   
+0662:  BCF    F8B.3
+0664:  BCF    F94.3
+0666:  NOP   
+0668:  RLCF   x63,F
+066A:  BCF    F8B.2
+066C:  BTFSC  FD8.0
+066E:  BSF    F94.2
+0670:  BTFSS  FD8.0
+0672:  BCF    F94.2
+0674:  BSF    F94.3
+0676:  BTFSS  F82.3
+0678:  BRA    0676
+067A:  DECFSZ 01,F
+067C:  BRA    0660
+067E:  NOP   
+0680:  BCF    F8B.3
+0682:  BCF    F94.3
+0684:  NOP   
+0686:  BSF    F94.2
+0688:  NOP   
+068A:  NOP   
+068C:  BSF    F94.3
+068E:  BTFSS  F82.3
+0690:  BRA    068E
+0692:  CLRF   01
+0694:  NOP   
+0696:  BTFSC  F82.2
+0698:  BSF    01.0
+069A:  BCF    F8B.3
+069C:  BCF    F94.3
+069E:  BCF    F8B.2
+06A0:  BCF    F94.2
+06A2:  RETURN 0
+.................... 
+.................... #rom getenv("EEPROM_ADDRESS") = {VERSION_NO}                              // ROM erste zeile     
+.................... #rom getenv("EEPROM_ADDRESS") + 0x10 = {                                  
+....................                                         0,0,0,0,0xFF,0,0,0,0,0,0,0,0,0,0,0,     
+....................                                         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+....................                                         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,  //  0x00,0x5B,0x8D,0x6C,0,0,0,0,0,0,0,0,0,0,0,0, //EOL in 20min
+....................                                         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+....................                                        }
+....................                                                                                           
+.................... #hexcomment\Version: VERSION_NO
+.................... 
+.................... #priority int_timer1, int_rb, int_timer0
+.................... 
+.................... #include "defvar.h"                            // defines and variables
+.................... /*=============================================================================
+....................                                   DEFINES
+.................... =============================================================================*/
+.................... // SFR
+.................... #byte ANSELA=0xF38
+.................... #byte ANSELB=0xF39
+.................... #byte ANSELC=0xF3A 
+.................... #byte IOCB=0xF62              // RB Interrupt On Change Reg, 7:4, 1=enabled       
+.................... #byte PORTC=0xF82             // 
+.................... #byte PORTB=0xF81
+.................... #byte PORTA=0xF80
+.................... 
+.................... // Port Pins
+.................... #define xKill24V pin_a5       // output pin 24DC Killer
+.................... #define xLedOut pin_a4        // signal LED
+.................... #define xConverterOn pin_a7   // turn the converter on/off
+.................... #define xCurrentPulse pin_c4  // drive current pulse mosfet
+.................... #define xTestJumper pin_c5    // jumper for test mode
+.................... #define xHeater1 pin_c0       // heater1 on/off (alone for half power) 
+.................... #define xHeater2 pin_c1       // heater2 on/off (both for full power)  
+.................... #define xDaliSend pin_b3      // 
+.................... 
+.................... //Misc
+.................... #define LED_TEST_TOL    3            // led test tolerance. 3 ~ 0,06V
+.................... #define LED_TEST_TIME   600          // x * 100ms ->  Testdauer
+.................... #define PULSE_TIME      1            // current pulse duration: 100ms
+.................... #define ADR_POTI200K    0b01011100   // 
+.................... #define ADR_POTI20K     0b01011010
+.................... #define POTI_CH_A       0b00000000
+.................... #define POTI_CH_B       0b10000000
+.................... #define PARAM_START     0 //15 //100          // Startwert parametrierung
+.................... #define EOL             6000000      // max. operating hours =  100.000h = 6.000.000min
+.................... #define EOL_CNT         20           // alle x minuten wird dieser wert auf die EOL Variable addiert und gespeichert
+.................... #define HOUR            60           // 60min = 1h
+.................... #define MINUTE          60           // 60s = 1min
+.................... #define TIMER3          12580
+.................... //#define EOL_CNT_START   30           // x * sek      
+.................... 
+.................... // Status bits
+.................... #define ON_OFF          0b00000001  // Lantern On / Off
+.................... #define DIMM            0b00000010  // Lantern dimmed (Power Level < 254)
+.................... #define ST_EOL          0b00000100  // EOL 
+.................... #define LED_FAIL        0b00001000  // LED Failure 
+.................... #define OUT_FAIL        0b00010000  // Converter Output > 20V || ON & < 0.5V
+.................... #define POWER           0b10000000  // Lantern is powered and working
+.................... 
+.................... // EEPROM Addresses
+.................... #define EE_PARAM        0x10   // leuchte parametriert? -> 'P' = yes
+.................... #define EE_CIRCUITS     0x11   // number of circuits
+.................... #define EE_STATUS       0x12   // status of nav light
+.................... #define EE_POTI         0x13   // digi poti value
+.................... #define EE_ADDRESS      0x14   // DALI short address, keine DALI Adresse = 0xFF
+.................... #define EE_GROUP_0_7    0x15   // DALI Group 0-7
+.................... #define EE_GROUP_8_15   0x16   // DALI Group 8-15
+.................... #define EE_BLINK        0x17   // Laterne mit fester Blinksequenz(Scene) 1-16
+.................... #define EE_OHC_START    0x30   // eeprom start address operating hours array (5x 4Byte due to byte endurance of EEPROM)
+....................                                // 0x30 - 0x43 = 20Byte
+.................... #define PWM_MAX    1000
+.................... #define PWM_STEP   20 
+.................... int16 const HEATER_PWM[PWM_STEP] = {50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,PWM_MAX};
+.................... 
+.................... #define SEQ  5                  // Max. Anzahl Szene 5 -> 0 - 4 !!!-> EEPROM 1-5, GO_TO_SCENE 0-4 !!!
+.................... #define TAKT 3
+.................... char const BLINK[SEQ][TAKT] = {             // x * 50ms Taktdauer AN, AUS, AN, AUS, ..., 0 = Beginn von vorn
+....................                                 1,1,0,      // 0: Seq1: 50ms An, 50ms Aus, wiederholen
+....................                                 3,3,0,      // 1: Seq2: 150ms An, 150ms Aus
+....................                                 5,5,0,      // 2: Seq3: 250ms An, 250ms Aus
+....................                                 10,10,0,    // 3: Seq4: 500ms An, 500ms Aus
+....................                                 6,4,0       // 4: Seq5: 300ms An, 200ms Aus
+....................                               };     
+....................    
+.................... /*=============================================================================
+....................                                  VARIABLEN
+.................... =============================================================================*/
+.................... static unsigned int32
+....................   dOHC               // operation hour counter
+....................   ;  
+.................... static unsigned int16
+....................   wLedTestTime       // 
+....................   ;
+.................... 
+.................... static unsigned int8
+....................   nop,
+....................   bADC_Ch0,          // 
+....................   bADC_Ch1,          // 
+....................   bADC_Ch2,          // 
+....................   bADC_Ch3,          // input current        
+....................   bADC_Ch8,          // 
+....................   bADC_Ch10,         // 
+.................... //  bADC_Ch12,         // 
+....................   bCircuitNumber,    // 
+....................   bCount500ms,
+....................   bCount1000ms,
+....................   bCountMin,         // count minute 
+....................   bCountEOL,
+....................   bCountPulse,
+....................   bStatus,
+....................   bOHoffset,        // EEPROM Offset for OHC Array
+....................   bPotiValue,
+....................   bHeaterHalfCnt,   // Heater PWM Wert
+....................   bHeaterFullCnt,   // Heater PWM Wert
+....................   bBlinkSeq,        // Blinksequenz  
+....................   bBlinkCnt,        // Blinkzähler
+....................   bBlinkdauer,
+....................   bBlinkPhase    
+....................   ;
+.................... 
+.................... struct flags1 
+.................... {
+....................   int ms100    : 1;   // T0 Interrupt flag 100ms
+....................   int dali_rcv : 1;   // dali receive data available
+....................   int ms500    : 1;   // T0 Interrupt flag 500ms
+....................   int dali_dim : 1;   // lantern dimmed by dali? 1 = yes
+....................   int pulse    : 1;   // enable current pulse
+....................   int ms1000   : 1;   // T0 Interrupt flag 1000ms
+....................   int lamp_eol : 1;   // EOL 
+....................   int param    : 1;   // Parametrierung vorhanden? 1=ja
+....................   int heat_half: 1;
+....................   int heat_full: 1;
+....................   int blink    : 1;   // Blinkmerker AN/AUS
+.................... }flag;
+.................... 
+.................... 
+.................... 
+.................... /*=============================================================================
+....................                               DALI DEFINES
+.................... =============================================================================*/
+.................... // DALI Modes
+.................... #define DALI_STBY  0x00   // Standby
+.................... #define DALI_SBIT  0x01   // Startbit (Send)
+.................... #define DALI_RCV   0x02   // Receive
+.................... #define DALI_SND   0x04   // Send
+.................... #define DALI_DAT   0x08   // Dali data available
+.................... 
+.................... //Misc
+.................... #define DALI_IN        pin_b4    // Dali Input
+.................... #define DALI_TIMEOUT   20        // x * 100ms
+.................... #define DALI_MAX_LEVEL 254
+.................... #define DALI_MIN_LEVEL 144       // 144 -> 5% PWM; 54 -> 0.5%
+.................... #define DALI_TEST_CNT  5         // 500ms Toggle am DALI Ein/Ausgang
+.................... 
+.................... char const PARAM[5] = {'P','A','R','A','M'};
+.................... 
+.................... /*=============================================================================
+....................                               DALI VARIABLES
+.................... =============================================================================*/
+.................... static unsigned int16
+....................   wDaliRcv           // dali receive data 16Bit address + command   
+....................   ;
+.................... 
+.................... static unsigned int8
+....................   bDaliRcvAdr,       // 
+....................   bDaliRcvCmd,
+....................   bDaliDTR,
+....................   bDaliBitCnt,
+....................   bDaliMode,
+....................   bDaliBit,
+....................   bReadIOC,
+....................   bDaliMaxLevel,
+....................   bDaliMinLevel,
+....................   bDaliShortAdr,
+....................   bDaliPowerLevel,
+....................   bLastPowerLevel,
+....................   bDaliSndBuff,
+....................   bDaliSndCnt,
+....................   bDaliSndClk,
+....................   bDaliLastDAP,
+....................   bDaliBusTimeout,
+....................   bDaliGroup0_7,
+....................   bDaliGroup8_15,
+....................   bParamCnt,
+....................   bCmdCnt,
+....................   bLastCmd,
+....................   bParam,
+....................   bDaliTestCnt           // zum testen Dali Send/Receive
+....................   ; 
+.................... 
+.................... struct dali1
+.................... {
+....................   int cmd          : 1;  // dali cmd following
+....................   int ioc          : 1;  // 
+....................   int broadcast    : 1;
+....................   int group        : 1;
+....................   int snd          : 1;  //
+....................   int ms100        : 1;
+....................   int bustimeout   : 1;  // Timeoutflag wenn kein Datenempfang
+.................... }daliflag;
+.................... 
+.................... #include "func.h"                              // functions and prototypes
+.................... /*=============================================================================
+....................                                 FUNKTIONEN
+.................... =============================================================================*/
+.................... void init_lantern(void);
+.................... void lantern(void);
+.................... void check_current(void);
+.................... void controller_ok_led(void);
+.................... void check_converter(void);
+.................... void testmode(void);
+.................... void kill_fuse(void);
+.................... void heater_control(char mode);
+.................... void operating_hours(void);
+.................... void led_monitoring(void);
+.................... void check_param(void);
+.................... void set_led_current(unsigned int8 poti_val);
+.................... void check_status(void);
+.................... void testmode(void);
+.................... void init_test(void);
+.................... void check_blink(void);
+.................... 
+.................... void eeprom_write(char address, value);
+.................... unsigned int8 eeprom_read(unsigned char address);
+.................... boolean poti_ack(unsigned int8 adr);
+.................... void write_i2c(unsigned int8 adr, unsigned int8 ch, unsigned int8 data);
+.................... unsigned int8 read_i2c(unsigned int8 adr);
+.................... 
+.................... //--------------------------------------------------------------------------------
+.................... void eeprom_write(char address, value)
+.................... {//1
+....................   write_eeprom(address, value);
+*
+08A8:  MOVF   FF2,W
+08AA:  MOVWF  00
+08AC:  BCF    FF2.7
+08AE:  MOVFF  59,FA9
+08B2:  MOVFF  5A,FA8
+08B6:  BCF    FA6.6
+08B8:  BCF    FA6.7
+08BA:  BSF    FA6.2
+08BC:  MOVLB  F
+08BE:  MOVLW  55
+08C0:  MOVWF  FA7
+08C2:  MOVLW  AA
+08C4:  MOVWF  FA7
+08C6:  BSF    FA6.1
+08C8:  BTFSC  FA6.1
+08CA:  BRA    08C8
+08CC:  BCF    FA6.2
+08CE:  MOVF   00,W
+08D0:  IORWF  FF2,F
+08D2:  MOVLB  0
+08D4:  RETURN 0
+.................... }//1
+.................... 
+.................... unsigned int8 eeprom_read(unsigned char address)
+.................... {//1
+....................   return(read_eeprom(address));
+*
+0D28:  MOVFF  FF2,61
+0D2C:  BCF    FF2.7
+0D2E:  MOVFF  60,FA9
+0D32:  BCF    FA6.6
+0D34:  BCF    FA6.7
+0D36:  BSF    FA6.0
+0D38:  MOVF   FA8,W
+0D3A:  BTFSC  x61.7
+0D3C:  BSF    FF2.7
+0D3E:  MOVWF  01
+0D40:  RETURN 0
+.................... }//1
+.................... 
+.................... void init_lantern(void)
+*
+0D9E:  CLRF   56
+0DA0:  CLRF   55
+0DA2:  CLRF   54
+0DA4:  CLRF   53
+0DA6:  CLRF   5A
+0DA8:  CLRF   59
+0DAA:  CLRF   58
+0DAC:  CLRF   57
+.................... {//1
+....................   unsigned int32 dLastValue=0, dActValue=0;
+....................   unsigned int8 i;
+.................... 
+....................   //set in/out direction
+....................   set_tris_a(0b00001111);
+0DAE:  MOVLW  0F
+0DB0:  MOVWF  F92
+....................   set_tris_b(0b00010110);     // B4=Dali_rcv IOC
+0DB2:  MOVLW  16
+0DB4:  MOVWF  F93
+....................   set_tris_c(0b00100000);     // c5 = Testmode Jumper
+0DB6:  MOVLW  20
+0DB8:  MOVWF  F94
+....................   set_tris_e(0);
+0DBA:  BCF    F96.3
+.................... 
+....................   output_a(0);       
+0DBC:  CLRF   F89
+....................   output_b(0);
+0DBE:  CLRF   F8A
+....................   output_c(0);
+0DC0:  CLRF   F8B
+....................   output_e(0);
+0DC2:  CLRF   F8D
+.................... 
+....................   flag = 0;  
+0DC4:  CLRF   37
+0DC6:  CLRF   36
+.................... 
+....................   // setup analog pins
+....................   ANSELA = 0b00001111;               // POR default analog
+0DC8:  MOVLW  0F
+0DCA:  MOVLB  F
+0DCC:  MOVWF  x38
+....................   ANSELB = 0b00000110;               // POR default digital  
+0DCE:  MOVLW  06
+0DD0:  MOVWF  x39
+.................... //  ANSELC = 0b00000000;               // 
+.................... 
+....................   setup_adc(ADC_CLOCK_INTERNAL);
+0DD2:  MOVF   FC0,W
+0DD4:  ANDLW  C0
+0DD6:  IORLW  07
+0DD8:  MOVWF  FC0
+0DDA:  BCF    FC0.7
+0DDC:  BSF    FC2.0
+....................   
+....................   IOCB = 0b00010000;                 // RB4 IOC enabled
+0DDE:  MOVLW  10
+0DE0:  MOVWF  F62
+....................     
+....................   pwm_set_duty_percent(pwm_out, 1000);   // brightest step
+0DE2:  MOVLW  03
+0DE4:  MOVWF  5D
+0DE6:  MOVLW  E8
+0DE8:  MOVWF  5C
+0DEA:  MOVLB  0
+0DEC:  CALL   05D8
+....................   pwm_on(pwm_out);
+0DF0:  MOVLW  0C
+0DF2:  MOVLB  F
+0DF4:  IORWF  x5D,F
+.................... 
+....................   pwm_off(heater_half);
+0DF6:  MOVLW  F0
+0DF8:  ANDWF  x57,F
+....................   pwm_off(heater_full);
+0DFA:  ANDWF  F66,F
+.................... 
+....................   // watchdog
+....................   setup_wdt(WDT_2S);                 // 2s watchdog
+0DFC:  BSF    FD1.0
+....................   restart_wdt();
+0DFE:  CLRWDT
+.................... 
+....................   // T0: cycle 100ms 
+....................   setup_timer_0(T0_INTERNAL | T0_DIV_4);  // internal clock | Presc. 4 
+0E00:  MOVLW  81
+0E02:  MOVWF  FD5
+....................   set_timer0(15535);                      // -> counts 50000 until 65535
+0E04:  MOVLW  3C
+0E06:  MOVWF  FD7
+0E08:  MOVLW  AF
+0E0A:  MOVWF  FD6
+0E0C:  NOP   
+.................... 
+....................   // T1: DALI timer
+....................   // 748 = 374µs, 914 = 457µs, 1498 = 749µs, 1832 = 916µs 
+....................   setup_timer_1(T1_INTERNAL | T1_DIV_BY_2);    // 
+0E0E:  MOVLW  17
+0E10:  MOVWF  FCD
+0E12:  CLRF   FCC
+.................... 
+....................   check_param();                    // Laterne parametriert?
+0E14:  MOVLB  0
+0E16:  BRA    0D42
+....................  
+.................... //  set_led_current(20);              // wegen Anlaufschwierigkeiten der Schaltung
+.................... //  delay_ms(50);          
+.................... 
+....................   set_led_current(eeprom_read(EE_POTI));     // set the digi potis
+0E18:  MOVLW  13
+0E1A:  MOVWF  x60
+0E1C:  RCALL  0D28
+0E1E:  MOVFF  01,5C
+0E22:  MOVFF  01,5D
+0E26:  RCALL  0728
+....................   bCircuitNumber = eeprom_read(EE_CIRCUITS); 
+0E28:  MOVLW  11
+0E2A:  MOVWF  x60
+0E2C:  RCALL  0D28
+0E2E:  MOVFF  01,27
+....................   bStatus = eeprom_read(EE_STATUS);
+0E32:  MOVLW  12
+0E34:  MOVWF  x60
+0E36:  RCALL  0D28
+0E38:  MOVFF  01,2D
+....................  
+....................   if(bStatus & ST_EOL)                       // ist der Status EOL und die Sicherung wurde NICHT gekillt
+0E3C:  BTFSS  2D.2
+0E3E:  BRA    0E52
+....................   {//2
+....................     output_high(xConverterOn);               // converter off
+0E40:  BSF    F89.7
+....................     delay_ms(500);
+0E42:  MOVLW  02
+0E44:  MOVWF  5C
+0E46:  MOVLW  FA
+0E48:  MOVWF  5D
+0E4A:  RCALL  0742
+0E4C:  DECFSZ 5C,F
+0E4E:  BRA    0E46
+....................     reset_cpu();                             // dann dauerhaft neu starten
+0E50:  RESET
+....................   }//2
+....................   
+....................   //Laterne mit fester Blinkfrequenz?
+....................   check_blink();
+0E52:  RCALL  0D54
+.................... 
+....................   // get operating hours counter  
+....................   for(i=0; i<5; i++)
+0E54:  CLRF   5B
+0E56:  MOVF   5B,W
+0E58:  SUBLW  04
+0E5A:  BNC   0F0E
+....................   {//2
+....................     dActValue = make32(eeprom_read(EE_OHC_START+bOHoffset),
+....................                        eeprom_read(EE_OHC_START+bOHoffset+1),
+....................                        eeprom_read(EE_OHC_START+bOHoffset+2),
+....................                        eeprom_read(EE_OHC_START+bOHoffset+3));   
+0E5C:  MOVLW  30
+0E5E:  ADDWF  2E,W
+0E60:  MOVWF  5C
+0E62:  MOVWF  x60
+0E64:  RCALL  0D28
+0E66:  MOVFF  01,5C
+0E6A:  MOVLW  30
+0E6C:  ADDWF  2E,W
+0E6E:  ADDLW  01
+0E70:  MOVWF  5D
+0E72:  MOVWF  x60
+0E74:  RCALL  0D28
+0E76:  MOVFF  01,5D
+0E7A:  MOVLW  30
+0E7C:  ADDWF  2E,W
+0E7E:  ADDLW  02
+0E80:  MOVWF  5E
+0E82:  MOVWF  x60
+0E84:  RCALL  0D28
+0E86:  MOVFF  01,5E
+0E8A:  MOVLW  30
+0E8C:  ADDWF  2E,W
+0E8E:  ADDLW  03
+0E90:  MOVWF  5F
+0E92:  MOVWF  x60
+0E94:  RCALL  0D28
+0E96:  MOVFF  5C,5A
+0E9A:  MOVFF  5D,59
+0E9E:  MOVFF  5E,58
+0EA2:  MOVFF  01,57
+.................... 
+....................     if(dActValue > dLastValue)
+0EA6:  MOVF   56,W
+0EA8:  SUBWF  5A,W
+0EAA:  BNC   0ED6
+0EAC:  BNZ   0EC4
+0EAE:  MOVF   55,W
+0EB0:  SUBWF  59,W
+0EB2:  BNC   0ED6
+0EB4:  BNZ   0EC4
+0EB6:  MOVF   54,W
+0EB8:  SUBWF  58,W
+0EBA:  BNC   0ED6
+0EBC:  BNZ   0EC4
+0EBE:  MOVF   57,W
+0EC0:  SUBWF  53,W
+0EC2:  BC    0ED6
+....................     {//3
+....................       dLastValue = dActValue;
+0EC4:  MOVFF  5A,56
+0EC8:  MOVFF  59,55
+0ECC:  MOVFF  58,54
+0ED0:  MOVFF  57,53
+....................     }//3
+0ED4:  BRA    0F06
+....................     else
+....................     if(dActValue < dLastValue)
+0ED6:  MOVF   5A,W
+0ED8:  SUBWF  56,W
+0EDA:  BNC   0F06
+0EDC:  BNZ   0EF4
+0EDE:  MOVF   59,W
+0EE0:  SUBWF  55,W
+0EE2:  BNC   0F06
+0EE4:  BNZ   0EF4
+0EE6:  MOVF   58,W
+0EE8:  SUBWF  54,W
+0EEA:  BNC   0F06
+0EEC:  BNZ   0EF4
+0EEE:  MOVF   53,W
+0EF0:  SUBWF  57,W
+0EF2:  BC    0F06
+....................     {//3
+....................       dOHC = dLastValue;
+0EF4:  MOVFF  56,1D
+0EF8:  MOVFF  55,1C
+0EFC:  MOVFF  54,1B
+0F00:  MOVFF  53,1A
+....................       break;
+0F04:  BRA    0F0E
+....................     }//3
+....................     bOHoffset += 4;    
+0F06:  MOVLW  04
+0F08:  ADDWF  2E,F
+0F0A:  INCF   5B,F
+0F0C:  BRA    0E56
+....................   }//2 
+....................                                           
+....................   // Init counter
+....................   bCount500ms = 5;
+0F0E:  MOVLW  05
+0F10:  MOVWF  28
+....................   bCount1000ms = 10;
+0F12:  MOVLW  0A
+0F14:  MOVWF  29
+....................   bCountMin = MINUTE;
+0F16:  MOVLW  3C
+0F18:  MOVWF  2A
+....................   bCountEOL = EOL_CNT;
+0F1A:  MOVLW  14
+0F1C:  MOVWF  2B
+....................   wLedTestTime = LED_TEST_TIME; 
+0F1E:  MOVLW  02
+0F20:  MOVWF  1F
+0F22:  MOVLW  58
+0F24:  MOVWF  1E
+.................... 
+....................   bHeaterHalfCnt = 0;
+0F26:  CLRF   30
+....................   bHeaterFullCnt = 0;
+0F28:  CLRF   31
+.................... 
+....................   // Init interrupts
+....................   enable_interrupts(INT_TIMER0);   
+0F2A:  BSF    FF2.5
+....................   enable_interrupts(INT_RB4);     // IOC
+0F2C:  BSF    FF2.3
+0F2E:  BSF    F62.4
+....................   enable_interrupts(GLOBAL);
+0F30:  MOVLW  C0
+0F32:  IORWF  FF2,F
+0F34:  GOTO   1754 (RETURN)
+....................  
+.................... }//1
+.................... 
+.................... void lantern(void) 
+.................... {//1
+....................   check_status();                 // 
+*
+162C:  BRA    154A
+.................... 
+....................   if(flag.ms100 && flag.param && !bParam) // every 100ms wenn paramertiert ist und kein Parametriermodus
+162E:  BTFSS  36.0
+1630:  BRA    1660
+1632:  BTFSS  36.7
+1634:  BRA    1660
+1636:  MOVF   50,F
+1638:  BNZ   1660
+....................   {//2
+....................     flag.ms100 = 0;
+163A:  BCF    36.0
+....................     if(!(PORTA & 0b10000000))       // converter on?
+163C:  BTFSC  F80.7
+163E:  BRA    1650
+....................     {//3      
+....................       led_monitoring();
+1640:  CALL   08DA
+....................       if(!(PORTC & 0b00010000))     // only when pulse is NOT active 
+1644:  BTFSC  F82.4
+1646:  BRA    164C
+....................         check_current();            // Eingangstrom checken wegen pulsen
+1648:  CALL   0A00
+....................       check_converter();            // nach check current prüfen wegen pulsen
+164C:  CALL   0A50
+....................     }//3
+....................     if(flag.heat_half || flag.heat_full)   // 
+1650:  BTFSC  37.0
+1652:  BRA    1658
+1654:  BTFSS  37.1
+1656:  BRA    1660
+....................       heater_control(1);                   // Heizung PWM einstellen
+1658:  MOVLW  01
+165A:  MOVWF  53
+165C:  CALL   0BA6
+....................   }//2
+.................... 
+....................   if(flag.ms500)                     // every 500ms
+1660:  BTFSS  36.2
+1662:  BRA    1670
+....................   {//2
+....................     flag.ms500 = 0;
+1664:  BCF    36.2
+....................     controller_ok_led();            // led µc is running
+1666:  CALL   0004
+....................     if(!flag.param)                 // keine Parametrierung?
+166A:  BTFSC  36.7
+166C:  BRA    1670
+....................     {//3
+....................       output_toggle(xConverterON);  // dann blinken
+166E:  BTG    F89.7
+....................     }//3 
+....................   }//2
+.................... 
+....................   if(flag.ms1000)                   // every second
+1670:  BTFSS  36.5
+1672:  BRA    168C
+....................   {//2
+....................     flag.ms1000 = 0;
+1674:  BCF    36.5
+....................     bCountMin--;
+1676:  DECF   2A,F
+....................     if(!bCountMin)                  // every minute
+1678:  MOVF   2A,F
+167A:  BNZ   1686
+....................     {//3
+....................       bCountMin = MINUTE;
+167C:  MOVLW  3C
+167E:  MOVWF  2A
+....................       if(!(PORTA & 0b10000000))       // converter on?
+1680:  BTFSC  F80.7
+1682:  BRA    1686
+....................         operating_hours();            // nur wenn converter an ist betriebstunden zählen
+1684:  BRA    1590
+....................     }//3
+....................     heater_control(0);  
+1686:  CLRF   53
+1688:  CALL   0BA6
+....................   }//2
+168C:  GOTO   175C (RETURN)
+.................... }//1
+.................... 
+.................... void check_current(void)
+.................... {//1
+....................   // 100mA -> 0,5V am Analogeingang
+....................   // Pulsen ab <250mA -> 63dec 
+....................   
+....................   delay_ms(10);                                             // wegen Trägheit des Analogeingangs
+*
+0A00:  MOVLW  0A
+0A02:  MOVWF  5D
+0A04:  RCALL  0742
+....................   //read analog input
+....................   set_adc_channel(3);
+0A06:  MOVLW  0C
+0A08:  MOVWF  01
+0A0A:  MOVF   FC2,W
+0A0C:  ANDLW  83
+0A0E:  IORWF  01,W
+0A10:  MOVWF  FC2
+....................   delay_us(100);
+0A12:  MOVLW  42
+0A14:  MOVWF  00
+0A16:  DECFSZ 00,F
+0A18:  BRA    0A16
+0A1A:  NOP   
+....................   bADC_Ch3 = read_adc();
+0A1C:  BSF    FC2.1
+0A1E:  BTFSC  FC2.1
+0A20:  BRA    0A1E
+0A22:  MOVFF  FC4,24
+.................... 
+....................   if(bADC_Ch3 < 63 && flag.param && !(PORTA & 0b10000000))  // < 1.25V && parametrierung vorhanden? && converter ON ~250mA
+0A26:  MOVF   24,W
+0A28:  SUBLW  3E
+0A2A:  BNC   0A36
+0A2C:  BTFSS  36.7
+0A2E:  BRA    0A36
+0A30:  BTFSC  F80.7
+0A32:  BRA    0A36
+....................     flag.pulse = 1;                                         // current pulse on
+0A34:  BSF    36.4
+....................   if(bADC_Ch3 < 63 && !(PORTC & 0b00100000))                // < 1.25V && testmode?
+0A36:  MOVF   24,W
+0A38:  SUBLW  3E
+0A3A:  BNC   0A42
+0A3C:  BTFSC  F82.5
+0A3E:  BRA    0A42
+....................     flag.pulse = 1;                                         // current pulse on
+0A40:  BSF    36.4
+.................... //  if((bADC_Ch3 > 70) || (bDaliShortAdr != 0xFF))            // > 1.36V || dali adresse vorhanden  ~270mA
+....................   if((bADC_Ch3 > 70) || !daliflag.bustimeout)               // > 1.36V || DALI Datenverkehr vorhanden
+0A42:  MOVF   24,W
+0A44:  SUBLW  46
+0A46:  BNC   0A4C
+0A48:  BTFSC  52.6
+0A4A:  BRA    0A4E
+....................     flag.pulse = 0;                                         // current pulse off                                              
+0A4C:  BCF    36.4
+0A4E:  RETURN 0
+.................... }//1 
+.................... 
+.................... void check_converter(void)
+.................... {//1
+....................   // voltage output converter 
+....................   set_adc_channel(10);                 
+0A50:  MOVLW  28
+0A52:  MOVWF  01
+0A54:  MOVF   FC2,W
+0A56:  ANDLW  83
+0A58:  IORWF  01,W
+0A5A:  MOVWF  FC2
+....................   delay_us(100);
+0A5C:  MOVLW  42
+0A5E:  MOVWF  00
+0A60:  DECFSZ 00,F
+0A62:  BRA    0A60
+0A64:  NOP   
+....................   bADC_Ch10 = read_adc();
+0A66:  BSF    FC2.1
+0A68:  BTFSC  FC2.1
+0A6A:  BRA    0A68
+0A6C:  MOVFF  FC4,26
+.................... 
+....................   // Ausgangsspannung kleiner 2,5V?  
+....................   if(bADC_Ch10 < 26)                         // Wandler AN und Ausgangsspannung < 2,5V? (AD Eingang ~0,5V == 26dec)
+0A70:  MOVF   26,W
+0A72:  SUBLW  19
+0A74:  BNC   0A88
+....................   {//2
+....................     bStatus |= OUT_FAIL;                     // status converter output failure
+0A76:  BSF    2D.4
+....................     flag.pulse = 0;                          // nicht pulsen wenn converter nicht arbeitet (Eingangsspannung < 19V)
+0A78:  BCF    36.4
+....................     if(!flag.blink)                          // rev1: wenn KEIN Blinkmodus
+0A7A:  BTFSC  37.2
+0A7C:  BRA    0A88
+....................     {//3
+....................       output_high(xConverterOn);               // Wandler abschalten
+0A7E:  BSF    F89.7
+....................       delay_ms(50);
+0A80:  MOVLW  32
+0A82:  MOVWF  5D
+0A84:  RCALL  0742
+....................       output_low(xConverterOn);                // Wandler neu einschalten
+0A86:  BCF    F89.7
+....................     }//3
+....................   }//2
+.................... 
+....................   // Ausgangsspannung größer 20V (4V AD)
+....................   if((bADC_Ch10 >= 205)) 
+0A88:  MOVF   26,W
+0A8A:  SUBLW  CC
+0A8C:  BC    0AA0
+....................   {//2
+....................     bStatus |= OUT_FAIL;                     // status converter output failure
+0A8E:  BSF    2D.4
+....................     if(PORTC & 0b00100000)                   // Nur wenn kein Testmodus EEPROM schreiben
+0A90:  BTFSS  F82.5
+0A92:  BRA    0A9E
+....................       eeprom_write(EE_STATUS, bStatus);         
+0A94:  MOVLW  12
+0A96:  MOVWF  59
+0A98:  MOVFF  2D,5A
+0A9C:  RCALL  08A8
+....................     kill_fuse();                             // Bei zu hoher Ausgangsspannung Sicherung killen (28.11.2017, Ser) 
+0A9E:  RCALL  08D6
+....................   }//2
+0AA0:  RETURN 0
+.................... }//1
+.................... 
+.................... void kill_fuse(void)
+.................... {//1
+....................   output_high(xKill24V);       // mosfet ansteuern und 24V Sicherung zerstören
+*
+08D6:  BSF    F89.5
+08D8:  RETURN 0
+.................... }//1 
+.................... 
+.................... void led_monitoring(void)
+.................... {//1
+....................   // Spannungen zwischen den einzelnen Kreisen messen.
+....................   // Wenn der Unterschied zwischen den Kreisen größer 0,3V ist liegt ein Fehler vor.
+....................   // 0,3V entsprechen 0,1V am Analog Eingang -> +/- 5 Digits 
+....................   unsigned int8 i, j, tol, aValues[3];   
+....................                                 
+....................   set_adc_channel(0);
+08DA:  MOVLW  00
+08DC:  MOVWF  01
+08DE:  MOVF   FC2,W
+08E0:  ANDLW  83
+08E2:  IORWF  01,W
+08E4:  MOVWF  FC2
+....................   delay_us(100);
+08E6:  MOVLW  42
+08E8:  MOVWF  00
+08EA:  DECFSZ 00,F
+08EC:  BRA    08EA
+08EE:  NOP   
+....................   bADC_Ch0 = read_adc();
+08F0:  BSF    FC2.1
+08F2:  BTFSC  FC2.1
+08F4:  BRA    08F2
+08F6:  MOVFF  FC4,21
+.................... 
+....................   set_adc_channel(1);
+08FA:  MOVLW  04
+08FC:  MOVWF  01
+08FE:  MOVF   FC2,W
+0900:  ANDLW  83
+0902:  IORWF  01,W
+0904:  MOVWF  FC2
+....................   delay_us(100);
+0906:  MOVLW  42
+0908:  MOVWF  00
+090A:  DECFSZ 00,F
+090C:  BRA    090A
+090E:  NOP   
+....................   bADC_Ch1 = read_adc();
+0910:  BSF    FC2.1
+0912:  BTFSC  FC2.1
+0914:  BRA    0912
+0916:  MOVFF  FC4,22
+....................  
+....................   set_adc_channel(2);
+091A:  MOVLW  08
+091C:  MOVWF  01
+091E:  MOVF   FC2,W
+0920:  ANDLW  83
+0922:  IORWF  01,W
+0924:  MOVWF  FC2
+....................   delay_us(100);
+0926:  MOVLW  42
+0928:  MOVWF  00
+092A:  DECFSZ 00,F
+092C:  BRA    092A
+092E:  NOP   
+....................   bADC_Ch2 = read_adc();
+0930:  BSF    FC2.1
+0932:  BTFSC  FC2.1
+0934:  BRA    0932
+0936:  MOVFF  FC4,23
+.................... 
+....................   aValues[0] = bADC_Ch0;
+093A:  MOVFF  21,56
+....................   aValues[1] = bADC_Ch1;
+093E:  MOVFF  22,57
+....................   aValues[2] = bADC_Ch2;
+0942:  MOVFF  23,58
+....................  
+....................   i=j=0;                     // init
+0946:  CLRF   54
+0948:  MOVFF  54,53
+.................... 
+....................   if(bCircuitNumber == 2)    //  
+094C:  MOVF   27,W
+094E:  SUBLW  02
+0950:  BNZ   0972
+....................   {//2
+.................... //    i=0;
+....................     if(aValues[0] < aValues[1])
+0952:  MOVF   57,W
+0954:  SUBWF  56,W
+0956:  BC    095E
+....................       j = aValues[1] - aValues[0];
+0958:  MOVF   56,W
+095A:  SUBWF  57,W
+095C:  MOVWF  54
+....................     if(aValues[0] > aValues[1])
+095E:  MOVF   56,W
+0960:  SUBWF  57,W
+0962:  BC    096A
+....................       j = aValues[0] - aValues[1];
+0964:  MOVF   57,W
+0966:  SUBWF  56,W
+0968:  MOVWF  54
+....................     if(aValues[0] == aValues[1])
+096A:  MOVF   57,W
+096C:  SUBWF  56,W
+096E:  BNZ   0972
+....................       j=0;
+0970:  CLRF   54
+....................   }//2
+....................   if(bCircuitNumber == 3)    //  
+0972:  MOVF   27,W
+0974:  SUBLW  03
+0976:  BNZ   09B8
+....................   {//2
+....................     if(aValues[0] < aValues[1])
+0978:  MOVF   57,W
+097A:  SUBWF  56,W
+097C:  BC    0984
+....................       j = aValues[1] - aValues[0];
+097E:  MOVF   56,W
+0980:  SUBWF  57,W
+0982:  MOVWF  54
+....................     if(aValues[0] > aValues[1])
+0984:  MOVF   56,W
+0986:  SUBWF  57,W
+0988:  BC    0990
+....................       j = aValues[0] - aValues[1];
+098A:  MOVF   57,W
+098C:  SUBWF  56,W
+098E:  MOVWF  54
+....................     if(aValues[0] == aValues[1])
+0990:  MOVF   57,W
+0992:  SUBWF  56,W
+0994:  BNZ   0998
+....................       j=0;
+0996:  CLRF   54
+.................... 
+....................     if(aValues[1] < aValues[2])
+0998:  MOVF   58,W
+099A:  SUBWF  57,W
+099C:  BC    09A4
+....................       i = aValues[2] - aValues[1];
+099E:  MOVF   57,W
+09A0:  SUBWF  58,W
+09A2:  MOVWF  53
+....................     if(aValues[1] > aValues[2])
+09A4:  MOVF   57,W
+09A6:  SUBWF  58,W
+09A8:  BC    09B0
+....................       i = aValues[1] - aValues[2];
+09AA:  MOVF   58,W
+09AC:  SUBWF  57,W
+09AE:  MOVWF  53
+....................     if(aValues[1] == aValues[2])
+09B0:  MOVF   58,W
+09B2:  SUBWF  57,W
+09B4:  BNZ   09B8
+....................       i=0;
+09B6:  CLRF   53
+....................   }//2
+....................   tol = LED_TEST_TOL;                 // direkt mit konstante klappt der Vergleich nicht!? wegen Typ?
+09B8:  MOVLW  03
+09BA:  MOVWF  55
+....................   if(j > tol || i > tol)              // greater than test tolerance?
+09BC:  MOVF   54,W
+09BE:  SUBWF  55,W
+09C0:  BNC   09C8
+09C2:  MOVF   53,W
+09C4:  SUBWF  55,W
+09C6:  BC    09EC
+....................   {//2
+....................     if(wLedTestTime)
+09C8:  MOVF   1E,W
+09CA:  IORWF  1F,W
+09CC:  BZ    09D8
+....................       wLedTestTime--;
+09CE:  MOVF   1E,W
+09D0:  BTFSC  FD8.2
+09D2:  DECF   1F,F
+09D4:  DECF   1E,F
+09D6:  BRA    09EA
+....................     else
+....................     {//3
+....................       // error? -> destroy fuse
+....................       bStatus |= LED_FAIL;
+09D8:  BSF    2D.3
+....................       if(PORTC & 0b00100000)                 // Nur wenn kein Testmodus EEPROM schreiben
+09DA:  BTFSS  F82.5
+09DC:  BRA    09E8
+....................         eeprom_write(EE_STATUS, bStatus);    // status 1 (LED failure) 
+09DE:  MOVLW  12
+09E0:  MOVWF  59
+09E2:  MOVFF  2D,5A
+09E6:  RCALL  08A8
+....................       kill_fuse();               
+09E8:  RCALL  08D6
+....................     }//3
+....................   }//2
+09EA:  BRA    09FE
+....................   else
+....................   {//2
+....................     wLedTestTime = LED_TEST_TIME;
+09EC:  MOVLW  02
+09EE:  MOVWF  1F
+09F0:  MOVLW  58
+09F2:  MOVWF  1E
+....................     if(!(PORTC & 0b00100000))             // testmode?
+09F4:  BTFSC  F82.5
+09F6:  BRA    09FE
+....................       wLedTestTime = 20;
+09F8:  CLRF   1F
+09FA:  MOVLW  14
+09FC:  MOVWF  1E
+....................   }//2
+09FE:  RETURN 0
+.................... }//1
+....................  
+.................... void operating_hours(void)
+.................... {//1  
+....................   bCountEOL--;              
+*
+1590:  DECF   2B,F
+....................   if(!bCountEOL)
+1592:  MOVF   2B,F
+1594:  BNZ   1628
+....................   {//2    
+....................     bCountEOL = EOL_CNT;                     // set counter for next 20min
+1596:  MOVLW  14
+1598:  MOVWF  2B
+....................     dOHC += EOL_CNT;                         // add 20min to operating hour counter
+159A:  ADDWF  1A,F
+159C:  MOVLW  00
+159E:  ADDWFC 1B,F
+15A0:  ADDWFC 1C,F
+15A2:  ADDWFC 1D,F
+....................     if(dOHC >= EOL)// && !(bStatus & ST_EOL))   // >6000000min und status ist noch nicht EOL?
+15A4:  MOVF   1D,F
+15A6:  BNZ   15C2
+15A8:  MOVF   1C,W
+15AA:  SUBLW  5A
+15AC:  BC    15D6
+15AE:  XORLW  FF
+15B0:  BNZ   15C2
+15B2:  MOVF   1B,W
+15B4:  SUBLW  8C
+15B6:  BC    15D6
+15B8:  XORLW  FF
+15BA:  BNZ   15C2
+15BC:  MOVF   1A,W
+15BE:  SUBLW  7F
+15C0:  BC    15D6
+....................     {//3  
+....................       bStatus |= ST_EOL;                     // status EOL
+15C2:  BSF    2D.2
+....................       eeprom_write(EE_STATUS, bStatus);
+15C4:  MOVLW  12
+15C6:  MOVWF  59
+15C8:  MOVFF  2D,5A
+15CC:  CALL   08A8
+....................       kill_fuse(); 
+15D0:  CALL   08D6
+....................     }//3
+15D4:  BRA    1628
+....................     else                                     // save
+....................     {//3
+....................       if(bOHoffset >= 20)
+15D6:  MOVF   2E,W
+15D8:  SUBLW  13
+15DA:  BC    15DE
+....................         bOHoffset = 0;
+15DC:  CLRF   2E
+.................... 
+....................       eeprom_write(EE_OHC_START+bOHoffset+3, make8(dOHC, 0));
+15DE:  MOVLW  30
+15E0:  ADDWF  2E,W
+15E2:  ADDLW  03
+15E4:  MOVWF  53
+15E6:  MOVWF  59
+15E8:  MOVFF  1A,5A
+15EC:  CALL   08A8
+....................       eeprom_write(EE_OHC_START+bOHoffset+2, make8(dOHC, 1));
+15F0:  MOVLW  30
+15F2:  ADDWF  2E,W
+15F4:  ADDLW  02
+15F6:  MOVWF  53
+15F8:  MOVWF  59
+15FA:  MOVFF  1B,5A
+15FE:  CALL   08A8
+....................       eeprom_write(EE_OHC_START+bOHoffset+1, make8(dOHC, 2));
+1602:  MOVLW  30
+1604:  ADDWF  2E,W
+1606:  ADDLW  01
+1608:  MOVWF  53
+160A:  MOVWF  59
+160C:  MOVFF  1C,5A
+1610:  CALL   08A8
+....................       eeprom_write(EE_OHC_START+bOHoffset  , make8(dOHC, 3));
+1614:  MOVLW  30
+1616:  ADDWF  2E,W
+1618:  MOVWF  53
+161A:  MOVWF  59
+161C:  MOVFF  1D,5A
+1620:  CALL   08A8
+.................... 
+....................       bOHoffset += 4;
+1624:  MOVLW  04
+1626:  ADDWF  2E,F
+....................     }//3
+....................   }//2
+1628:  GOTO   1686 (RETURN)
+.................... }//1
+.................... 
+.................... void controller_ok_led(void)
+.................... {//1
+....................   output_toggle(xLedOut);
+*
+0004:  BTG    F89.4
+0006:  RETURN 0
+.................... }//1
+.................... 
+.................... void heater_control(char mode)
+.................... {//1
+....................   /*-------------------------------------------------------------------
+.................... °C   -50 -40 -30 -20 -10   0  10  20  25  30  40  50  60  70  80
+.................... ADC  189 185 180 175 171 165 160 156 153 151 146 141 137 132 128
+.................... ADC Werte berechnet
+.................... -------------------------------------------------------------------*/
+.................... 
+....................   switch(mode)
+*
+0BA6:  MOVF   53,W
+0BA8:  XORLW  00
+0BAA:  BZ    0BB2
+0BAC:  XORLW  01
+0BAE:  BZ    0C68
+0BB0:  BRA    0CF4
+....................   {//2
+....................     case 0:  //Temperatur checken
+....................              set_adc_channel(8);
+0BB2:  MOVLW  20
+0BB4:  MOVWF  01
+0BB6:  MOVF   FC2,W
+0BB8:  ANDLW  83
+0BBA:  IORWF  01,W
+0BBC:  MOVWF  FC2
+....................              delay_us(100);
+0BBE:  MOVLW  42
+0BC0:  MOVWF  00
+0BC2:  DECFSZ 00,F
+0BC4:  BRA    0BC2
+0BC6:  NOP   
+....................              bADC_Ch8 = read_adc();
+0BC8:  BSF    FC2.1
+0BCA:  BTFSC  FC2.1
+0BCC:  BRA    0BCA
+0BCE:  MOVFF  FC4,25
+.................... 
+....................              if(bADC_Ch8>=160 && !flag.heat_half)                       
+0BD2:  MOVF   25,W
+0BD4:  SUBLW  9F
+0BD6:  BC    0C10
+0BD8:  BTFSC  37.0
+0BDA:  BRA    0C10
+....................              {//3
+....................                flag.heat_half = 1;
+0BDC:  BSF    37.0
+....................                bHeaterHalfCnt = 0;
+0BDE:  CLRF   30
+....................                if(!(PORTC & 0b00100000))          // Testmodus?
+0BE0:  BTFSC  F82.5
+0BE2:  BRA    0BE8
+....................                  bHeaterHalfCnt = PWM_STEP - 1;   // -> max PWM  
+0BE4:  MOVLW  13
+0BE6:  MOVWF  30
+....................                pwm_set_duty_percent(heater_half, HEATER_PWM[bHeaterHalfCnt]);
+0BE8:  BCF    FD8.0
+0BEA:  RLCF   30,W
+0BEC:  CLRF   03
+0BEE:  CALL   00D2
+0BF2:  TBLRD*+
+0BF4:  MOVFF  FF5,03
+0BF8:  MOVWF  54
+0BFA:  MOVFF  03,55
+0BFE:  MOVFF  03,57
+0C02:  MOVWF  56
+0C04:  RCALL  0AA2
+....................                pwm_on(heater_half);
+0C06:  MOVLW  0C
+0C08:  MOVLB  F
+0C0A:  IORWF  x57,F
+....................              }//3
+0C0C:  BRA    0C1E
+0C0E:  MOVLB  0
+....................              else if(bADC_Ch8<=157)
+0C10:  MOVF   25,W
+0C12:  SUBLW  9D
+0C14:  BNC   0C20
+....................              {//3
+....................                pwm_off(heater_half);
+0C16:  MOVLW  F0
+0C18:  MOVLB  F
+0C1A:  ANDWF  x57,F
+....................                flag.heat_half = 0;
+0C1C:  BCF    37.0
+0C1E:  MOVLB  0
+....................              }//3
+.................... 
+....................              if(bADC_Ch8>=164 && !flag.heat_full)                       
+0C20:  MOVF   25,W
+0C22:  SUBLW  A3
+0C24:  BC    0C5A
+0C26:  BTFSC  37.1
+0C28:  BRA    0C5A
+....................              {//3
+....................                flag.heat_full = 1;
+0C2A:  BSF    37.1
+....................                bHeaterFullCnt = 0;
+0C2C:  CLRF   31
+....................                if(!(PORTC & 0b00100000))          // Testmodus?
+0C2E:  BTFSC  F82.5
+0C30:  BRA    0C36
+....................                  bHeaterFullCnt = PWM_STEP - 1;   // -> max PWM 
+0C32:  MOVLW  13
+0C34:  MOVWF  31
+....................                pwm_set_duty_percent(heater_full, HEATER_PWM[bHeaterFullCnt]);
+0C36:  BCF    FD8.0
+0C38:  RLCF   31,W
+0C3A:  CLRF   03
+0C3C:  CALL   00D2
+0C40:  TBLRD*+
+0C42:  MOVFF  FF5,03
+0C46:  MOVWF  54
+0C48:  MOVFF  03,55
+0C4C:  MOVFF  03,57
+0C50:  MOVWF  56
+0C52:  RCALL  0B26
+....................                pwm_on(heater_full);
+0C54:  MOVLW  0C
+0C56:  IORWF  F66,F
+....................              }//3
+0C58:  BRA    0C66
+....................              else if(bADC_Ch8<=160)           
+0C5A:  MOVF   25,W
+0C5C:  SUBLW  A0
+0C5E:  BNC   0C66
+....................              {//3               
+....................                pwm_off(heater_full);
+0C60:  MOVLW  F0
+0C62:  ANDWF  F66,F
+....................                flag.heat_full = 0;
+0C64:  BCF    37.1
+....................              }//3
+....................              break;
+0C66:  BRA    0CF4
+.................... 
+....................     case 1:  //PWM erhöhen
+....................              if(flag.heat_half)
+0C68:  BTFSS  37.0
+0C6A:  BRA    0CAE
+....................              {//3
+....................                if(HEATER_PWM[bHeaterHalfCnt] < PWM_MAX)
+0C6C:  BCF    FD8.0
+0C6E:  RLCF   30,W
+0C70:  CLRF   03
+0C72:  CALL   00D2
+0C76:  TBLRD*+
+0C78:  MOVFF  FF5,03
+0C7C:  MOVWF  54
+0C7E:  MOVF   03,W
+0C80:  MOVWF  55
+0C82:  SUBLW  03
+0C84:  BNC   0CAE
+0C86:  BNZ   0C8E
+0C88:  MOVF   54,W
+0C8A:  SUBLW  E7
+0C8C:  BNC   0CAE
+....................                  pwm_set_duty_percent(heater_half, HEATER_PWM[++bHeaterHalfCnt]);                       
+0C8E:  INCF   30,F
+0C90:  BCF    FD8.0
+0C92:  RLCF   30,W
+0C94:  CLRF   03
+0C96:  CALL   00D2
+0C9A:  TBLRD*+
+0C9C:  MOVFF  FF5,03
+0CA0:  MOVWF  54
+0CA2:  MOVFF  03,55
+0CA6:  MOVFF  03,57
+0CAA:  MOVWF  56
+0CAC:  RCALL  0AA2
+....................              }//3    
+....................              if(flag.heat_full)
+0CAE:  BTFSS  37.1
+0CB0:  BRA    0CF4
+....................              {//3
+....................                if(HEATER_PWM[bHeaterFullCnt] < PWM_MAX)
+0CB2:  BCF    FD8.0
+0CB4:  RLCF   31,W
+0CB6:  CLRF   03
+0CB8:  CALL   00D2
+0CBC:  TBLRD*+
+0CBE:  MOVFF  FF5,03
+0CC2:  MOVWF  54
+0CC4:  MOVF   03,W
+0CC6:  MOVWF  55
+0CC8:  SUBLW  03
+0CCA:  BNC   0CF4
+0CCC:  BNZ   0CD4
+0CCE:  MOVF   54,W
+0CD0:  SUBLW  E7
+0CD2:  BNC   0CF4
+....................                  pwm_set_duty_percent(heater_full, HEATER_PWM[++bHeaterFullCnt]);                
+0CD4:  INCF   31,F
+0CD6:  BCF    FD8.0
+0CD8:  RLCF   31,W
+0CDA:  CLRF   03
+0CDC:  CALL   00D2
+0CE0:  TBLRD*+
+0CE2:  MOVFF  FF5,03
+0CE6:  MOVWF  54
+0CE8:  MOVFF  03,55
+0CEC:  MOVFF  03,57
+0CF0:  MOVWF  56
+0CF2:  RCALL  0B26
+....................              }//3   
+....................              break;
+....................   }//2
+0CF4:  RETURN 0
+.................... }//1
+.................... 
+.................... void check_param(void)
+.................... {//1
+....................   if(eeprom_read(EE_PARAM) == 'P')        // parametrierung vorhanden?
+*
+0D42:  MOVLW  10
+0D44:  MOVWF  x60
+0D46:  RCALL  0D28
+0D48:  MOVF   01,W
+0D4A:  SUBLW  50
+0D4C:  BNZ   0D50
+....................   {//2                                    // yes 
+....................     flag.param = 1;     
+0D4E:  BSF    36.7
+....................   }//2
+0D50:  GOTO   0E18 (RETURN)
+.................... }//1
+.................... 
+.................... void set_led_current(unsigned int8 poti_val)
+.................... {//1
+.................... //     
+.................... //  0-200k Reg A
+....................     write_i2c(ADR_POTI20K, POTI_CH_A, 0);              // ein Poti reicht aus
+*
+0728:  MOVLW  5A
+072A:  MOVWF  5E
+072C:  CLRF   5F
+072E:  CLRF   x60
+0730:  RCALL  06E4
+.................... //  0-200k Reg B
+....................     write_i2c(ADR_POTI20K, POTI_CH_B, poti_val);
+0732:  MOVLW  5A
+0734:  MOVWF  5E
+0736:  MOVLW  80
+0738:  MOVWF  5F
+073A:  MOVFF  5D,60
+073E:  RCALL  06E4
+0740:  RETURN 0
+.................... }//1
+.................... 
+.................... void check_status (void)
+.................... {//1
+....................   bStatus = 0;
+*
+154A:  CLRF   2D
+.................... 
+....................   bStatus |= POWER;                         // Lantern is powered and working
+154C:  BSF    2D.7
+.................... 
+....................   if(flag.blink)                            // rev1: Blinkmodus durch Sequenz?
+154E:  BTFSS  37.2
+1550:  BRA    1556
+....................      bStatus |= ON_OFF;                     // dann status AN auch in Blinkpause
+1552:  BSF    2D.0
+1554:  BRA    1564
+....................   else
+....................   if(!(PORTA & 0b10000000))                 // converter ON?
+1556:  BTFSC  F80.7
+1558:  BRA    1564
+....................   {//2
+....................     bStatus |= ON_OFF;  
+155A:  BSF    2D.0
+.................... 
+....................     if(bADC_Ch10 < 25)                         // Wandler AN und Ausgangsspannung < 1V?
+155C:  MOVF   26,W
+155E:  SUBLW  18
+1560:  BNC   1564
+....................       bStatus |= OUT_FAIL;                     // status converter output failure    
+1562:  BSF    2D.4
+....................   }//2
+.................... 
+....................   if(bDaliPowerLevel < bDaliMaxLevel)       // lantern dimmed?
+1564:  MOVF   41,W
+1566:  SUBWF  44,W
+1568:  BC    156C
+....................     bStatus |= DIMM;
+156A:  BSF    2D.1
+.................... 
+....................   if(dOHC >= EOL)                           // end of life
+156C:  MOVF   1D,F
+156E:  BNZ   158A
+1570:  MOVF   1C,W
+1572:  SUBLW  5A
+1574:  BC    158C
+1576:  XORLW  FF
+1578:  BNZ   158A
+157A:  MOVF   1B,W
+157C:  SUBLW  8C
+157E:  BC    158C
+1580:  XORLW  FF
+1582:  BNZ   158A
+1584:  MOVF   1A,W
+1586:  SUBLW  7F
+1588:  BC    158C
+....................     bStatus |= ST_EOL;          
+158A:  BSF    2D.2
+158C:  GOTO   162E (RETURN)
+.................... }//1
+.................... 
+.................... void check_blink()
+.................... {//1
+....................   bBlinkSeq = eeprom_read(EE_BLINK);         // 1-16, 0=keine
+*
+0D54:  MOVLW  17
+0D56:  MOVWF  x60
+0D58:  RCALL  0D28
+0D5A:  MOVFF  01,32
+....................   if(bBlinkSeq)
+0D5E:  MOVF   32,F
+0D60:  BZ    0D9C
+....................   {//2
+....................     setup_timer_3(T3_INTERNAL | T3_DIV_BY_8); 
+0D62:  CLRF   FB4
+0D64:  MOVLW  37
+0D66:  MOVWF  FB1
+....................     enable_interrupts(INT_TIMER3); 
+0D68:  BSF    FA0.1
+....................     set_timer3(65535-TIMER3);                    //-> Timer3 Overflow 50ms     
+0D6A:  MOVLW  CE
+0D6C:  MOVWF  FB3
+0D6E:  MOVLW  DB
+0D70:  MOVWF  FB2
+0D72:  NOP   
+....................     flag.blink = 1;                              // Blinkflag 
+0D74:  BSF    37.2
+....................     bBlinkSeq -= 1;                              // -1 wegen Sequenz aus EEPROM. 0 = kein Blink. nicht nötig bei DALI
+0D76:  MOVLW  01
+0D78:  SUBWF  32,F
+....................     bBlinkPhase = 0;                             // AN Zeit aus Array
+0D7A:  CLRF   35
+....................     bBlinkCnt = BLINK[bBlinkSeq][bBlinkPhase];
+0D7C:  MOVF   32,W
+0D7E:  MULLW  03
+0D80:  MOVF   FF3,W
+0D82:  CLRF   5D
+0D84:  MOVWF  5C
+0D86:  CLRF   03
+0D88:  MOVF   35,W
+0D8A:  ADDWF  5C,W
+0D8C:  MOVWF  01
+0D8E:  MOVF   5D,W
+0D90:  ADDWFC 03,F
+0D92:  MOVF   01,W
+0D94:  CALL   010A
+0D98:  MOVWF  33
+....................     bBlinkdauer = 0;
+0D9A:  CLRF   34
+....................   }//2
+0D9C:  RETURN 0
+.................... }//1
+.................... 
+.................... boolean poti_ack(unsigned int8 adr)
+.................... {//1
+....................   int1 ack;
+....................   i2c_start();            // If the write command is acknowledged,
+*
+06A4:  BSF    F94.2
+06A6:  NOP   
+06A8:  BSF    F94.3
+06AA:  NOP   
+06AC:  BCF    F8B.2
+06AE:  BCF    F94.2
+06B0:  NOP   
+06B2:  BCF    F8B.3
+06B4:  BCF    F94.3
+....................   ack = i2c_write(adr);  // then the device is ready.
+06B6:  MOVFF  61,63
+06BA:  RCALL  065C
+06BC:  MOVF   01,W
+06BE:  BCF    x62.0
+06C0:  BTFSC  01.0
+06C2:  BSF    x62.0
+....................   i2c_stop();
+06C4:  BCF    F94.2
+06C6:  NOP   
+06C8:  BSF    F94.3
+06CA:  BTFSS  F82.3
+06CC:  BRA    06CA
+06CE:  NOP   
+06D0:  BRA    06D2
+06D2:  NOP   
+06D4:  BSF    F94.2
+06D6:  NOP   
+....................   return !ack;
+06D8:  MOVLW  00
+06DA:  BTFSS  x62.0
+06DC:  MOVLW  01
+06DE:  MOVWF  01
+06E0:  GOTO   06EA (RETURN)
+.................... }//1
+.................... 
+.................... void write_i2c(unsigned int8 adr, unsigned int8 ch, unsigned int8 data)
+.................... {//1
+....................   while(!poti_ack(adr));
+06E4:  MOVFF  5E,61
+06E8:  BRA    06A4
+06EA:  MOVF   01,F
+06EC:  BZ    06E4
+....................   i2c_start();
+06EE:  BSF    F94.2
+06F0:  NOP   
+06F2:  BSF    F94.3
+06F4:  NOP   
+06F6:  BCF    F8B.2
+06F8:  BCF    F94.2
+06FA:  NOP   
+06FC:  BCF    F8B.3
+06FE:  BCF    F94.3
+....................   i2c_write(poti, adr);
+0700:  MOVFF  5E,63
+0704:  RCALL  065C
+....................   i2c_write(poti, ch);
+0706:  MOVFF  5F,63
+070A:  RCALL  065C
+....................   i2c_write(poti, data);
+070C:  MOVFF  60,63
+0710:  RCALL  065C
+....................   i2c_stop();
+0712:  BCF    F94.2
+0714:  NOP   
+0716:  BSF    F94.3
+0718:  BTFSS  F82.3
+071A:  BRA    0718
+071C:  NOP   
+071E:  BRA    0720
+0720:  NOP   
+0722:  BSF    F94.2
+0724:  NOP   
+0726:  RETURN 0
+.................... }//1
+.................... 
+.................... unsigned int8 read_i2c(unsigned int8 adr)
+.................... {//1
+....................   unsigned int8 dat;
+....................   adr |= 0b00000001;            // LSB = 1 = read mode
+....................   while(!poti_ack(adr));
+....................   i2c_start();
+....................   dat = i2c_read(poti,0);
+....................   i2c_stop();
+....................   return(dat); 
+.................... }//1
+.................... 
+.................... 
+.................... 
+....................  
+....................   
+.................... 
+.................... #include "dali_table.h" 
+.................... /******************************************************************************** 
+.................... Look Up table for the pwm duty cycle
+.................... 0-254. 255 -> MASK
+.................... 
+.................... *********************************************************************************/
+.................... const int16 wPwmDuty[255]=
+.................... { 
+....................    0,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1, //16  
+....................    2,   2,   2,   2,   2,   2,   2,   2,   2,   2,   2,   2,   2,   2,   2,   2, //32  
+....................    2,   2,   2,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   4, //48  
+....................    4,   4,   4,   4,   4,   4,   4,   4,   4,   5,   5,   5,   5,   5,   5,   5, //64  
+....................    6,   6,   6,   6,   6,   6,   7,   7,   7,   7,   7,   8,   8,   8,   8,   8, //80  
+....................    9,   9,   9,   9,  10,  10,  10,  10,  11,  11,  11,  12,  12,  12,  13,  13, //96 
+....................   13,  14,  14,  15,  15,  15,  16,  16,  17,  17,  18,  18,  19,  19,  20,  20, //112 
+....................   21,  21,  22,  22,  23,  24,  24,  25,  26,  26,  27,  28,  29,  30,  30,  31, //128 
+....................   32,  33,  34,  35,  36,  37,  38,  39,  40,  41,  42,  43,  44,  46,  47,  48, //144 
+....................   50,  51,  52,  54,  55,  57,  58,  60,  62,  63,  65,  67,  69,  71,  73,  75, //160 
+....................   77,  79,  81,  83,  86,  88,  90,  93,  96,  98, 101, 104, 107, 110, 113, 116, //176
+....................  119, 122, 126, 129, 133, 136, 140, 144, 148, 152, 156, 161, 165, 170, 174, 179, //192
+....................  184, 189, 194, 200, 205, 211, 217, 223, 229, 235, 242, 248, 255, 262, 270, 277, //208
+....................  285, 293, 301, 309, 318, 326, 335, 345, 354, 364, 374, 385, 395, 406, 417, 429, //224
+....................  441, 453, 466, 478, 492, 505, 519, 534, 548, 564, 579, 595, 612, 629, 646, 664, //240
+....................  682, 701, 721, 741, 761, 782, 804, 826, 849, 872, 897, 921, 947, 973, 1000      //256
+.................... }; 
+.................... 
+.................... 
+.................... 
+.................... 
+.................... 
+.................... 
+.................... 
+.................... 
+.................... 
+.................... 
+.................... 
+.................... 
+.................... 
+.................... 
+.................... 
+.................... 
+.................... #include "dalicmd.h"                           // dali defines
+.................... #ifndef DALICMD_H
+.................... #define DALICMD_H
+.................... 
+.................... //=================== Indirekte Befehle Lampenleistung ===========================
+.................... #define OFF                0x00 // Lampe sofort aus ohne fading
+.................... #define UP                 0x01 // 200ms lang mit ausgewÃ¤hlter Stufengeschwindigkeit heller werden 
+.................... #define DOWN               0x02 // 200ms lang mit ausgewÃ¤hlter Stufengeschwindigkeit dunkler werden 
+.................... #define STEP_UP            0x03 // akt. Leistungswert eine Stufe hÃ¶her ohne fading. Bis max Level
+.................... #define STEP_DOWN          0x04 // akt. Leistungswert eine Stufe niedriger ohne fading. Bis min Level, Lampe geht nicht aus. 
+.................... #define RECALL_MAX_LEVEL   0x05 // parametrierten max Level aufrufen. falls Lampe aus wird eingeschaltet
+.................... #define RECALL_MIN_LEVEL   0x06 // parametrierten min Level aufrufen. falls Lampe aus wird eingeschaltet
+.................... #define STEP_DOWN_AND_OFF  0x07 // akt. Leistungswert eine Stufe niedriger ohne fading. Bis Lampe aus.
+.................... #define ON_AND_STEP_UP     0x08 // akt. Leistungswert eine Stufe hÃ¶her ohne fading. Bis max Level. Wenn Lampe AUS -> AN
+.................... #define ENABLE DAPC SEQUENCE	  0x09	
+.................... #define GO TO LAST ACTIVE LEVEL 0x0A
+.................... // 0B - 0F reserviert
+.................... #define SCENE              0x10 // 0x10 - 0x1F Szene 1 - 16 aufrufen -> verodern mit 0x01, 0x02, etc um gewÃ¼nschte Szene einzustellen    
+.................... 
+.................... //====================== Konfigurationsbefehle ===================================
+.................... // Befehle werden doppelt gesendet. Ausführen erst nach dem 2. mal
+.................... #define RESET                            0x20  // Werkseinstellungen
+.................... #define STORE_ACTUAL_LEVEL_IN_THE_DTR    0x21  // akt. Helligkeitswert im DTR speichern (Data-Transfer-Register)
+.................... // 22 - 29 reserviert
+.................... #define STORE_THE_DTR_AS_MAX_LEVEL       0x2A  // akt. Wert im DTR als max. Leistung speichern
+.................... #define STORE_THE_DTR_AS_MIN_LEVEL       0x2B  // akt. Wert im DTR als min. Leistung speichern
+.................... #define STORE_THE_DTR_AS_SYSTEM_FAILURE_LEVEL 0x2C  // akt. Wert im  DTR als Leistung im Fehlerfall speichern
+.................... #define STORE_THE_DTR_AS_POWER_ON_LEVEL  0x2D  // akt. Wert im DTR als Leistung nach Einschalten speichern
+.................... #define STORE_THE_DTR_AS_FADE_TIME       0x2E  // akt. Wert im DTR als Stufenzeit speichern
+.................... #define STORE_THE_DTR_AS_FADE_RATE       0x2F  // akt. Wert im DTR als Stufengeschwindigkeit speichern
+.................... // 30 - 3F reserviert
+.................... #define STORE_THE_DTR_AS_SCENE           0x40  // 0x40 - 0x4F: akt. Wert im DTR als Szene x speichern
+.................... #define REMOVE_FROM_SCENE                0x50  // 0x50 - 0x5F: Szene x lÃ¶schen
+.................... #define ADD_TO_GROUP                     0x60  // 0x60 - 0x6F: zur Gruppe x hinzufÃ¼gen 
+.................... #define REMOVE_FROM_GROUP                0x70  // 0x70 - 0x7F: aus Gruppe x lÃ¶schen
+.................... #define STORE_DTR_AS_SHORT_ADDRESS       0x80  // akt. Wert im DTR als Kurzadresse speichern
+.................... // 81 - 8F reserviert
+.................... 
+.................... //=========================== Zustandsabfragen ===================================
+.................... #define QUERY_STATUS                     0x90  // Zustand an Master melden
+.................... #define QUERY_BALLAST                    0x91  // arbeitet der Slave? Antwort 0xFF wenn ja
+.................... #define QUERY_LAMP_FAILURE               0x92  // Lampenspannung vorhanden? Messen -> Shunt -> ADC
+.................... #define QUERY_LAMP_POWER_ON              0x93  // akt. Level grÃ¶ÃŸer 0?
+.................... #define QUERY_LIMIT_ERROR                0x94  // wenn Soll level auÃŸerhalb der eingestellten min max ist
+.................... #define QUERY_RESET_STATE                0x95  // nur wÃ¤hrend des Inits?
+.................... #define QUERY_MISSING_SHORT_ADDRESS      0x96  // fehlt die Kurzadresse?
+.................... #define QUERY_VERSION_NUMBER             0x97  // Versions Nummer?
+.................... #define QUERY_CONTENT_DTR                0x98  // akt. Inhalt des DTR
+.................... #define QUERY_DEVICE_TYPE                0x99  // Leuchtenart (zB. 6 == LED Leuchte)
+.................... #define QUERY_PHYSICAL_MINIMUM_LEVEL     0x9A  // physikalisch kleinstmÃ¶gliche Dimmstufe
+.................... #define QUERY_POWER_FAILURE              0x9B  // nur bei Init?
+.................... // 9C - 9F reserviert
+.................... #define QUERY_ACTUAL_LEVEL               0xA0  // akt. Level senden
+.................... #define QUERY_MAX_LEVEL                  0xA1  // max. zulÃ¤ssiger Lampenleistungswert
+.................... #define QUERY_MIN_LEVEL                  0xA2  // min. zulÃ¤ssiger Lampenleistungswert
+.................... #define QUERY_POWER_ON_LEVEL             0xA3  // Einschaltleistungswert
+.................... #define QUERY_SYSTEM_FAILURE_LEVEL       0xA4  // Fehlerfallleistungswert
+.................... #define QUERY_FADE                       0xA5  // high nibble == fade time, low nibble == fade rate
+.................... #define QUERY_MANUFACTURER_SPECIFIC_MODE 0xA6  // 
+.................... // A7 - AF reserviert
+.................... #define QUERY_SCENE_LEVEL                0xB0  // B0 - BF Leistungswert der einzelnen Szenen
+.................... #define QUERY_GROUPS_0_7                 0xC0  // zu welcher Gruppe gehÃ¶rt der Slave?
+.................... #define QUERY_GROUPS_8_15                0xC1
+.................... #define QUERY_RANDOM_ADDRESS_H           0xC2  // wahlfreie Adresse: obere Bits
+.................... #define QUERY_RANDOM_ADDRESS_M           0xC3  // wahlfreie Adresse: mittlere Bits
+.................... #define QUERY_RANDOM_ADDRESS_L           0xC4  // wahlfreie Adresse: untere Bits
+.................... 
+.................... //==========================??? Sonderbefehle ???=================================
+.................... #define TERMINATE                        0xA1
+.................... #define DTR0                             0xA3 
+.................... 
+.................... /*
+.................... #define TERMINATE                        0xA1  // Terminate special processes
+.................... #define DTR0                             0xA3  // Download information to the dtr                 
+.................... #define INITIALISE                       0xA5  // Addressing commands 
+.................... #define RANDOMISE                        0xA7
+.................... #define COMPARE                          0xA9
+.................... #define WITHDRAW                         0xAB
+.................... #define SEARCHADDRH                      0xB1
+.................... #define SEARCHADDRM                      0xB3
+.................... #define SEARCHADDRL                      0xB5
+.................... #define PROGRAM_SHORT_ADDRESS            0xB7
+.................... #define VERIFY_SHORT_ADDRESS             0xB9
+.................... #define QUERY_SHORT_ADDRESS              0xBB
+.................... #define PHYSICAL_SELECTION               0xBD
+.................... */
+.................... 
+.................... #endif
+.................... 
+.................... #include "dali.h"                              // dali functions, variables and prototypes
+.................... /*=============================================================================
+....................                           DALI FUNCTION PROTOTYPES
+.................... =============================================================================*/
+.................... void dali(void);
+.................... void init_dali(void);
+.................... void dali_cmd(unsigned int8 command);
+.................... void dali_dap(unsigned int8 value);
+.................... void dali_special(unsigned int8 command, value);
+.................... void dali_check_bus(void);
+.................... 
+.................... /*=============================================================================
+....................                                DALI FUNCTIONS
+.................... 
+.................... Short or group address  YAAAAAAS 
+.................... Short addresses (64)    0AAAAAAS 
+.................... Group addresses (16)    100AAAAS 
+.................... Broadcast               1111111S 
+.................... Special command         101CCCC1   
+.................... Special command         110CCCC1 
+....................  
+.................... S:  selector bit:  S = ‘0’  direct arc power level following 
+....................                    S = ‘1’  command following 
+.................... Y:  short- or group address:  Y = ‘0’  short address 
+....................                               Y = ‘1’  group address or broadcast 
+.................... A:  significant address bit 
+.................... C:  significant command bit 
+.................... =============================================================================*/
+.................... void dali(void)
+.................... {//1
+....................   dali_check_bus();
+*
+13EE:  BRA    0F8A
+....................    
+....................   if(bDaliMode != DALI_DAT)                  // new dali receive data available?  
+13F0:  MOVF   3E,W
+13F2:  SUBLW  08
+13F4:  BZ    13F8
+....................     return;   
+13F6:  BRA    1546
+.................... 
+....................   daliflag = 0;                              // erase old flags
+13F8:  CLRF   52
+....................   bDaliRcvCmd = make8(wDaliRcv, 0);          // extract command 
+13FA:  MOVFF  38,3B
+....................   bDaliRcvAdr = make8(wDaliRcv, 1);          // extract address 
+13FE:  MOVFF  39,3A
+....................   bDaliMode = DALI_STBY;                     // set mode that new data can be achieved  
+1402:  CLRF   3E
+....................   bDaliBusTimeout = DALI_TIMEOUT;            // Reset Timeout
+1404:  MOVLW  14
+1406:  MOVWF  4A
+....................   flag.pulse = 0;                            // kein Pulsen bei Dalidaten 
+1408:  BCF    36.4
+.................... 
+....................   if((bDaliRcvAdr & 0xE0) == 0xA0 || (bDaliRcvAdr & 0xE0) == 0xC0)  // Special command?
+140A:  MOVF   3A,W
+140C:  ANDLW  E0
+140E:  SUBLW  A0
+1410:  BZ    141A
+1412:  MOVF   3A,W
+1414:  ANDLW  E0
+1416:  SUBLW  C0
+1418:  BNZ   1426
+....................   {//2
+....................     dali_special(bDaliRcvAdr, bDaliRcvCmd);
+141A:  MOVFF  3A,53
+141E:  MOVFF  3B,54
+1422:  BRA    0FD2
+....................   }//2
+1424:  BRA    151E
+....................   else
+....................   {//2
+....................     if(bDaliRcvAdr & 0b00000001)             // command following?
+1426:  BTFSS  3A.0
+1428:  BRA    1458
+....................     {//3  
+....................       daliflag.cmd = 1;
+142A:  BSF    52.0
+....................       if((bDaliRcvCmd >= 0x20) && (bDaliRcvCmd <= 0x80))  // config command?
+142C:  MOVF   3B,W
+142E:  SUBLW  1F
+1430:  BC    1458
+1432:  MOVF   3B,W
+1434:  SUBLW  80
+1436:  BNC   1458
+....................       {//4
+....................         if(!bCmdCnt)
+1438:  MOVF   4E,F
+143A:  BNZ   1444
+....................         {//5
+....................           bLastCmd = bDaliRcvCmd;            // cmd merken
+143C:  MOVFF  3B,4F
+....................           bCmdCnt++;                         
+1440:  INCF   4E,F
+....................           return;                            // und raus
+1442:  BRA    1546
+....................         }//5
+....................         if(bCmdCnt)                          // es gab schon ein config cmd
+1444:  MOVF   4E,F
+1446:  BZ    1458
+....................         {//5
+....................           if(bLastCmd == bDaliRcvCmd)        // gleich letztem cmd?
+1448:  MOVF   3B,W
+144A:  SUBWF  4F,W
+144C:  BNZ   1452
+....................           {//6
+....................              bLastCmd = 0;                   // dann letztes cmd löschen 
+144E:  CLRF   4F
+....................           }//6                               // und weiter in der funktion     
+1450:  BRA    1458
+....................           else                               // sonst
+....................           {//6
+....................             bLastCmd = bDaliRcvCmd;          // neues cmd merken
+1452:  MOVFF  3B,4F
+....................             return;                          // und raus aus funktion 
+1456:  BRA    1546
+....................           }//6   
+....................         }//5  
+....................       }//4
+....................     }//3
+.................... 
+....................     if((bDaliRcvAdr & 0b11111110) == 0xFE)           // broadcast?
+1458:  MOVF   3A,W
+145A:  ANDLW  FE
+145C:  SUBLW  FE
+145E:  BNZ   1464
+....................       daliflag.broadcast = 1;    
+1460:  BSF    52.2
+1462:  BRA    14BC
+....................     else
+....................     if(bDaliRcvAdr & 0b10000000)           // group address?
+1464:  BTFSS  3A.7
+1466:  BRA    14B4
+....................     {//3                                
+....................       bDaliRcvAdr >>= 1;                   // shift left 1 Bit (get rid of selector bit)
+1468:  BCF    FD8.0
+146A:  RRCF   3A,F
+....................       bDaliRcvAdr &= 0x0F;
+146C:  MOVLW  0F
+146E:  ANDWF  3A,F
+....................       if(bDaliRcvAdr <= 7)
+1470:  MOVF   3A,W
+1472:  SUBLW  07
+1474:  BNC   1492
+....................       {//4
+....................         if(bDaliGroup0_7 & (1<<bDaliRcvAdr))  // group 0 - 7 ?
+1476:  MOVLW  01
+1478:  MOVWF  00
+147A:  MOVF   3A,W
+147C:  MOVWF  01
+147E:  BZ    1488
+1480:  BCF    FD8.0
+1482:  RLCF   00,F
+1484:  DECFSZ 01,F
+1486:  BRA    1480
+1488:  MOVF   00,W
+148A:  ANDWF  4B,W
+148C:  BZ    1490
+....................           daliflag.group = 1;
+148E:  BSF    52.3
+....................       }//4
+1490:  BRA    14B0
+....................       else
+....................       {//4 
+....................         bDaliRcvAdr &= 0x07;
+1492:  MOVLW  07
+1494:  ANDWF  3A,F
+....................         if(bDaliGroup8_15 & (1<<bDaliRcvAdr))  // group 8 - 15 ?
+1496:  MOVLW  01
+1498:  MOVWF  00
+149A:  MOVF   3A,W
+149C:  MOVWF  01
+149E:  BZ    14A8
+14A0:  BCF    FD8.0
+14A2:  RLCF   00,F
+14A4:  DECFSZ 01,F
+14A6:  BRA    14A0
+14A8:  MOVF   00,W
+14AA:  ANDWF  4C,W
+14AC:  BZ    14B0
+....................           daliflag.group = 1;
+14AE:  BSF    52.3
+....................       }//4    
+....................       bDaliRcvAdr = 0xFF;                  // rev1: Kurzadresse löschen wenn Gruppenbefehl sonst wird Gruppenadresse als Kurzadresse ausgewertet. 
+14B0:  SETF   3A
+....................     }//3
+14B2:  BRA    14BC
+....................     else                                   // short address
+....................     {//3
+....................       bDaliRcvAdr >>= 1;                   // shift left 1 Bit (get rid of selector bit)
+14B4:  BCF    FD8.0
+14B6:  RRCF   3A,F
+....................       bDaliRcvAdr &= 0b00111111;
+14B8:  MOVLW  3F
+14BA:  ANDWF  3A,F
+....................     }//3
+.................... 
+....................     if(daliflag.broadcast && daliflag.cmd)                 // broadcast & command
+14BC:  BTFSS  52.2
+14BE:  BRA    14CC
+14C0:  BTFSS  52.0
+14C2:  BRA    14CC
+....................       dali_cmd(bDaliRcvCmd);                               // run dali command
+14C4:  MOVFF  3B,53
+14C8:  RCALL  0FF6
+14CA:  BRA    151E
+....................     else
+....................     if((bDaliRcvAdr == bDaliShortAdr) && daliflag.cmd)     // short address & command
+14CC:  MOVF   43,W
+14CE:  SUBWF  3A,W
+14D0:  BNZ   14DE
+14D2:  BTFSS  52.0
+14D4:  BRA    14DE
+....................       dali_cmd(bDaliRcvCmd);                               // run dali command
+14D6:  MOVFF  3B,53
+14DA:  RCALL  0FF6
+14DC:  BRA    151E
+....................     else
+....................     if(daliflag.broadcast && !daliflag.cmd)                // broadcast & DAP
+14DE:  BTFSS  52.2
+14E0:  BRA    14EE
+14E2:  BTFSC  52.0
+14E4:  BRA    14EE
+....................       dali_dap(bDaliRcvCmd);                               // set direct arc power
+14E6:  MOVFF  3B,53
+14EA:  RCALL  1330
+14EC:  BRA    151E
+....................     else
+....................     if((bDaliRcvAdr == bDaliShortAdr) && !daliflag.cmd)    // Short adress ok & DAP
+14EE:  MOVF   43,W
+14F0:  SUBWF  3A,W
+14F2:  BNZ   1500
+14F4:  BTFSC  52.0
+14F6:  BRA    1500
+....................       dali_dap(bDaliRcvCmd);                               // set direct arc power  
+14F8:  MOVFF  3B,53
+14FC:  RCALL  1330
+14FE:  BRA    151E
+....................     else
+....................     if(daliflag.group && daliflag.cmd)                     // Group & Cmd
+1500:  BTFSS  52.3
+1502:  BRA    1510
+1504:  BTFSS  52.0
+1506:  BRA    1510
+....................       dali_cmd(bDaliRcvCmd);
+1508:  MOVFF  3B,53
+150C:  RCALL  0FF6
+150E:  BRA    151E
+....................     else
+....................     if(daliflag.group && !daliflag.cmd)                    // Group & DAP
+1510:  BTFSS  52.3
+1512:  BRA    151E
+1514:  BTFSC  52.0
+1516:  BRA    151E
+....................       dali_dap(bDaliRcvCmd); 
+1518:  MOVFF  3B,53
+151C:  RCALL  1330
+....................   }//2
+.................... 
+.................... //////////////////////////////////////////////// 
+.................... //  call after dali_cmd and dali_dap
+....................   if(bDaliPowerLevel < bDaliMaxLevel)              // für Statusmeldung
+151E:  MOVF   41,W
+1520:  SUBWF  44,W
+1522:  BC    1528
+....................     flag.dali_dim = 1;
+1524:  BSF    36.3
+1526:  BRA    152A
+....................   else
+....................     flag.dali_dim = 0;
+1528:  BCF    36.3
+.................... 
+....................   if(daliflag.snd)                                 // soll gesendet werden?
+152A:  BTFSS  52.4
+152C:  BRA    1546
+....................   {//2
+....................     daliflag.snd = 0;
+152E:  BCF    52.4
+....................     bDaliMode = DALI_SND;
+1530:  MOVLW  04
+1532:  MOVWF  3E
+....................     bDaliSndCnt = 8;                               // 8 - 0 -> Startbit + 8 Datanbits 
+1534:  MOVLW  08
+1536:  MOVWF  47
+....................     bDaliSndClk = 0;       
+1538:  CLRF   48
+....................     set_timer1(65535-6000);                        // 6ms warten bis Antwort gesendet wird
+153A:  MOVLW  E8
+153C:  MOVWF  FCF
+153E:  MOVLW  8F
+1540:  MOVWF  FCE
+1542:  NOP   
+....................     enable_interrupts(int_timer1);
+1544:  BSF    F9D.0
+....................   }//2
+1546:  GOTO   175A (RETURN)
+.................... //////////////////////////////////////////////// 
+.................... }//1
+.................... 
+.................... void dali_cmd(unsigned int8 command)
+.................... {//1
+....................   unsigned int8 bTmpVar;  
+.................... 
+....................   if(bParam)                    // PARAM Mode
+*
+0FF6:  MOVF   50,F
+0FF8:  BTFSC  FD8.2
+0FFA:  BRA    10EA
+....................   {//2
+....................     bDaliPowerLevel = bDaliMaxLevel;              // pwm 100%
+0FFC:  MOVFF  41,44
+....................     switch(command)
+1000:  MOVF   53,W
+1002:  BZ    102A
+1004:  XORLW  03
+1006:  BZ    1046
+1008:  XORLW  07
+100A:  BZ    1052
+100C:  XORLW  84
+100E:  BZ    105E
+1010:  XORLW  C0
+1012:  BZ    1070
+1014:  XORLW  6D
+1016:  BZ    1082
+1018:  XORLW  0D
+101A:  BZ    1094
+101C:  XORLW  25
+101E:  BZ    10CA
+1020:  XORLW  A3
+1022:  BZ    10D2
+1024:  XORLW  36
+1026:  BZ    10DA
+1028:  BRA    10E2
+....................     {//3
+....................       case OFF:
+....................         eeprom_write(EE_POTI, bPotiValue);          // save actual poti value 
+102A:  MOVLW  13
+102C:  MOVWF  59
+102E:  MOVFF  2F,5A
+1032:  RCALL  08A8
+....................         eeprom_write(EE_PARAM, 'P');                // mark as parameterized
+1034:  MOVLW  10
+1036:  MOVWF  59
+1038:  MOVLW  50
+103A:  MOVWF  5A
+103C:  RCALL  08A8
+....................         bDaliSndBuff = '+';                         // Meldung an Controller 
+103E:  MOVLW  2B
+1040:  MOVWF  46
+....................         daliflag.snd = 1;                           // 
+1042:  BSF    52.4
+....................         break;
+1044:  BRA    10E8
+....................       case STEP_UP:
+....................         set_led_current(--bPotiValue);              // ! Param: widerstand kleiner = heller !
+1046:  DECF   2F,F
+1048:  MOVFF  2F,5D
+104C:  CALL   0728
+....................         break;
+1050:  BRA    10E8
+....................       case STEP_DOWN:
+....................         set_led_current(++bPotiValue);
+1052:  INCF   2F,F
+1054:  MOVFF  2F,5D
+1058:  CALL   0728
+....................         break;
+105C:  BRA    10E8
+....................       case STORE_DTR_AS_SHORT_ADDRESS:
+....................         eeprom_write(EE_ADDRESS, bDaliDTR);
+105E:  MOVLW  14
+1060:  MOVWF  59
+1062:  MOVFF  3C,5A
+1066:  RCALL  08A8
+....................         bDaliSndBuff = '-';                         // Meldung an Controller 
+1068:  MOVLW  2D
+106A:  MOVWF  46
+....................         daliflag.snd = 1;
+106C:  BSF    52.4
+....................         break;
+106E:  BRA    10E8
+....................       case STORE_THE_DTR_AS_SCENE: 
+....................         eeprom_write(EE_CIRCUITS, bDaliDTR);
+1070:  MOVLW  11
+1072:  MOVWF  59
+1074:  MOVFF  3C,5A
+1078:  RCALL  08A8
+....................         bDaliSndBuff = '-';                         // Meldung an Controller 
+107A:  MOVLW  2D
+107C:  MOVWF  46
+....................         daliflag.snd = 1;
+107E:  BSF    52.4
+....................         break;
+1080:  BRA    10E8
+....................       case STORE_THE_DTR_AS_POWER_ON_LEVEL:
+....................         eeprom_write(EE_BLINK, bDaliDTR);
+1082:  MOVLW  17
+1084:  MOVWF  59
+1086:  MOVFF  3C,5A
+108A:  RCALL  08A8
+....................         bDaliSndBuff = '-';                         // Meldung an Controller 
+108C:  MOVLW  2D
+108E:  MOVWF  46
+....................         daliflag.snd = 1;
+1090:  BSF    52.4
+....................         break;
+1092:  BRA    10E8
+....................       case RESET:
+....................         eeprom_write(EE_POTI, 0);                   // Abgleichwert löschen       
+1094:  MOVLW  13
+1096:  MOVWF  59
+1098:  CLRF   5A
+109A:  RCALL  08A8
+....................         eeprom_write(EE_PARAM, 0);                  // Erststart merker löschen         
+109C:  MOVLW  10
+109E:  MOVWF  59
+10A0:  CLRF   5A
+10A2:  RCALL  08A8
+....................         eeprom_write(EE_CIRCUITS, 0);               // Anzahl LED Kreise löschen  
+10A4:  MOVLW  11
+10A6:  MOVWF  59
+10A8:  CLRF   5A
+10AA:  CALL   08A8
+....................         eeprom_write(EE_ADDRESS, 0xFF);             // kein DALI = 0xFF
+10AE:  MOVLW  14
+10B0:  MOVWF  59
+10B2:  SETF   5A
+10B4:  CALL   08A8
+....................         eeprom_write(EE_BLINK, 0);
+10B8:  MOVLW  17
+10BA:  MOVWF  59
+10BC:  CLRF   5A
+10BE:  CALL   08A8
+....................         bDaliSndBuff = 'R';                         // Meldung an Controller Reset erfolgt
+10C2:  MOVLW  52
+10C4:  MOVWF  46
+....................         daliflag.snd = 1;
+10C6:  BSF    52.4
+....................         break;
+10C8:  BRA    10E8
+....................       case RECALL_MAX_LEVEL:
+....................         bDaliPowerLevel = bDaliMaxLevel;                // später aus EEPROM!      
+10CA:  MOVFF  41,44
+....................         output_low(xConverterOn);                       // lamp on if off
+10CE:  BCF    F89.7
+....................         break;
+10D0:  BRA    10E8
+....................       case QUERY_MANUFACTURER_SPECIFIC_MODE:           //0xA6
+....................         bDaliSndBuff = 'j';
+10D2:  MOVLW  6A
+10D4:  MOVWF  46
+....................         daliflag.snd = 1;
+10D6:  BSF    52.4
+....................         break;
+10D8:  BRA    10E8
+....................       case QUERY_STATUS:
+....................         bDaliSndBuff = bStatus;
+10DA:  MOVFF  2D,46
+....................         daliflag.snd = 1;
+10DE:  BSF    52.4
+....................         break;
+10E0:  BRA    10E8
+....................      
+....................       default:
+....................         bDaliSndBuff = '-';                         // Meldung an Controller auch wenn Befehl nicht bekannt ist für 
+10E2:  MOVLW  2D
+10E4:  MOVWF  46
+....................         daliflag.snd = 1;                           // zukünftige Erweiterungen des Parametriervorgangs
+10E6:  BSF    52.4
+....................         break;
+....................     }//3
+....................   }//2
+10E8:  BRA    12F8
+....................   else
+....................   {//2
+....................     switch(command)
+10EA:  MOVF   53,W
+10EC:  BZ    1120
+10EE:  XORLW  01
+10F0:  BZ    1132
+10F2:  XORLW  03
+10F4:  BZ    1134
+10F6:  XORLW  01
+10F8:  BZ    1136
+10FA:  XORLW  07
+10FC:  BZ    1140
+10FE:  XORLW  01
+1100:  BZ    114A
+1102:  XORLW  03
+1104:  BZ    1154
+1106:  XORLW  01
+1108:  BZ    115E
+110A:  XORLW  0F
+110C:  BZ    116C
+110E:  XORLW  28
+1110:  BZ    117C
+1112:  XORLW  B0
+1114:  BZ    1188
+1116:  XORLW  36
+1118:  BZ    119A
+111A:  XORLW  06
+111C:  BZ    11A2
+111E:  BRA    11B2
+....................     {//3
+....................       case OFF:              
+....................         output_high(xConverterOn);
+1120:  BSF    F89.7
+....................         if(flag.blink)
+1122:  BTFSS  37.2
+1124:  BRA    112A
+....................         {
+....................           flag.blink = 0;
+1126:  BCF    37.2
+....................           disable_interrupts(INT_TIMER3);
+1128:  BCF    FA0.1
+....................         }
+....................         bDaliPowerLevel = bDaliMinLevel-1;      // Leuchte ging manchmal nicht an wenn KEINE PWM anliegt?!
+112A:  MOVLW  01
+112C:  SUBWF  42,W
+112E:  MOVWF  44
+....................                                                 // Floatender Feedback Eingang des Converters?
+....................         break;                                  
+1130:  BRA    11B2
+.................... 
+....................       case UP:
+....................         break;
+1132:  BRA    11B2
+.................... 
+....................       case DOWN:
+....................         break;
+1134:  BRA    11B2
+.................... 
+....................       case STEP_UP:
+....................         if(bDaliPowerLevel < bDaliMaxLevel)
+1136:  MOVF   41,W
+1138:  SUBWF  44,W
+113A:  BC    113E
+....................           bDaliPowerLevel++;
+113C:  INCF   44,F
+....................         break;
+113E:  BRA    11B2
+....................         
+....................       case STEP_DOWN:
+....................         if(bDaliPowerLevel > bDaliMinLevel)
+1140:  MOVF   44,W
+1142:  SUBWF  42,W
+1144:  BC    1148
+....................           bDaliPowerLevel--;
+1146:  DECF   44,F
+....................         break;
+1148:  BRA    11B2
+.................... 
+....................       case RECALL_MAX_LEVEL:
+....................         check_blink();
+114A:  RCALL  0D54
+....................         bDaliPowerLevel = bDaliMaxLevel;                // später aus EEPROM!      
+114C:  MOVFF  41,44
+....................         output_low(xConverterOn);                       // lamp on if off
+1150:  BCF    F89.7
+....................         break;
+1152:  BRA    11B2
+.................... 
+....................       case RECALL_MIN_LEVEL:
+....................         check_blink();
+1154:  RCALL  0D54
+....................         bDaliPowerLevel = bDaliMinLevel;                // später aus EEPROM!      
+1156:  MOVFF  42,44
+....................         output_low(xConverterOn);                       // lamp on if off
+115A:  BCF    F89.7
+....................         break;
+115C:  BRA    11B2
+.................... 
+....................       case STEP_DOWN_AND_OFF:
+....................         if(bDaliPowerLevel == bDaliMinLevel)  
+115E:  MOVF   42,W
+1160:  SUBWF  44,W
+1162:  BNZ   1168
+....................           output_high(xConverterOn);                    // lamp off
+1164:  BSF    F89.7
+1166:  BRA    116A
+....................         else
+....................           bDaliPowerLevel--;
+1168:  DECF   44,F
+....................         break;
+116A:  BRA    11B2
+.................... 
+....................       case ON_AND_STEP_UP:
+....................         if(!(PORTA & 0b10000000))                       // converter off?
+116C:  BTFSC  F80.7
+116E:  BRA    1178
+....................         {//4
+....................           bDaliPowerLevel = bDaliMinLevel; 
+1170:  MOVFF  42,44
+....................           output_low(xConverterOn);                     // lamp on
+1174:  BCF    F89.7
+....................         }//4
+1176:  BRA    117A
+....................         else
+....................           bDaliPowerLevel++;
+1178:  INCF   44,F
+....................         break;
+117A:  BRA    11B2
+.................... 
+....................       case RESET:                               // Blinksequenz Aus. Laterne bleibt An
+....................         if(flag.blink)
+117C:  BTFSS  37.2
+117E:  BRA    1186
+....................         {//4
+....................           flag.blink = 0;
+1180:  BCF    37.2
+....................           disable_interrupts(INT_TIMER3);
+1182:  BCF    FA0.1
+....................           output_low(xConverterOn);             // lamp on      
+1184:  BCF    F89.7
+....................         }//4
+....................         break;
+1186:  BRA    11B2
+.................... 
+....................       case QUERY_STATUS:
+....................         if(daliflag.broadcast || daliflag.group)
+1188:  BTFSC  52.2
+118A:  BRA    1190
+118C:  BTFSS  52.3
+118E:  BRA    1192
+....................           return;
+1190:  BRA    132E
+....................         bDaliSndBuff = bStatus;
+1192:  MOVFF  2D,46
+....................         daliflag.snd = 1;
+1196:  BSF    52.4
+....................         break;
+1198:  BRA    11B2
+.................... 
+....................       case QUERY_MANUFACTURER_SPECIFIC_MODE:           //0xA6 -> für PARAM
+....................         bDaliSndBuff = 'j';
+119A:  MOVLW  6A
+119C:  MOVWF  46
+....................         daliflag.snd = 1;
+119E:  BSF    52.4
+....................         break;
+11A0:  BRA    11B2
+.................... 
+....................       case QUERY_ACTUAL_LEVEL:
+....................         if(PORTA & 0b10000000)              // Converter off?
+11A2:  BTFSS  F80.7
+11A4:  BRA    11AA
+....................           bDaliSndBuff = 0;
+11A6:  CLRF   46
+11A8:  BRA    11AE
+....................         else
+....................           bDaliSndBuff = bDaliPowerLevel;
+11AA:  MOVFF  44,46
+....................         daliflag.snd = 1;
+11AE:  BSF    52.4
+....................         break;
+11B0:  BRA    11B2
+.................... 
+....................       default:  break;
+....................     }//3
+....................     switch(command & 0xF0)
+11B2:  MOVF   53,W
+11B4:  ANDLW  F0
+11B6:  XORLW  10
+11B8:  BZ    11C4
+11BA:  XORLW  70
+11BC:  BZ    120E
+11BE:  XORLW  10
+11C0:  BZ    1282
+11C2:  BRA    12F8
+....................     {//3
+....................       case SCENE:
+....................         bBlinkSeq = command & 0x0F;
+11C4:  MOVF   53,W
+11C6:  ANDLW  0F
+11C8:  MOVWF  32
+....................         if(bBlinkSeq > (SEQ - 1))                    // blinksequenz größer als hinterlegte Anzahl?
+11CA:  MOVF   32,W
+11CC:  SUBLW  04
+11CE:  BC    11D2
+....................           return;
+11D0:  BRA    132E
+....................         flag.blink = 1;
+11D2:  BSF    37.2
+....................         setup_timer_3(T3_INTERNAL | T3_DIV_BY_8); 
+11D4:  CLRF   FB4
+11D6:  MOVLW  37
+11D8:  MOVWF  FB1
+....................         disable_interrupts(INT_TIMER3); 
+11DA:  BCF    FA0.1
+....................         set_timer3(65535-TIMER3);                     //-> Timer3 Overflow 50ms 
+11DC:  MOVLW  CE
+11DE:  MOVWF  FB3
+11E0:  MOVLW  DB
+11E2:  MOVWF  FB2
+11E4:  NOP   
+....................         bBlinkPhase = 0;                             // AN Zeit aus Array
+11E6:  CLRF   35
+....................         bBlinkCnt = BLINK[bBlinkSeq][bBlinkPhase];
+11E8:  MOVF   32,W
+11EA:  MULLW  03
+11EC:  MOVF   FF3,W
+11EE:  CLRF   56
+11F0:  MOVWF  55
+11F2:  CLRF   03
+11F4:  MOVF   35,W
+11F6:  ADDWF  55,W
+11F8:  MOVWF  01
+11FA:  MOVF   56,W
+11FC:  ADDWFC 03,F
+11FE:  MOVF   01,W
+1200:  CALL   010A
+1204:  MOVWF  33
+....................         bBlinkdauer = 0;
+1206:  CLRF   34
+.................... //rev1        bDaliPowerLevel = bDaliMaxLevel;
+....................         enable_interrupts(INT_TIMER3);
+1208:  BSF    FA0.1
+....................         output_low(xConverterON);                    // Laterne AN 
+120A:  BCF    F89.7
+....................         break;
+120C:  BRA    12F8
+....................       case ADD_TO_GROUP: 
+....................         if((command & 0x0F) <= 7)
+120E:  MOVF   53,W
+1210:  ANDLW  0F
+1212:  SUBLW  07
+1214:  BNC   124C
+....................         {//4
+....................           bTmpVar = eeprom_read(EE_GROUP_0_7);
+1216:  MOVLW  15
+1218:  MOVWF  x60
+121A:  RCALL  0D28
+121C:  MOVFF  01,54
+....................           bTmpVar |= 1<<(command & 0x0F);
+1220:  MOVF   53,W
+1222:  ANDLW  0F
+1224:  MOVWF  01
+1226:  MOVLW  01
+1228:  MOVWF  00
+122A:  MOVF   01,F
+122C:  BZ    1236
+122E:  BCF    FD8.0
+1230:  RLCF   00,F
+1232:  DECFSZ 01,F
+1234:  BRA    122E
+1236:  MOVF   00,W
+1238:  IORWF  54,F
+....................           eeprom_write(EE_GROUP_0_7, bTmpVar);
+123A:  MOVLW  15
+123C:  MOVWF  59
+123E:  MOVFF  54,5A
+1242:  CALL   08A8
+....................           bDaliGroup0_7 = bTmpVar;  
+1246:  MOVFF  54,4B
+....................         }//4
+124A:  BRA    1280
+....................         else
+....................         {//4
+....................           bTmpVar = eeprom_read(EE_GROUP_8_15);
+124C:  MOVLW  16
+124E:  MOVWF  x60
+1250:  RCALL  0D28
+1252:  MOVFF  01,54
+....................           bTmpVar |= 1<<(command & 0x07);
+1256:  MOVF   53,W
+1258:  ANDLW  07
+125A:  MOVWF  01
+125C:  MOVLW  01
+125E:  MOVWF  00
+1260:  MOVF   01,F
+1262:  BZ    126C
+1264:  BCF    FD8.0
+1266:  RLCF   00,F
+1268:  DECFSZ 01,F
+126A:  BRA    1264
+126C:  MOVF   00,W
+126E:  IORWF  54,F
+....................           eeprom_write(EE_GROUP_8_15, bTmpVar); 
+1270:  MOVLW  16
+1272:  MOVWF  59
+1274:  MOVFF  54,5A
+1278:  CALL   08A8
+....................           bDaliGroup8_15 = bTmpVar;
+127C:  MOVFF  54,4C
+....................         }//4
+....................         break;
+1280:  BRA    12F8
+....................       case REMOVE_FROM_GROUP:
+....................         if((command & 0x0F) <= 7)
+1282:  MOVF   53,W
+1284:  ANDLW  0F
+1286:  SUBLW  07
+1288:  BNC   12C2
+....................         {//4
+....................           bTmpVar = eeprom_read(EE_GROUP_0_7);
+128A:  MOVLW  15
+128C:  MOVWF  x60
+128E:  RCALL  0D28
+1290:  MOVFF  01,54
+....................           bTmpVar &= ~(1<<(command & 0x0F));
+1294:  MOVF   53,W
+1296:  ANDLW  0F
+1298:  MOVWF  01
+129A:  MOVLW  01
+129C:  MOVWF  00
+129E:  MOVF   01,F
+12A0:  BZ    12AA
+12A2:  BCF    FD8.0
+12A4:  RLCF   00,F
+12A6:  DECFSZ 01,F
+12A8:  BRA    12A2
+12AA:  MOVF   00,W
+12AC:  XORLW  FF
+12AE:  ANDWF  54,F
+....................           eeprom_write(EE_GROUP_0_7, bTmpVar);
+12B0:  MOVLW  15
+12B2:  MOVWF  59
+12B4:  MOVFF  54,5A
+12B8:  CALL   08A8
+....................           bDaliGroup0_7 = bTmpVar;
+12BC:  MOVFF  54,4B
+....................         }//4
+12C0:  BRA    12F8
+....................         else
+....................         {//4
+....................           bTmpVar = eeprom_read(EE_GROUP_8_15);
+12C2:  MOVLW  16
+12C4:  MOVWF  x60
+12C6:  RCALL  0D28
+12C8:  MOVFF  01,54
+....................           bTmpVar &= ~(1<<(command & 0x07));
+12CC:  MOVF   53,W
+12CE:  ANDLW  07
+12D0:  MOVWF  01
+12D2:  MOVLW  01
+12D4:  MOVWF  00
+12D6:  MOVF   01,F
+12D8:  BZ    12E2
+12DA:  BCF    FD8.0
+12DC:  RLCF   00,F
+12DE:  DECFSZ 01,F
+12E0:  BRA    12DA
+12E2:  MOVF   00,W
+12E4:  XORLW  FF
+12E6:  ANDWF  54,F
+....................           eeprom_write(EE_GROUP_8_15, bTmpVar);
+12E8:  MOVLW  16
+12EA:  MOVWF  59
+12EC:  MOVFF  54,5A
+12F0:  CALL   08A8
+....................           bDaliGroup8_15 = bTmpVar;
+12F4:  MOVFF  54,4C
+....................         }//4      
+....................         break; 
+....................     }//3
+....................   }//2
+....................  
+....................   // hier wird die PWM eingestellt (nur bei Änderung)
+....................   if(bDaliPowerLevel != bLastPowerLevel)
+12F8:  MOVF   45,W
+12FA:  SUBWF  44,W
+12FC:  BZ    132E
+....................   {//2
+.................... //rev1    if(flag.blink)                                                 // keine Änderung im Blinkmodus
+.................... //      bDaliPowerLevel = bDaliMaxLevel;
+....................     pwm_set_duty_percent(pwm_out, wPwmDuty[bDaliPowerLevel]);
+12FE:  CLRF   03
+1300:  MOVFF  44,02
+1304:  BCF    FD8.0
+1306:  RLCF   02,F
+1308:  RLCF   03,F
+130A:  MOVF   02,W
+130C:  MOVFF  03,FF7
+1310:  CALL   0140
+1314:  TBLRD*+
+1316:  MOVFF  FF5,03
+131A:  MOVWF  55
+131C:  MOVFF  03,56
+1320:  MOVFF  03,5D
+1324:  MOVWF  5C
+1326:  CALL   05D8
+....................     bLastPowerLevel = bDaliPowerLevel;                             // neu merken
+132A:  MOVFF  44,45
+....................   }//2
+132E:  RETURN 0
+.................... }//1
+.................... 
+.................... void dali_dap(unsigned int8 value)
+.................... {//1
+....................   if(bParam)                                  // Parametriermodus?
+1330:  MOVF   50,F
+1332:  BZ    133C
+....................   {//2
+....................     bDaliDTR = value;
+1334:  MOVFF  53,3C
+....................     return;
+1338:  BRA    13EC
+....................   }//2
+133A:  BRA    1396
+....................   else
+....................   {//2
+....................     if(value == 'P')
+133C:  MOVF   53,W
+133E:  SUBLW  50
+1340:  BNZ   1348
+....................     {//3
+....................       bDaliLastDAP = value;
+1342:  MOVFF  53,49
+....................       bParamCnt = 0;
+1346:  CLRF   4D
+....................     }//2
+....................     if(value == PARAM[bParamCnt+1] && bDaliLastDAP == PARAM[bParamCnt])
+1348:  MOVLW  01
+134A:  ADDWF  4D,W
+134C:  CLRF   03
+134E:  CALL   012A
+1352:  MOVWF  01
+1354:  SUBWF  53,W
+1356:  BNZ   136E
+1358:  CLRF   03
+135A:  MOVF   4D,W
+135C:  CALL   012A
+1360:  MOVWF  01
+1362:  SUBWF  49,W
+1364:  BNZ   136E
+....................     {//3
+....................       bDaliLastDAP = value;
+1366:  MOVFF  53,49
+....................       bParamCnt++;
+136A:  INCF   4D,F
+....................     }//3
+136C:  BRA    1370
+....................     else
+....................     {//3
+....................       bParamCnt = 0;
+136E:  CLRF   4D
+....................     }//3
+....................     if(bParamCnt == 4)                          // DAP 'P''A''R''A''M' received in series
+1370:  MOVF   4D,W
+1372:  SUBLW  04
+1374:  BNZ   1396
+....................     {//3 
+....................       bParam = 1;
+1376:  MOVLW  01
+1378:  MOVWF  50
+....................       bDaliSndBuff = 'P';
+137A:  MOVLW  50
+137C:  MOVWF  46
+....................       daliflag.snd = 1;
+137E:  BSF    52.4
+....................       bDaliPowerLevel = 254; 
+1380:  MOVLW  FE
+1382:  MOVWF  44
+....................       bPotiValue = eeprom_read(EE_POTI);        // Potiwert bleibt auf EEPROM Wert
+1384:  MOVLW  13
+1386:  MOVWF  x60
+1388:  RCALL  0D28
+138A:  MOVFF  01,2F
+....................       flag.param = 1;                           // blinken während der parametrierung unterdrücken
+138E:  BSF    36.7
+....................       flag.pulse = 0;                           // kein pulsen während der parametrierung
+1390:  BCF    36.4
+....................       output_low(xConverterON);                 // laterne einschalten falls aus
+1392:  BCF    F89.7
+....................       return;
+1394:  BRA    13EC
+....................     }//3
+....................   }//2
+.................... 
+....................   // --- normal operation ---
+....................   //rev1  if(value <= bDaliMaxLevel && value >= bDaliMinLevel && !flag.blink) // und keine Änderung im Blinkmodus
+....................   if(value <= bDaliMaxLevel && value >= bDaliMinLevel)
+1396:  MOVF   53,W
+1398:  SUBWF  41,W
+139A:  BNC   13EC
+139C:  MOVF   42,W
+139E:  SUBWF  53,W
+13A0:  BNC   13EC
+....................   {//2
+....................     bDaliPowerLevel = value;                                          // Wert übernehmen
+13A2:  MOVFF  53,44
+....................     bLastPowerLevel = bDaliPowerLevel;                                // neu merken
+13A6:  MOVFF  44,45
+....................     
+....................     if(!daliflag.broadcast)                            // Nur auf Gruppe oder Kurzadresse reagieren. KEIN Blinkmodus                                                
+13AA:  BTFSC  52.2
+13AC:  BRA    13EC
+....................     {//3
+.................... //rev1
+....................       pwm_set_duty_percent(pwm_out, wPwmDuty[bDaliPowerLevel]);     // PWM einstellen
+13AE:  CLRF   03
+13B0:  MOVFF  44,02
+13B4:  BCF    FD8.0
+13B6:  RLCF   02,F
+13B8:  RLCF   03,F
+13BA:  MOVF   02,W
+13BC:  MOVFF  03,FF7
+13C0:  CALL   0140
+13C4:  TBLRD*+
+13C6:  MOVFF  FF5,03
+13CA:  MOVWF  54
+13CC:  MOVFF  03,55
+13D0:  MOVFF  03,5D
+13D4:  MOVWF  5C
+13D6:  CALL   05D8
+....................       
+....................       if(flag.blink)                                               // schon im Blinkmodus?
+13DA:  BTFSS  37.2
+13DC:  BRA    13E4
+....................       {//4
+....................         check_blink();                                             // Timer neu setzen -> wegen drift bei blink mit mehreren Laternen
+13DE:  RCALL  0D54
+....................         output_low(xConverterOn);                                  // UND converter AN -> Timer 3 NUR Toggle!
+13E0:  BCF    F89.7
+....................       }//4
+13E2:  BRA    13EC
+....................       else                                             
+....................       if(PORTA & 0b10000000)                                       // ansonsten wenn converter AUS
+13E4:  BTFSS  F80.7
+13E6:  BRA    13EC
+....................       {//4
+....................         check_blink();                                                // wenn feste Blinksequenz hinterlegt Flag setzen und Timer starten
+13E8:  RCALL  0D54
+....................         output_low(xConverterOn);                                     // UND converter AN
+13EA:  BCF    F89.7
+....................       }//4
+....................     }//3                          
+....................   }//2 
+13EC:  RETURN 0
+.................... }//1
+.................... 
+.................... void dali_special(unsigned int8 command, value)
+.................... {//1
+.................... 
+....................   if(bParam)
+*
+0FD2:  MOVF   50,F
+0FD4:  BZ    0FF2
+....................   {//2
+....................     switch(command)
+0FD6:  MOVF   53,W
+0FD8:  XORLW  A3
+0FDA:  BZ    0FE2
+0FDC:  XORLW  02
+0FDE:  BZ    0FEE
+0FE0:  BRA    0FF2
+....................     {//3
+....................       case DTR0:
+....................         bDaliDTR = value;
+0FE2:  MOVFF  54,3C
+....................         bDaliSndBuff = '+';                        // Meldung an Controller 
+0FE6:  MOVLW  2B
+0FE8:  MOVWF  46
+....................         daliflag.snd = 1;
+0FEA:  BSF    52.4
+....................         break;
+0FEC:  BRA    0FF2
+....................       case TERMINATE:
+....................         reset_cpu();
+0FEE:  RESET
+....................         break;
+0FF0:  BRA    0FF2
+....................       default:break;
+....................     }//3
+....................   }//2
+0FF2:  GOTO   1424 (RETURN)
+.................... }//1 
+.................... 
+.................... void init_dali(void)
+.................... {//1
+....................   daliflag = 0;
+*
+0F38:  CLRF   52
+....................   bDaliShortAdr = eeprom_read(EE_ADDRESS);
+0F3A:  MOVLW  14
+0F3C:  MOVWF  x60
+0F3E:  RCALL  0D28
+0F40:  MOVFF  01,43
+....................   bDaliBusTimeout = DALI_TIMEOUT;
+0F44:  MOVLW  14
+0F46:  MOVWF  4A
+....................   bDaliGroup0_7  = eeprom_read(EE_GROUP_0_7);
+0F48:  MOVLW  15
+0F4A:  MOVWF  x60
+0F4C:  RCALL  0D28
+0F4E:  MOVFF  01,4B
+....................   bDaliGroup8_15 = eeprom_read(EE_GROUP_8_15);
+0F52:  MOVLW  16
+0F54:  MOVWF  x60
+0F56:  RCALL  0D28
+0F58:  MOVFF  01,4C
+.................... 
+....................   bDaliSndBuff = '.';                            // Leuchte meldet sich nach einschalten
+0F5C:  MOVLW  2E
+0F5E:  MOVWF  46
+....................   bDaliMode = DALI_SND;
+0F60:  MOVLW  04
+0F62:  MOVWF  3E
+....................   bDaliSndCnt = 8;                               // 8 - 0. Startbit + 8 Datanbits 
+0F64:  MOVLW  08
+0F66:  MOVWF  47
+....................   bDaliSndClk = 0;       
+0F68:  CLRF   48
+....................   set_timer1(65535-6000);                        // 6ms warten bis Antwort gesendet wird
+0F6A:  MOVLW  E8
+0F6C:  MOVWF  FCF
+0F6E:  MOVLW  8F
+0F70:  MOVWF  FCE
+0F72:  NOP   
+....................   enable_interrupts(int_timer1);
+0F74:  BSF    F9D.0
+.................... 
+....................   bDaliMaxLevel = DALI_MAX_LEVEL;  
+0F76:  MOVLW  FE
+0F78:  MOVWF  41
+....................   bDaliMinLevel = DALI_MIN_LEVEL;    //   
+0F7A:  MOVLW  90
+0F7C:  MOVWF  42
+....................   bDaliPowerLevel = bDaliMaxLevel;   // 
+0F7E:  MOVFF  41,44
+....................   bLastPowerLevel = bDaliMaxLevel;
+0F82:  MOVFF  41,45
+0F86:  GOTO   1758 (RETURN)
+.................... 
+.................... }//1
+.................... 
+.................... void dali_check_bus(void)
+.................... {//1
+....................   if(bParam || !flag.param)   // nicht während des Parametriervorgangs prüfen oder wenn nicht parametriert (sonst Leuchte aus..)
+0F8A:  MOVF   50,F
+0F8C:  BNZ   0F92
+0F8E:  BTFSC  36.7
+0F90:  BRA    0F94
+....................     return;  
+0F92:  BRA    0FCE
+.................... 
+.................... //  if(bDaliShortAdr == 0xFF)   // keine DALI ADRESSE?
+.................... //    return;                   // dann BUS NICHT prüfen!
+.................... 
+....................   if((bDaliMode == DALI_STBY) && daliflag.ms100)   //  
+0F94:  MOVF   3E,F
+0F96:  BNZ   0FCE
+0F98:  BTFSS  52.5
+0F9A:  BRA    0FCE
+....................   {//2
+....................     daliflag.ms100 = 0;
+0F9C:  BCF    52.5
+....................     if(bDaliBusTimeout)
+0F9E:  MOVF   4A,F
+0FA0:  BZ    0FA4
+....................       bDaliBusTimeout--;                      // Reset der Variable wenn Dali daten empfangen wurden dali() 
+0FA2:  DECF   4A,F
+....................     if(!bDaliBusTimeout)                      // Timeout abgelaufen?
+0FA4:  MOVF   4A,F
+0FA6:  BNZ   0FCE
+....................     {//3
+....................       daliflag.bustimeout = 1;                // KEIN Datenverkehr
+0FA8:  BSF    52.6
+....................       if((PORTB & 0b00010000) && !flag.blink) // Timeout und keine DALI Spg vorhanden
+0FAA:  BTFSS  F81.4
+0FAC:  BRA    0FC4
+0FAE:  BTFSC  37.2
+0FB0:  BRA    0FC4
+....................       {//4       
+....................         check_blink();                        // feste Blinksequenz hinterlegt? !! funktioniert NUR mit fester Blinksequenz !!
+0FB2:  RCALL  0D54
+....................         pwm_set_duty_percent(pwm_out, 1000);  // volle Helligkeit
+0FB4:  MOVLW  03
+0FB6:  MOVWF  5D
+0FB8:  MOVLW  E8
+0FBA:  MOVWF  5C
+0FBC:  CALL   05D8
+....................         output_low(xConverterOn);             // Leuchte AN
+0FC0:  BCF    F89.7
+....................       }//4 
+0FC2:  BRA    0FCE
+....................       else                                    // Timeout und DALI Spg vorhanden
+....................       if(!(PORTB & 0b00010000))
+0FC4:  BTFSC  F81.4
+0FC6:  BRA    0FCE
+....................       {//4
+....................         flag.blink = 0;
+0FC8:  BCF    37.2
+....................         disable_interrupts(INT_TIMER3);
+0FCA:  BCF    FA0.1
+....................         output_high(xConverterOn);            // Leuchte AUS
+0FCC:  BSF    F89.7
+....................       }//4
+....................     }//3
+....................   }//2
+0FCE:  GOTO   13F0 (RETURN)
+.................... }//1
+....................    
+.................... 
+.................... #include "test.h"
+.................... /***********************************************************************************
+.................... Testmode when Jumper is connected
+.................... ***********************************************************************************/
+.................... void testmode(void)
+.................... {//1
+....................   init_test();
+*
+0CF6:  BRA    0768
+.................... //  init_dali();
+.................... 
+....................   while(!(PORTC & 0b00100000))       // solange jumper gesteckt
+0CF8:  BTFSC  F82.5
+0CFA:  BRA    0D24
+....................    {//2
+.................... //    dali();
+....................     if(flag.ms100)
+0CFC:  BTFSS  36.0
+0CFE:  BRA    0D20
+....................     {//3
+....................       flag.ms100 = 0;
+0D00:  BCF    36.0
+....................       controller_ok_led();            // toggle fast at testmode      
+0D02:  CALL   0004
+....................       led_monitoring();
+0D06:  RCALL  08DA
+....................       if(!(PORTC & 0b00010000))       // only when pulse is NOT active 
+0D08:  BTFSC  F82.4
+0D0A:  BRA    0D0E
+....................         check_current();  
+0D0C:  RCALL  0A00
+....................       check_converter();
+0D0E:  RCALL  0A50
+....................       heater_control(0);
+0D10:  CLRF   53
+0D12:  RCALL  0BA6
+.................... 		
+....................       bDaliTestCnt--;                 // Testen der Dali Schnittstelle 
+0D14:  DECF   51,F
+....................       if(!bDaliTestCnt)
+0D16:  MOVF   51,F
+0D18:  BNZ   0D20
+....................       {//4
+....................         bDaliTestCnt = DALI_TEST_CNT;
+0D1A:  MOVLW  05
+0D1C:  MOVWF  51
+....................         output_toggle(xDaliSend);     
+0D1E:  BTG    F8A.3
+....................       }//4
+....................     }//3
+....................     restart_wdt();
+0D20:  CLRWDT
+0D22:  BRA    0CF8
+....................   }//2  
+0D24:  GOTO   174C (RETURN)
+.................... }//1
+.................... 
+.................... void init_test(void)
+.................... {//1 
+....................   unsigned int8 value_high, value_low;
+....................   setup_wdt(wdt_off);                // watchdog off
+*
+0768:  BCF    FD1.0
+.................... 
+....................   //set in/out direction
+....................   set_tris_a(0b00001111);
+076A:  MOVLW  0F
+076C:  MOVWF  F92
+....................   set_tris_b(0b00010110);     // B4=Dali_rcv IOC
+076E:  MOVLW  16
+0770:  MOVWF  F93
+....................   set_tris_c(0b00100000);     // c5 = Testmode Jumper
+0772:  MOVLW  20
+0774:  MOVWF  F94
+....................   set_tris_e(0);
+0776:  BCF    F96.3
+.................... 
+....................   output_a(0);       
+0778:  CLRF   F89
+....................   output_b(0);
+077A:  CLRF   F8A
+....................   output_c(0);
+077C:  CLRF   F8B
+....................   output_e(0);
+077E:  CLRF   F8D
+.................... 
+....................   flag = 0;  
+0780:  CLRF   37
+0782:  CLRF   36
+.................... 
+....................   // setup analog pins
+....................   ANSELA = 0b00001111;               // POR default analog
+0784:  MOVLW  0F
+0786:  MOVLB  F
+0788:  MOVWF  x38
+....................   ANSELB = 0b00000110;               // POR default digital; PIN Tausch wegen Heizung 
+078A:  MOVLW  06
+078C:  MOVWF  x39
+.................... //  ANSELC = 0b01000000;               // no analogs on port c
+....................   setup_adc(ADC_CLOCK_INTERNAL);
+078E:  MOVF   FC0,W
+0790:  ANDLW  C0
+0792:  IORLW  07
+0794:  MOVWF  FC0
+0796:  BCF    FC0.7
+0798:  BSF    FC2.0
+....................   
+....................   IOCB = 0b00010000;                 // RB4 IOC enabled
+079A:  MOVLW  10
+079C:  MOVWF  F62
+....................    
+....................   pwm_set_duty_percent(pwm_out, 1000);   // brightest step
+079E:  MOVLW  03
+07A0:  MOVWF  5D
+07A2:  MOVLW  E8
+07A4:  MOVWF  5C
+07A6:  MOVLB  0
+07A8:  RCALL  05D8
+....................   pwm_on(pwm_out);
+07AA:  MOVLW  0C
+07AC:  MOVLB  F
+07AE:  IORWF  x5D,F
+....................  
+....................   pwm_off(heater_half);              
+07B0:  MOVLW  F0
+07B2:  ANDWF  x57,F
+....................   pwm_off(heater_full);
+07B4:  ANDWF  F66,F
+.................... 
+....................   // T0: cycle 100ms 
+....................   setup_timer_0(T0_INTERNAL | T0_DIV_4);  // internal clock | Presc. 4 
+07B6:  MOVLW  81
+07B8:  MOVWF  FD5
+....................   set_timer0(15535);                      // -> counts 50000 until 65535
+07BA:  MOVLW  3C
+07BC:  MOVWF  FD7
+07BE:  MOVLW  AF
+07C0:  MOVWF  FD6
+07C2:  NOP   
+.................... 
+....................   // T1: DALI timer
+....................   // 748 = 374µs, 914 = 457µs, 1498 = 749µs, 1832 = 916µs 
+....................   setup_timer_1(T1_INTERNAL | T1_DIV_BY_2);    // 
+07C4:  MOVLW  17
+07C6:  MOVWF  FCD
+07C8:  CLRF   FCC
+.................... 
+....................   set_led_current(10);               // Digi Poti einstellen
+07CA:  MOVLW  0A
+07CC:  MOVWF  5D
+07CE:  MOVLB  0
+07D0:  RCALL  0728
+....................   delay_ms(150);                     // MUSS drin sein wegen Einschwingen der Schaltung. 
+07D2:  MOVLW  96
+07D4:  MOVWF  5D
+07D6:  RCALL  0742
+....................  
+....................   // Get number of LED circuits
+....................   set_adc_channel(0);
+07D8:  MOVLW  00
+07DA:  MOVWF  01
+07DC:  MOVF   FC2,W
+07DE:  ANDLW  83
+07E0:  IORWF  01,W
+07E2:  MOVWF  FC2
+....................   delay_us(100);
+07E4:  MOVLW  42
+07E6:  MOVWF  00
+07E8:  DECFSZ 00,F
+07EA:  BRA    07E8
+07EC:  NOP   
+....................   bADC_Ch0 = read_adc();
+07EE:  BSF    FC2.1
+07F0:  BTFSC  FC2.1
+07F2:  BRA    07F0
+07F4:  MOVFF  FC4,21
+.................... 
+....................   set_adc_channel(1);
+07F8:  MOVLW  04
+07FA:  MOVWF  01
+07FC:  MOVF   FC2,W
+07FE:  ANDLW  83
+0800:  IORWF  01,W
+0802:  MOVWF  FC2
+....................   delay_us(100);
+0804:  MOVLW  42
+0806:  MOVWF  00
+0808:  DECFSZ 00,F
+080A:  BRA    0808
+080C:  NOP   
+....................   bADC_Ch1 = read_adc();
+080E:  BSF    FC2.1
+0810:  BTFSC  FC2.1
+0812:  BRA    0810
+0814:  MOVFF  FC4,22
+....................  
+....................   set_adc_channel(2);
+0818:  MOVLW  08
+081A:  MOVWF  01
+081C:  MOVF   FC2,W
+081E:  ANDLW  83
+0820:  IORWF  01,W
+0822:  MOVWF  FC2
+....................   delay_us(100);
+0824:  MOVLW  42
+0826:  MOVWF  00
+0828:  DECFSZ 00,F
+082A:  BRA    0828
+082C:  NOP   
+....................   bADC_Ch2 = read_adc();
+082E:  BSF    FC2.1
+0830:  BTFSC  FC2.1
+0832:  BRA    0830
+0834:  MOVFF  FC4,23
+.................... 
+....................   value_high = bADC_Ch0 + LED_TEST_TOL;
+0838:  MOVLW  03
+083A:  ADDWF  21,W
+083C:  MOVWF  53
+....................   value_low  = bADC_Ch0 - LED_TEST_TOL;
+083E:  MOVLW  03
+0840:  SUBWF  21,W
+0842:  MOVWF  54
+.................... 
+....................   if((bADC_Ch1 <= value_high) && (bADC_Ch1 >= value_low))
+0844:  MOVF   22,W
+0846:  SUBWF  53,W
+0848:  BNC   0854
+084A:  MOVF   54,W
+084C:  SUBWF  22,W
+084E:  BNC   0854
+....................     bCircuitNumber = 2;                                      // min. 2 Circuits
+0850:  MOVLW  02
+0852:  MOVWF  27
+.................... 
+....................   if((bADC_Ch2 <= value_high) && (bADC_Ch2 >= value_low))    // 3 circuits
+0854:  MOVF   23,W
+0856:  SUBWF  53,W
+0858:  BNC   0864
+085A:  MOVF   54,W
+085C:  SUBWF  23,W
+085E:  BNC   0864
+....................     bCircuitNumber = 3; 
+0860:  MOVLW  03
+0862:  MOVWF  27
+.................... 
+....................   if((bCircuitNumber == 3) && (bADC_Ch0 < 102))
+0864:  MOVF   27,W
+0866:  SUBLW  03
+0868:  BNZ   0876
+086A:  MOVF   21,W
+086C:  SUBLW  65
+086E:  BNC   0876
+....................     set_led_current(10);                               // -> 
+0870:  MOVLW  0A
+0872:  MOVWF  5D
+0874:  RCALL  0728
+.................... 
+....................   if((bCircuitNumber == 2) && (bADC_Ch0 < 102))               
+0876:  MOVF   27,W
+0878:  SUBLW  02
+087A:  BNZ   0888
+087C:  MOVF   21,W
+087E:  SUBLW  65
+0880:  BNC   0888
+....................     set_led_current(10);                               // -> 
+0882:  MOVLW  0A
+0884:  MOVWF  5D
+0886:  RCALL  0728
+.................... 
+....................   wLedTestTime = 20;              // 2s Testzeit
+0888:  CLRF   1F
+088A:  MOVLW  14
+088C:  MOVWF  1E
+....................   bCount500ms = 5;
+088E:  MOVLW  05
+0890:  MOVWF  28
+....................   bCount1000ms = 10;
+0892:  MOVLW  0A
+0894:  MOVWF  29
+....................   bDaliTestCnt = DALI_TEST_CNT;
+0896:  MOVLW  05
+0898:  MOVWF  51
+....................   
+....................   // Init interrupts
+....................   enable_interrupts(INT_TIMER0);   
+089A:  BSF    FF2.5
+....................   enable_interrupts(INT_RB4);     // IOC
+089C:  BSF    FF2.3
+089E:  BSF    F62.4
+....................   enable_interrupts(GLOBAL);
+08A0:  MOVLW  C0
+08A2:  IORWF  FF2,F
+08A4:  GOTO   0CF8 (RETURN)
+.................... }//1
+.................... 
+.................... /*=============================================================================
+....................                                 INTERRUPTS
+.................... =============================================================================*/
+.................... #INT_TIMER0
+.................... void timer0_isr(void)
+.................... {//1
+....................   set_timer0(15535);                           // start timer 100ms
+*
+034C:  MOVLW  3C
+034E:  MOVWF  FD7
+0350:  MOVLW  AF
+0352:  MOVWF  FD6
+0354:  NOP   
+....................   flag.ms100 = 1;                              // 100ms IR flag
+0356:  BSF    36.0
+....................   daliflag.ms100 = 1;
+0358:  BSF    52.5
+....................   bCount500ms--;
+035A:  DECF   28,F
+....................   bCount1000ms--;
+035C:  DECF   29,F
+....................   if(bCountPulse)
+035E:  MOVF   2C,F
+0360:  BZ    0364
+....................     bCountPulse--;
+0362:  DECF   2C,F
+....................   if(!bCountPulse)
+0364:  MOVF   2C,F
+0366:  BNZ   036A
+....................     output_low(xCurrentPulse);       // switch current pulse OFF
+0368:  BCF    F8B.4
+....................   if(!bCount500ms)
+036A:  MOVF   28,F
+036C:  BNZ   0374
+....................   {//2
+....................     bCount500ms = 5;
+036E:  MOVLW  05
+0370:  MOVWF  28
+....................     flag.ms500 = 1;  
+0372:  BSF    36.2
+....................   }//2
+....................   if(!bCount1000ms)
+0374:  MOVF   29,F
+0376:  BNZ   0388
+....................   {//2
+....................     bCount1000ms = 10;
+0378:  MOVLW  0A
+037A:  MOVWF  29
+....................     flag.ms1000 = 1;
+037C:  BSF    36.5
+....................     if(flag.pulse)
+037E:  BTFSS  36.4
+0380:  BRA    0388
+....................     {
+....................       output_high(xCurrentPulse);       // switch current pulse ON
+0382:  BSF    F8B.4
+....................       bCountPulse = PULSE_TIME;
+0384:  MOVLW  01
+0386:  MOVWF  2C
+....................     }
+....................   }//2
+.................... }//1 
+.................... 
+0388:  BCF    FF2.2
+038A:  GOTO   0084
+.................... #INT_TIMER1
+.................... void timer1_isr(void)
+.................... {//1 
+....................   if(bDaliMode == DALI_RCV) 
+038E:  MOVF   3E,W
+0390:  SUBLW  02
+0392:  BNZ   039E
+....................     set_timer1(65535-806);                      // -27µs dann passt der timer!?
+0394:  MOVLW  FC
+0396:  MOVWF  FCF
+0398:  MOVLW  D9
+039A:  MOVWF  FCE
+039C:  NOP   
+....................   if(bDaliMode == DALI_SND)
+039E:  MOVF   3E,W
+03A0:  SUBLW  04
+03A2:  BNZ   03B2
+....................   {//2  
+....................     set_timer1(65535-380);                      // reset timer
+03A4:  MOVLW  FE
+03A6:  MOVWF  FCF
+03A8:  MOVLW  83
+03AA:  MOVWF  FCE
+03AC:  NOP   
+....................     bDaliSndClk ^= 1<<0;                        // Toggle bit every interrupt
+03AE:  MOVLW  01
+03B0:  XORWF  48,F
+....................   }//2
+.................... 
+....................   if(bDaliMode == DALI_RCV && daliflag.ioc)     // war vor timer ablauf ein ioc?  
+03B2:  MOVF   3E,W
+03B4:  SUBLW  02
+03B6:  BNZ   03F8
+03B8:  BTFSS  52.1
+03BA:  BRA    03F8
+....................   {//2                                          // ja, alles OK                                                  
+....................     bDaliBit = PORTB & 0x10;                    // get actual port value    
+03BC:  MOVF   F81,W
+03BE:  ANDLW  10
+03C0:  MOVWF  3F
+....................     daliflag.ioc = 0;   
+03C2:  BCF    52.1
+....................     bDaliBitCnt--;                          
+03C4:  DECF   3D,F
+....................     if(bDaliBit)
+03C6:  MOVF   3F,F
+03C8:  BZ    03E8
+....................       bit_set(wDaliRcv, bDaliBitCnt); 
+03CA:  CLRF   03
+03CC:  MOVLW  01
+03CE:  MOVWF  02
+03D0:  MOVF   3D,W
+03D2:  MOVWF  00
+03D4:  BZ    03E0
+03D6:  BCF    FD8.0
+03D8:  RLCF   02,F
+03DA:  RLCF   03,F
+03DC:  DECFSZ 00,F
+03DE:  BRA    03D6
+03E0:  MOVF   02,W
+03E2:  IORWF  38,F
+03E4:  MOVF   03,W
+03E6:  IORWF  39,F
+....................     if(bDaliBitCnt == 0)                        // komplett Empfangen?
+03E8:  MOVF   3D,F
+03EA:  BNZ   03F6
+....................     {//3
+....................       bDaliMode = DALI_DAT;                     // daten komplett vorhanden     
+03EC:  MOVLW  08
+03EE:  MOVWF  3E
+....................       disable_interrupts(INT_TIMER1);
+03F0:  BCF    F9D.0
+....................       enable_interrupts(int_timer0);
+03F2:  BSF    FF2.5
+....................       output_low(pin_b3);
+03F4:  BCF    F8A.3
+....................     }//3
+....................   }//2
+03F6:  BRA    0404
+....................   else 
+....................   if(bDaliMode == DALI_RCV)
+03F8:  MOVF   3E,W
+03FA:  SUBLW  02
+03FC:  BNZ   0404
+....................   {//2                                             
+....................     bDaliMode = DALI_STBY;                       
+03FE:  CLRF   3E
+....................     disable_interrupts(INT_TIMER1);
+0400:  BCF    F9D.0
+....................     enable_interrupts(int_timer0);
+0402:  BSF    FF2.5
+....................   }//2 
+.................... 
+....................   if(bDaliMode == DALI_SND)               
+0404:  MOVF   3E,W
+0406:  SUBLW  04
+0408:  BNZ   045C
+....................   {//2
+....................     if(bDaliSndCnt == 255)
+040A:  INCFSZ 47,W
+040C:  BRA    0416
+....................     {//3
+....................       output_low(pin_b3);
+040E:  BCF    F8A.3
+....................       bDaliMode = DALI_STBY;
+0410:  CLRF   3E
+....................       disable_interrupts(INT_TIMER1);
+0412:  BCF    F9D.0
+....................       enable_interrupts(int_timer0);
+0414:  BSF    FF2.5
+....................     }//3
+....................     if(bDaliSndCnt == 8)
+0416:  MOVF   47,W
+0418:  SUBLW  08
+041A:  BNZ   042A
+....................     {//3
+....................       if(bDaliSndClk)
+041C:  MOVF   48,F
+041E:  BZ    0424
+....................         output_high(pin_b3);
+0420:  BSF    F8A.3
+0422:  BRA    0428
+....................       else
+....................       {//4
+....................         output_low(pin_b3);
+0424:  BCF    F8A.3
+....................         bDaliSndCnt--; 
+0426:  DECF   47,F
+....................       }//4
+....................     }//3
+0428:  BRA    045C
+....................     else
+....................     if(bDaliSndCnt < 8)
+042A:  MOVF   47,W
+042C:  SUBLW  07
+042E:  BNC   045C
+....................     {//3
+....................       if(bDaliSndClk && bit_test(bDaliSndBuff, bDaliSndCnt))
+0430:  MOVF   48,F
+0432:  BZ    044E
+0434:  MOVFF  46,00
+0438:  MOVF   47,W
+043A:  MOVWF  01
+043C:  BZ    0446
+043E:  BCF    FD8.0
+0440:  RRCF   00,F
+0442:  DECFSZ 01,F
+0444:  BRA    043E
+0446:  BTFSS  00.0
+0448:  BRA    044E
+....................         output_high(pin_b3);
+044A:  BSF    F8A.3
+044C:  BRA    0454
+....................       else
+....................       if(bDaliSndClk)
+044E:  MOVF   48,F
+0450:  BZ    0454
+....................         output_low(pin_b3);
+0452:  BCF    F8A.3
+....................       
+....................       if(!bDaliSndClk)
+0454:  MOVF   48,F
+0456:  BNZ   045C
+....................       {//4
+....................         output_toggle(pin_b3);
+0458:  BTG    F8A.3
+....................         bDaliSndCnt--;
+045A:  DECF   47,F
+....................       }//4     
+....................     }//3
+....................   }//2
+.................... }//1
+.................... 
+045C:  BCF    F9E.0
+045E:  GOTO   0084
+.................... #INT_TIMER3
+.................... void timer3_isr(void)
+.................... {//1 
+....................   set_timer3(65535-TIMER3);             // Timer neu starten 50ms
+0462:  MOVLW  CE
+0464:  MOVWF  FB3
+0466:  MOVLW  DB
+0468:  MOVWF  FB2
+046A:  NOP   
+....................   bBlinkdauer++;
+046C:  INCF   34,F
+....................   if(bBlinkdauer == bBlinkCnt)
+046E:  MOVF   33,W
+0470:  SUBWF  34,W
+0472:  BNZ   04BA
+....................   {//2
+....................     if(flag.blink)
+0474:  BTFSS  37.2
+0476:  BRA    047A
+....................       output_toggle(xConverterON);
+0478:  BTG    F89.7
+....................     bBlinkdauer = 0;
+047A:  CLRF   34
+....................     bBlinkPhase++;
+047C:  INCF   35,F
+....................     if(BLINK[bBlinkSeq][bBlinkPhase] == 0)
+047E:  MOVF   32,W
+0480:  MULLW  03
+0482:  MOVF   FF3,W
+0484:  CLRF   x71
+0486:  MOVWF  x70
+0488:  CLRF   03
+048A:  MOVF   35,W
+048C:  ADDWF  x70,W
+048E:  MOVWF  01
+0490:  MOVF   x71,W
+0492:  ADDWFC 03,F
+0494:  MOVF   01,W
+0496:  RCALL  010A
+0498:  XORLW  00
+049A:  BNZ   049E
+....................       bBlinkPhase = 0;
+049C:  CLRF   35
+....................     bBlinkCnt = BLINK[bBlinkSeq][bBlinkPhase];
+049E:  MOVF   32,W
+04A0:  MULLW  03
+04A2:  MOVF   FF3,W
+04A4:  CLRF   x71
+04A6:  MOVWF  x70
+04A8:  CLRF   03
+04AA:  MOVF   35,W
+04AC:  ADDWF  x70,W
+04AE:  MOVWF  01
+04B0:  MOVF   x71,W
+04B2:  ADDWFC 03,F
+04B4:  MOVF   01,W
+04B6:  RCALL  010A
+04B8:  MOVWF  33
+....................     
+....................   }//2
+.................... }//1
+.................... 
+04BA:  BCF    FA1.1
+04BC:  GOTO   0084
+.................... #INT_RB
+.................... void rb4_isr(void)
+.................... {//1
+....................   // ioc on rb4
+....................   bReadIOC = PORTB & 0x10;              // read portb -> reset interrupt      
+04C0:  MOVF   F81,W
+04C2:  ANDLW  10
+04C4:  MOVWF  40
+....................   if(bDaliMode == DALI_STBY) 
+04C6:  MOVF   3E,F
+04C8:  BNZ   04EA
+....................   {//2
+....................     set_timer1(65535-1014);                        // -27µs dann passt der timer!?
+04CA:  MOVLW  FC
+04CC:  MOVWF  FCF
+04CE:  MOVLW  09
+04D0:  MOVWF  FCE
+04D2:  NOP   
+....................     disable_interrupts(int_timer0);
+04D4:  BCF    FF2.5
+....................     clear_interrupt(int_timer1);                 
+04D6:  BCF    F9E.0
+....................     enable_interrupts(INT_TIMER1);
+04D8:  BSF    F9D.0
+....................     daliflag.ioc = 0;
+04DA:  BCF    52.1
+....................     bDaliMode = DALI_RCV;
+04DC:  MOVLW  02
+04DE:  MOVWF  3E
+....................     wDaliRcv = 0;  
+04E0:  CLRF   39
+04E2:  CLRF   38
+....................     bDaliBitCnt = 16;       
+04E4:  MOVLW  10
+04E6:  MOVWF  3D
+....................   }//2
+04E8:  BRA    04EC
+....................   else
+....................     daliflag.ioc = 1;
+04EA:  BSF    52.1
+04EC:  MOVF   F81,W
+04EE:  NOP   
+04F0:  BCF    FF2.0
+04F2:  GOTO   0084
+.................... }//1
+.................... 
+.................... /*#############################################################################
+....................                                   M A I N
+.................... #############################################################################*/
+.................... void main(void) 
+*
+1690:  CLRF   FF8
+1692:  BCF    FD0.7
+1694:  BSF    07.7
+1696:  MOVLW  60
+1698:  MOVWF  FD3
+169A:  BCF    F9B.6
+169C:  BCF    F9B.7
+169E:  MOVLB  F
+16A0:  BCF    x49.6
+16A2:  BCF    x49.7
+16A4:  MOVLW  F9
+16A6:  MOVWF  FBB
+16A8:  MOVLW  06
+16AA:  MOVWF  FBA
+16AC:  CLRF   x5C
+16AE:  CLRF   x5B
+16B0:  MOVLW  01
+16B2:  MOVWF  x5A
+16B4:  MOVLW  FA
+16B6:  MOVWF  x5E
+16B8:  MOVLW  0C
+16BA:  MOVWF  x5D
+16BC:  BSF    x48.0
+16BE:  BCF    x49.1
+16C0:  MOVLW  F9
+16C2:  MOVWF  x52
+16C4:  MOVLW  06
+16C6:  MOVWF  x51
+16C8:  MOVLW  FA
+16CA:  MOVWF  x58
+16CC:  MOVLW  0C
+16CE:  MOVWF  x57
+16D0:  BCF    x49.3
+16D2:  BSF    x49.4
+16D4:  MOVLW  F9
+16D6:  MOVWF  x4B
+16D8:  MOVLW  06
+16DA:  MOVWF  x4A
+16DC:  CLRF   F65
+16DE:  CLRF   F64
+16E0:  MOVLW  01
+16E2:  MOVWF  F63
+16E4:  MOVLW  FA
+16E6:  MOVWF  F67
+16E8:  MOVLW  0C
+16EA:  MOVWF  F66
+16EC:  CLRF   x38
+16EE:  CLRF   x39
+16F0:  CLRF   x3A
+16F2:  CLRF   F77
+16F4:  CLRF   F78
+16F6:  CLRF   F79
+16F8:  BRA    1704
+16FA:  DATA 1C,40
+16FC:  DATA 1A,00
+16FE:  DATA 1A,40
+1700:  DATA 38,00
+1702:  DATA 00,00
+1704:  MOVLW  00
+1706:  MOVWF  FF8
+1708:  MOVLW  16
+170A:  MOVWF  FF7
+170C:  MOVLW  FA
+170E:  MOVWF  FF6
+1710:  TBLRD*+
+1712:  MOVF   FF5,W
+1714:  MOVWF  00
+1716:  XORLW  00
+1718:  BZ    1740
+171A:  TBLRD*+
+171C:  MOVF   FF5,W
+171E:  MOVWF  01
+1720:  BTFSC  FE8.7
+1722:  BRA    172E
+1724:  ANDLW  3F
+1726:  MOVWF  FEA
+1728:  TBLRD*+
+172A:  MOVFF  FF5,FE9
+172E:  BTFSC  01.6
+1730:  TBLRD*+
+1732:  BTFSS  01.6
+1734:  TBLRD*+
+1736:  MOVFF  FF5,FEE
+173A:  DCFSNZ 00,F
+173C:  BRA    1710
+173E:  BRA    1732
+1740:  CLRF   FF8
+.................... {//1  
+....................   if(!(PORTC & 0b00100000))       // testmode when jumper is connected
+1742:  BTFSC  F82.5
+1744:  BRA    174E
+....................     testmode();
+1746:  MOVLB  0
+1748:  GOTO   0CF6
+174C:  MOVLB  F
+....................   
+....................   init_lantern();                 // init 
+174E:  MOVLB  0
+1750:  GOTO   0D9E
+....................   init_dali();
+1754:  GOTO   0F38
+....................   
+....................   while(TRUE)
+....................   {//2 
+....................     dali();                       // dali based functions
+1758:  BRA    13EE
+....................     lantern();                    // lantern based functions    
+175A:  BRA    162C
+....................     restart_wdt();
+175C:  CLRWDT
+175E:  BRA    1758
+....................   }//2
+.................... }//1
+1760:  SLEEP 
+
+Configuration Fuses:
+   Word  1: E800   INTRC_IO NOPLLEN PRIMARY FCMEN IESO
+   Word  2: 2706   PUT BROWNOUT BORV29 WDT WDT512
+   Word  3: BB00   CCP2C1 PBADEN CCP3C6 HFOFST TIMER3C0 CCP2B5 MCLR
+   Word  4: 0081   STVREN NOLVP NOXINST NODEBUG
+   Word  5: C00F   NOPROTECT NOCPB NOCPD
+   Word  6: E00F   NOWRT NOWRTC NOWRTB NOWRTD
+   Word  7: 400F   NOEBTR NOEBTRB
+
+ROM data:
+F00000: 37 33 36 36 35 30 30 38 30 32 72 65 76 31 00       7366500802rev1.
+F00010: 00 00 00 00 FF 00 00 00 00 00 00 00 00 00 00 00    ................
+F00020: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00    ................
+F00030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00    ................
+F00040: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00    ................

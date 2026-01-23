@@ -1,0 +1,266 @@
+000     @SCRATCH
+001     @SCRATCH
+001     _RETURN_
+002     @SCRATCH
+003     @SCRATCH
+004     @INTERRUPT_AREA
+005     @INTERRUPT_AREA
+006     @INTERRUPT_AREA
+007     @INTERRUPT_AREA
+008     @INTERRUPT_AREA
+009     @INTERRUPT_AREA
+00A     @INTERRUPT_AREA
+00B     @INTERRUPT_AREA
+00C     @INTERRUPT_AREA
+00D     @INTERRUPT_AREA
+00E     @INTERRUPT_AREA
+00F     @INTERRUPT_AREA
+010     @INTERRUPT_AREA
+011     @INTERRUPT_AREA
+012     @INTERRUPT_AREA
+013     @INTERRUPT_AREA
+014     @INTERRUPT_AREA
+015     @INTERRUPT_AREA
+016     @INTERRUPT_AREA
+017     @INTERRUPT_AREA
+018     @INTERRUPT_AREA
+019     @INTERRUPT_AREA
+01A-01D dOHC
+01E-01F wLedTestTime
+020     nop
+021     bADC_Ch0
+022     bADC_Ch1
+023     bADC_Ch2
+024     bADC_Ch3
+025     bADC_Ch8
+026     bADC_Ch10
+027     bCircuitNumber
+028     bCount500ms
+029     bCount1000ms
+02A     bCountMin
+02B     bCountEOL
+02C     bCountPulse
+02D     bStatus
+02E     bOHoffset
+02F     bPotiValue
+030     bHeaterHalfCnt
+031     bHeaterFullCnt
+032     bBlinkSeq
+033     bBlinkCnt
+034     bBlinkdauer
+035     bBlinkPhase
+036-037 flag
+038-039 wDaliRcv
+03A     bDaliRcvAdr
+03B     bDaliRcvCmd
+03C     bDaliDTR
+03D     bDaliBitCnt
+03E     bDaliMode
+03F     bDaliBit
+040     bReadIOC
+041     bDaliMaxLevel
+042     bDaliMinLevel
+043     bDaliShortAdr
+044     bDaliPowerLevel
+045     bLastPowerLevel
+046     bDaliSndBuff
+047     bDaliSndCnt
+048     bDaliSndClk
+049     bDaliLastDAP
+04A     bDaliBusTimeout
+04B     bDaliGroup0_7
+04C     bDaliGroup8_15
+04D     bParamCnt
+04E     bCmdCnt
+04F     bLastCmd
+050     bParam
+051     bDaliTestCnt
+052     daliflag
+053     dali_special.command
+053     init_test.value_high
+053     led_monitoring.i
+053-056 init_lantern.dLastValue
+053     heater_control.mode
+053     dali_dap.value
+053     dali_cmd.command
+053     operating_hours.@SCRATCH1
+053     dali.@SCRATCH1
+054     led_monitoring.j
+054     init_test.value_low
+054     dali_special.value
+054     dali_cmd.bTmpVar
+054     operating_hours.@SCRATCH2
+054     heater_control.@SCRATCH1
+054     dali_dap.@SCRATCH1
+055     led_monitoring.tol
+055     heater_control.@SCRATCH2
+055     dali_cmd.@SCRATCH1
+055     dali_dap.@SCRATCH2
+056-057 @PWM_SET_DUTY_PERCENT_HW_2.P1
+056-057 @PWM_SET_DUTY_PERCENT_HW_3.P2
+056-058 led_monitoring.aValues
+056     dali_cmd.@SCRATCH2
+057-05A init_lantern.dActValue
+058     @PWM_SET_DUTY_PERCENT_HW_2.@SCRATCH1
+058     @PWM_SET_DUTY_PERCENT_HW_3.@SCRATCH1
+059     eeprom_write.address
+059     @PWM_SET_DUTY_PERCENT_HW_2.@SCRATCH2
+059     @PWM_SET_DUTY_PERCENT_HW_3.@SCRATCH2
+05A     eeprom_write.value
+05B     init_lantern.i
+05C-05D @PWM_SET_DUTY_PERCENT_HW_1.P1
+05C     init_lantern.@SCRATCH1
+05C     check_param.@SCRATCH1
+05C     check_blink.@SCRATCH1
+05D     @delay_ms1.P1
+05D     set_led_current.poti_val
+05D     init_lantern.@SCRATCH2
+05D     check_blink.@SCRATCH2
+05E     write_i2c.adr
+05E     init_lantern.@SCRATCH3
+05E     @PWM_SET_DUTY_PERCENT_HW_1.@SCRATCH1
+05F     write_i2c.ch
+05F     init_lantern.@SCRATCH4
+05F     @PWM_SET_DUTY_PERCENT_HW_1.@SCRATCH2
+060     write_i2c.data
+060     eeprom_read.address
+061     poti_ack.adr
+061     eeprom_read.@SCRATCH1
+062.0   poti_ack.ack
+062-065 @DIV3232.P1
+062-065 @MUL3232.P2
+063     @I2C_WRITE_129.P1
+066-069 @DIV3232.P1
+066-069 @MUL3232.P2
+06A     @MUL3232.@SCRATCH1
+06A     @DIV3232.@SCRATCH1
+06B     @MUL3232.@SCRATCH2
+06B     @DIV3232.@SCRATCH2
+06C     @MUL3232.@SCRATCH3
+06C     @DIV3232.@SCRATCH3
+06D     @MUL3232.@SCRATCH4
+06D     @DIV3232.@SCRATCH4
+06E     @MUL3232.@SCRATCH5
+06E     @DIV3232.@SCRATCH5
+06F     @MUL3232.@SCRATCH6
+070     timer3_isr.@SCRATCH1
+071     timer3_isr.@SCRATCH2
+F38     ANSELA
+F39     ANSELB
+F3A     ANSELC
+F55     CCP_5_LOW
+F55     CCP_5
+F56     CCP_5_HIGH
+F58     CCP_4
+F58     CCP_4_LOW
+F59     CCP_4_HIGH
+F5E     CCP_3
+F5E     CCP_3_LOW
+F5F     CCP_3_HIGH
+F62     IOCB
+F67     CCP_2_LOW
+F67     CCP_2
+F68     CCP_2_HIGH
+F78.6   C2OUT
+F79.6   C1OUT
+F80     PORTA
+F81     PORTB
+F82     PORTC
+FBE     CCP_1
+FBE     CCP_1_LOW
+FBF     CCP_1_HIGH
+FE1-FE2 @READ_PACKED_MEMORY.P1
+FE1-FE2 @WRITE_PACKED_MEMORY.P2
+FE9-FEA @WRITE_PROGRAM_MEMORY.P1
+FE9-FEA @READ_PACKED_MEMORY.P2
+FE9-FEA @READ_PROGRAM_MEMORY.P3
+FE9-FEA @WRITE_PACKED_MEMORY.P4
+FF6-FF8 @WRITE_PROGRAM_MEMORY.P1
+FF6-FF8 @READ_PROGRAM_MEMORY.P2
+
+ROM Allocation:
+000004  controller_ok_led
+0000D2  HEATER_PWM.call
+0000E2  HEATER_PWM.data
+00010A  BLINK.call
+00011A  BLINK.data
+00012A  param.call
+00013A  param.data
+000140  wPwmDuty.call
+00014E  wPwmDuty.data
+00034C  timer0_isr
+00038E  timer1_isr
+000462  timer3_isr
+0004C0  rb4_isr
+0004F6  @MUL3232
+00054A  @DIV3232
+0005D8  @PWM_SET_DUTY_PERCENT_HW_1
+00065C  @I2C_WRITE_129
+0006A4  poti_ack
+0006E4  write_i2c
+000728  set_led_current
+000742  @delay_ms1
+000768  init_test
+0008A8  eeprom_write
+0008D6  kill_fuse
+0008DA  led_monitoring
+000A00  check_current
+000A50  check_converter
+000AA2  @PWM_SET_DUTY_PERCENT_HW_2
+000B26  @PWM_SET_DUTY_PERCENT_HW_3
+000BA6  heater_control
+000CF6  testmode
+000D28  eeprom_read
+000D42  check_param
+000D54  check_blink
+000D9E  init_lantern
+000F38  init_dali
+000F8A  dali_check_bus
+000FD2  dali_special
+000FF6  dali_cmd
+001330  dali_dap
+0013EE  dali
+00154A  check_status
+001590  operating_hours
+00162C  lantern
+001690  @cinit1
+001690  MAIN
+0016F8  @cinit2
+
+Project Directory:
+    C:\Users\VM\Desktop\7366500802rev1_Stand290621_AOPS\
+
+Project Files:
+    main.c                                                  [24-Jun-21 11:38  CRC=FB413455]
+    ..\..\..\..\Program Files (x86)\PICC\devices\18F25K22.h [02-Okt-20 15:27  CRC=3A341676]
+    defvar.h                                                [19-Mai-21 09:50  CRC=710FFB80]
+    func.h                                                  [28-Jun-21 15:09  CRC=A35FA615]
+    dali_table.h                                            [18-Mai-21 11:22  CRC=A0155701]
+    dalicmd.h                                               [31-Jan-17 17:36  CRC=1420C5FC]
+    dali.h                                                  [29-Jun-21 16:06  CRC=DA518E2A]
+    test.h                                                  [16-Jan-19 15:16  CRC=C566CB1F]
+
+Source signature=633A2DC5
+Program memory checksum=8F7A
+Hex file CRC=9B01
+
+Units:
+    C:\Users\VM\Desktop\7366500802rev1_Stand290621_AOPS\main (main)
+
+Compiler Settings:
+    Processor:      PIC18F25K22
+    Pointer Size:   16
+    ADC Range:      0-255
+    Opt Level:      9
+    Short,Int,Long: UNSIGNED: 1,8,16
+    Float,Double:   32,32
+    Compile Mode:   CCS5
+
+Output Files:
+    Errors:      main.err
+    INHX32:      main.hex
+    Symbols:     main.sym
+    List:        main.lst
+    Debug/COFF:  main.cof
+    Project:     main.ccspjt
+    Call Tree:   main.tre

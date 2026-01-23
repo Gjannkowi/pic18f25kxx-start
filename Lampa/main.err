@@ -1,0 +1,8 @@
+Compiling C:\Users\VM\Desktop\7366500802rev1_Stand290621_AOPS\main on 29-Jun-21 at 16:08
+--- Info 300 "C:\Users\VM\Desktop\7366500802rev1_Stand290621_AOPS\main.c" Line 105(1,1): More info:   PWM Resolution: 9,97 bits
+--- Info 300 "C:\Users\VM\Desktop\7366500802rev1_Stand290621_AOPS\main.c" Line 107(1,1): More info:   PWM Resolution: 9,97 bits
+--- Info 300 "C:\Users\VM\Desktop\7366500802rev1_Stand290621_AOPS\main.c" Line 108(1,1): More info:   PWM Resolution: 9,97 bits
+>>> Warning 202 "C:\Users\VM\Desktop\7366500802rev1_Stand290621_AOPS\defvar.h" Line 83(3,6): Variable never used:   nop
+      Memory usage:   ROM=18%      RAM=5% - 7%
+      0 Errors,  1 Warnings.
+Build Successful.

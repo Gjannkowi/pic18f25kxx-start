@@ -1,0 +1,155 @@
+ÀÄmain
+   ÃÄMAIN  0/210  Ram=0
+   ³  ÃÄ@cinit1  (Inline)  Ram=0
+   ³  ÃÄ@cinit2  (Inline)  Ram=0
+   ³  ÃÄtestmode  0/50  Ram=0
+   ³  ³  ÃÄinit_test  0/320  Ram=2
+   ³  ³  ³  ÃÄ@PWM_SET_DUTY_PERCENT_HW_1  0/132  Ram=6
+   ³  ³  ³  ³  ÃÄ@MUL3232  0/84  Ram=14
+   ³  ³  ³  ³  ÀÄ@DIV3232  0/142  Ram=13
+   ³  ³  ³  ÃÄset_led_current  0/26  Ram=1
+   ³  ³  ³  ³  ÃÄwrite_i2c  0/68  Ram=3
+   ³  ³  ³  ³  ³  ÃÄpoti_ack  0/64  Ram=2
+   ³  ³  ³  ³  ³  ³  ÀÄ@I2C_WRITE_129  0/72  Ram=1
+   ³  ³  ³  ³  ³  ÃÄ@I2C_WRITE_129  0/72  Ram=1
+   ³  ³  ³  ³  ³  ÃÄ@I2C_WRITE_129  0/72  Ram=1
+   ³  ³  ³  ³  ³  ÀÄ@I2C_WRITE_129  0/72  Ram=1
+   ³  ³  ³  ³  ÀÄwrite_i2c  0/68  Ram=3
+   ³  ³  ³  ³     ÀÄ*
+   ³  ³  ³  ÃÄ@delay_ms1  0/38  Ram=1
+   ³  ³  ³  ÃÄset_led_current  0/26  Ram=1
+   ³  ³  ³  ³  ÀÄ*
+   ³  ³  ³  ÀÄset_led_current  0/26  Ram=1
+   ³  ³  ³     ÀÄ*
+   ³  ³  ÃÄcontroller_ok_led  0/4  Ram=0
+   ³  ³  ÃÄled_monitoring  0/294  Ram=6
+   ³  ³  ³  ÃÄeeprom_write  0/46  Ram=2
+   ³  ³  ³  ÀÄkill_fuse  0/4  Ram=0
+   ³  ³  ÃÄcheck_current  0/80  Ram=0
+   ³  ³  ³  ÀÄ@delay_ms1  0/38  Ram=1
+   ³  ³  ÃÄcheck_converter  0/82  Ram=0
+   ³  ³  ³  ÃÄ@delay_ms1  0/38  Ram=1
+   ³  ³  ³  ÃÄeeprom_write  0/46  Ram=2
+   ³  ³  ³  ÀÄkill_fuse  0/4  Ram=0
+   ³  ³  ÀÄheater_control  0/336  Ram=3
+   ³  ³     ÃÄ@const804  0/56  Ram=0
+   ³  ³     ÃÄ@PWM_SET_DUTY_PERCENT_HW_2  0/132  Ram=6
+   ³  ³     ³  ÃÄ@MUL3232  0/84  Ram=14
+   ³  ³     ³  ÀÄ@DIV3232  0/142  Ram=13
+   ³  ³     ÃÄ@const804  0/56  Ram=0
+   ³  ³     ÃÄ@PWM_SET_DUTY_PERCENT_HW_3  0/128  Ram=6
+   ³  ³     ³  ÃÄ@MUL3232  0/84  Ram=14
+   ³  ³     ³  ÀÄ@DIV3232  0/142  Ram=13
+   ³  ³     ÃÄ@const804  0/56  Ram=0
+   ³  ³     ÃÄ@const804  0/56  Ram=0
+   ³  ³     ÃÄ@PWM_SET_DUTY_PERCENT_HW_2  0/132  Ram=6
+   ³  ³     ³  ÀÄ*
+   ³  ³     ÃÄ@const804  0/56  Ram=0
+   ³  ³     ÃÄ@const804  0/56  Ram=0
+   ³  ³     ÀÄ@PWM_SET_DUTY_PERCENT_HW_3  0/128  Ram=6
+   ³  ³        ÀÄ*
+   ³  ÃÄinit_lantern  0/410  Ram=13
+   ³  ³  ÃÄ@PWM_SET_DUTY_PERCENT_HW_1  0/132  Ram=6
+   ³  ³  ³  ÀÄ*
+   ³  ³  ÃÄcheck_param  0/18  Ram=1
+   ³  ³  ³  ÀÄeeprom_read  0/26  Ram=2
+   ³  ³  ÃÄeeprom_read  0/26  Ram=2
+   ³  ³  ÃÄset_led_current  0/26  Ram=1
+   ³  ³  ³  ÀÄ*
+   ³  ³  ÃÄeeprom_read  0/26  Ram=2
+   ³  ³  ÃÄeeprom_read  0/26  Ram=2
+   ³  ³  ÃÄ@delay_ms1  0/38  Ram=1
+   ³  ³  ÃÄcheck_blink  0/74  Ram=2
+   ³  ³  ³  ÃÄeeprom_read  0/26  Ram=2
+   ³  ³  ³  ÀÄ@const807  0/32  Ram=0
+   ³  ³  ÃÄeeprom_read  0/26  Ram=2
+   ³  ³  ÃÄeeprom_read  0/26  Ram=2
+   ³  ³  ÃÄeeprom_read  0/26  Ram=2
+   ³  ³  ÀÄeeprom_read  0/26  Ram=2
+   ³  ÃÄinit_dali  0/82  Ram=0
+   ³  ³  ÃÄeeprom_read  0/26  Ram=2
+   ³  ³  ÃÄeeprom_read  0/26  Ram=2
+   ³  ³  ÀÄeeprom_read  0/26  Ram=2
+   ³  ÃÄdali  0/348  Ram=1
+   ³  ³  ÃÄdali_check_bus  0/72  Ram=0
+   ³  ³  ³  ÃÄcheck_blink  0/74  Ram=2
+   ³  ³  ³  ³  ÀÄ*
+   ³  ³  ³  ÀÄ@PWM_SET_DUTY_PERCENT_HW_1  0/132  Ram=6
+   ³  ³  ³     ÀÄ*
+   ³  ³  ÃÄdali_special  0/36  Ram=2
+   ³  ³  ÃÄdali_cmd  0/826  Ram=4
+   ³  ³  ³  ÃÄeeprom_write  0/46  Ram=2
+   ³  ³  ³  ÃÄeeprom_write  0/46  Ram=2
+   ³  ³  ³  ÃÄset_led_current  0/26  Ram=1
+   ³  ³  ³  ³  ÀÄ*
+   ³  ³  ³  ÃÄset_led_current  0/26  Ram=1
+   ³  ³  ³  ³  ÀÄ*
+   ³  ³  ³  ÃÄeeprom_write  0/46  Ram=2
+   ³  ³  ³  ÃÄeeprom_write  0/46  Ram=2
+   ³  ³  ³  ÃÄeeprom_write  0/46  Ram=2
+   ³  ³  ³  ÃÄeeprom_write  0/46  Ram=2
+   ³  ³  ³  ÃÄeeprom_write  0/46  Ram=2
+   ³  ³  ³  ÃÄeeprom_write  0/46  Ram=2
+   ³  ³  ³  ÃÄeeprom_write  0/46  Ram=2
+   ³  ³  ³  ÃÄeeprom_write  0/46  Ram=2
+   ³  ³  ³  ÃÄcheck_blink  0/74  Ram=2
+   ³  ³  ³  ³  ÀÄ*
+   ³  ³  ³  ÃÄcheck_blink  0/74  Ram=2
+   ³  ³  ³  ³  ÀÄ*
+   ³  ³  ³  ÃÄ@const807  0/32  Ram=0
+   ³  ³  ³  ÃÄeeprom_read  0/26  Ram=2
+   ³  ³  ³  ÃÄeeprom_write  0/46  Ram=2
+   ³  ³  ³  ÃÄeeprom_read  0/26  Ram=2
+   ³  ³  ³  ÃÄeeprom_write  0/46  Ram=2
+   ³  ³  ³  ÃÄeeprom_read  0/26  Ram=2
+   ³  ³  ³  ÃÄeeprom_write  0/46  Ram=2
+   ³  ³  ³  ÃÄeeprom_read  0/26  Ram=2
+   ³  ³  ³  ÃÄeeprom_write  0/46  Ram=2
+   ³  ³  ³  ÃÄ@const936  0/524  Ram=0
+   ³  ³  ³  ÀÄ@PWM_SET_DUTY_PERCENT_HW_1  0/132  Ram=6
+   ³  ³  ³     ÀÄ*
+   ³  ³  ÃÄdali_cmd  0/826  Ram=4
+   ³  ³  ³  ÀÄ*
+   ³  ³  ÃÄdali_dap  0/190  Ram=3
+   ³  ³  ³  ÃÄ@const848  0/22  Ram=0
+   ³  ³  ³  ÃÄ@const848  0/22  Ram=0
+   ³  ³  ³  ÃÄeeprom_read  0/26  Ram=2
+   ³  ³  ³  ÃÄ@const936  0/524  Ram=0
+   ³  ³  ³  ÃÄ@PWM_SET_DUTY_PERCENT_HW_1  0/132  Ram=6
+   ³  ³  ³  ³  ÀÄ*
+   ³  ³  ³  ÃÄcheck_blink  0/74  Ram=2
+   ³  ³  ³  ³  ÀÄ*
+   ³  ³  ³  ÀÄcheck_blink  0/74  Ram=2
+   ³  ³  ³     ÀÄ*
+   ³  ³  ÃÄdali_dap  0/190  Ram=3
+   ³  ³  ³  ÀÄ*
+   ³  ³  ÃÄdali_cmd  0/826  Ram=4
+   ³  ³  ³  ÀÄ*
+   ³  ³  ÀÄdali_dap  0/190  Ram=3
+   ³  ³     ÀÄ*
+   ³  ÀÄlantern  0/100  Ram=0
+   ³     ÃÄcheck_status  0/70  Ram=0
+   ³     ÃÄled_monitoring  0/294  Ram=6
+   ³     ³  ÀÄ*
+   ³     ÃÄcheck_current  0/80  Ram=0
+   ³     ³  ÀÄ*
+   ³     ÃÄcheck_converter  0/82  Ram=0
+   ³     ³  ÀÄ*
+   ³     ÃÄheater_control  0/336  Ram=3
+   ³     ³  ÀÄ*
+   ³     ÃÄcontroller_ok_led  0/4  Ram=0
+   ³     ÃÄoperating_hours  0/156  Ram=2
+   ³     ³  ÃÄeeprom_write  0/46  Ram=2
+   ³     ³  ÃÄkill_fuse  0/4  Ram=0
+   ³     ³  ÃÄeeprom_write  0/46  Ram=2
+   ³     ³  ÃÄeeprom_write  0/46  Ram=2
+   ³     ³  ÃÄeeprom_write  0/46  Ram=2
+   ³     ³  ÀÄeeprom_write  0/46  Ram=2
+   ³     ÀÄheater_control  0/336  Ram=3
+   ³        ÀÄ*
+   ÃÄtimer0_isr  0/66  Ram=0
+   ÃÄtimer1_isr  0/212  Ram=0
+   ÃÄtimer3_isr  0/94  Ram=2
+   ³  ÃÄ@const807  0/32  Ram=0
+   ³  ÀÄ@const807  0/32  Ram=0
+   ÀÄrb4_isr  0/54  Ram=0
