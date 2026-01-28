@@ -230,6 +230,9 @@ void delay_ms(unsigned int ms)
 // Wyœlij ramkê DALI (adres + komenda)
 void TX_DALI(unsigned char adr, unsigned char cmd)
 {
+    // Wyczyœæ bufor RX PRZED wys³aniem (usuniêcie starych danych)
+    U1FIFO |= 0x02; // RXBE (bit 1) - Wyczyœæ bufor RX
+
     // Wyœlij bajt adresu
     U1TXB = adr;
     // Wyœlij bajt komendy
@@ -239,8 +242,11 @@ void TX_DALI(unsigned char adr, unsigned char cmd)
     while (!(U1ERRIR & 0x80))
         ; // TXMTIF: czekaj a¿ TX gotowe
 
-    // Wyczyœæ bufory TX i RX
-    U1FIFO |= 0x22; // TXBE (bit 5) + RXBE (bit 1) - Wyczyœæ oba
+    // Poczekaj chwilê na zakoñczenie transmisji na linii
+    delay_ms(5);
+
+    // Wyczyœæ echo w³asnej transmisji z bufora RX
+    U1FIFO |= 0x02; // RXBE (bit 1) - Wyczyœæ bufor RX
 }
 
 // Odczytaj dane z UART DALI (zwraca 1 jeœli dane dostêpne, 0 jeœli nie)
@@ -364,8 +370,13 @@ void main(void)
         // ### Od tego miejsca tylko co 100ms ###
         xT1_FLAG = 0; // Wyczyœæ flagê na nastêpne 100ms
 
-        // Aktualizuj strukturê RB_A na podstawie PORTA
-        *((unsigned char *)&RB_A) = PORTA;
+        // Sprawdzaj odbiór DALI w ka¿dym cyklu (zastêpuje przerwania)
+        unsigned char rx_data;
+        if (RX_DALI(&rx_data))
+        {
+            bDALI_RX_Dat = rx_data;
+            xDALI_RX_OK = 1;
+        }
 
         // Migacz LED 1s (10 x 100ms)
         if (++bBlink >= 10)
@@ -402,15 +413,22 @@ void main(void)
             bDALI_RX_Dat = 0;
             state_counter = 0; // Reset licznika stanu
 
-            // SprawdŸ przycisk 1 (aktywny niski)
-            if (!RB_A.SW1)
+            // SprawdŸ przycisk 1 (aktywny niski - RA7)
+            // Czekaj dopóki jest wciœniêty, potem zmieñ stan
+            if (!(PORTA & 0x80)) // Bit 7 = 0 (LOW) = wciœniêty
             {
+                // Czekaj a¿ przycisk zwolniony
+                while (!(PORTA & 0x80))
+                    ;
                 prg_state = S66_ON;
             }
 
-            // SprawdŸ przycisk 2 (aktywny niski)
-            if (!RB_A.SW2)
+            // SprawdŸ przycisk 2 (aktywny niski - RA6)
+            if (!(PORTA & 0x40)) // Bit 6 = 0 (LOW) = wciœniêty
             {
+                // Czekaj a¿ przycisk zwolniony
+                while (!(PORTA & 0x40))
+                    ;
                 prg_state = CHECK_ADR;
             }
             break;
@@ -440,37 +458,32 @@ void main(void)
                 break;
             }
 
-            // Wyœlij QUERY_STATUS tylko raz (gdy param_cnt == 5)
+            // Po wys³aniu wszystkich 5 znaków, czekaj na odpowiedŸ 'P'
             if (param_cnt == 5)
             {
-                TX_DALI(D_BROADCAST_ADDRESS, D_QUERY_STATUS);
-                param_cnt = 6;     // Ustaw na 6 ¿eby wiêcej nie wysy³aæ
-                bDALI_RX_Wait = 0; // Reset timeoutu - liczy od teraz
-                break;             // Przerwij i poczekaj na odpowiedŸ w nastêpnym cyklu
+                delay_ms(100); // Daj lampie czas na odpowiedŸ
+                param_cnt = 6; // Oznacz ¿e sprawdziliœmy
             }
 
-            // Czekaj minimum 5 cykli (500ms) przed sprawdzeniem odpowiedzi
-            // (tak jak w oryginale delay_ms(500))
-            if (bDALI_RX_Wait < 5)
+            // DEBUG: Poka¿ co odebrano
+            if (bDALI_RX_Dat != 0 && bDALI_RX_Wait == 1)
             {
-                bDALI_RX_Wait++;
-                break; // Czekaj dalej
+                LATA &= 0xC0;
+                LATA |= (bDALI_RX_Dat & 0x3F); // Poka¿ wartoœæ
+                delay_ms(2000);
+                LATA &= 0xC0;
             }
 
-            // Po 500ms sprawdŸ odpowiedŸ
-            if (xDALI_RX_OK && bDALI_RX_Dat >= 0x80) // Prawid³owa odpowiedŸ (0x80-0xFF)
+            // SprawdŸ czy lampa odpowiedzia³a 'P' (0x50) - oznacza wejœcie w tryb PARAM
+            if (bDALI_RX_Dat == 'P') // Lampa odpowiada 'P' po poprawnej sekwencji PARAM
             {
                 ErrCode = 0; // Login OK
                 prg_state = WAIT_NEXT;
             }
-            else if (bDALI_RX_Wait > 10) // Timeout 1s total (10 cykli od wys³ania)
+            else if ((bDALI_RX_Wait++) > 10) // Timeout 1s total
             {
                 ErrCode = 1; // Brak odpowiedzi lub b³êdna
                 prg_state = WAIT_NEXT;
-            }
-            else
-            {
-                bDALI_RX_Wait++; // Liczy dalej do 10
             }
             break;
 
@@ -496,10 +509,14 @@ void main(void)
                 LATA |= 0x01; // LED1 (CZERWONY) W£ = B³¹d loginu
             }
 
-            // Czekaj na przycisk 1 lub timeout
-            if (!RB_A.SW1)
+            // Czekaj na przycisk 1 (RA7, aktywny niski)
+            if (!(PORTA & 0x80)) // Przycisk wciœniêty
             {
-                state_counter = 0; // Reset
+                // Czekaj a¿ przycisk zwolniony
+                while (!(PORTA & 0x80))
+                    ;
+                delay_ms(40); // Debouncing
+                state_counter = 0;
                 if (!ErrCode)
                 {
                     prg_state = SEND_ADR;
@@ -525,65 +542,73 @@ void main(void)
         case SEND_ADR:    // ## Krok 5: Wyœlij nowy Adr
             LATA &= 0xC0; // Wszystkie LED WY£
             LATA |= 0x02; // LED2 (¯Ó£TY) W£: Wysy³anie adresu
+            TX_DALI(D_SPECIAL_STORE_DTR0, bDALI_Adr);
+            delay_ms(40); // Krótko czekaj a¿ S66 odpowie
 
-            // Wyœlij tylko raz (gdy bDALI_RX_Wait == 0)
-            if (bDALI_RX_Wait == 0)
-            {
-                TX_DALI(D_SPECIAL_STORE_DTR0, bDALI_Adr);
-            }
-
-            bDALI_RX_Wait++; // Inkrementuj w ka¿dym cyklu
-
-            if (bDALI_RX_Dat == '+') // OdpowiedŸ OK
-            {
-                LATA |= 0x04; // LED3 (ZIELONY) W£: Adr OK
-                bDALI_RX_Wait = 0;
-                prg_state = SEND_STORE;
-            }
-            else if (bDALI_RX_Wait > 5) // Timeout 500ms
+            // DEBUG: Poka¿ co odebrano (tylko przy pierwszym sprawdzeniu)
+            if (bDALI_RX_Dat != 0 && bDALI_RX_Wait == 0)
             {
                 LATA &= 0xC0;
-                LATA |= 0x01;       // LED1 (CZERWONY) W£ = B³¹d Adr
-                state_counter = 10; // 10 cykli = 1s
-                prg_state = SHOW_RESULT;
-            }
-            break;
-
-        case SEND_STORE:  // ## Krok 6: Wyœlij polecenie zapisu
-            LATA &= 0xC0; // Wszystkie LED WY£
-
-            // Wyœlij tylko raz (gdy bDALI_RX_Wait == 0)
-            if (bDALI_RX_Wait == 0)
-            {
-                TX_DALI(D_BROADCAST_ADDRESS, D_STORE_DTR_AS_SHORT_ADDRESS);
+                LATA |= (bDALI_RX_Dat & 0x3F); // Poka¿ wartoœæ
+                delay_ms(2000);
+                LATA &= 0xC0;
             }
 
-            bDALI_RX_Wait++; // Inkrementuj w ka¿dym cyklu
-
-            if (bDALI_RX_Dat == '-') // Weryfikuj odpowiedŸ
+            if (bDALI_RX_Dat == '+') // OdpowiedŸ OK (0x2B = 43 = LED 1,2,4,6)
             {
-                LATA |= 0x04;       // LED3 (ZIELONY) W£: Zapis OK
-                state_counter = 20; // 20 cykli = 2s
-                prg_state = SHOW_RESULT;
+                LATA |= 0x04;      // LED3 (ZIELONY) W£: Adr OK
+                bDALI_RX_Wait = 0; // Ustaw TimeOut
+                prg_state = SEND_STORE;
             }
-            else if (bDALI_RX_Wait > 5) // Timeout 500ms
+            else if ((bDALI_RX_Wait++) > 5) // maks. 0,5s czekaj na odpowiedŸ DALI
             {
-                LATA |= 0x01;       // LED1 (CZERWONY) W£ = B³¹d zapisu
-                state_counter = 10; // 10 cykli = 1s
-                prg_state = SHOW_RESULT;
-            }
-            break;
-
-        case SHOW_RESULT: // ## Stan pomocniczy: Pokazywanie wyniku przez okreœlony czas
-            // LED ju¿ ustawiona w poprzednim stanie
-            if (--state_counter == 0)
-            {
-                LATB &= ~(1 << 5); // Wy³¹cz przekaŸnik
+                LATA |= 0x01; // LED1 (CZERWONY) W£ = B³¹d Adr
+                while (PORTA & 0x80)
+                    ; // Czekaj na przycisk 1
+                while (!(PORTA & 0x80))
+                    ; // i czekaj a¿ zwolniony
+                delay_ms(200);
                 prg_state = STANDBY;
             }
             break;
 
-        case CHECK_ADR:       // ## Krok 7: SprawdŸ nowy Adr (przycisk S2 - tylko LED4-6)
+        case SEND_STORE:                                                // ## Krok 6: Wyœlij polecenie zapisu
+            LATA &= 0xC0;                                               // Wszystkie LED WY£
+            TX_DALI(D_BROADCAST_ADDRESS, D_STORE_DTR_AS_SHORT_ADDRESS); // wysy³ane 2x
+            delay_ms(40);                                               // Krótko czekaj a¿ S66 odpowie
+
+            // DEBUG: Poka¿ co odebrano (tylko przy pierwszym sprawdzeniu)
+            if (bDALI_RX_Dat != 0 && bDALI_RX_Dat != '+' && bDALI_RX_Wait == 0)
+            {
+                LATA &= 0xC0;
+                LATA |= (bDALI_RX_Dat & 0x3F); // Poka¿ wartoœæ
+                delay_ms(2000);
+                LATA &= 0xC0;
+            }
+
+            if (bDALI_RX_Dat == '-') // Weryfikuj (0x2D = 45 = LED 1,3,4,6)
+            {
+                LATA |= 0x04; // LED3 (ZIELONY) W£: Zapis OK
+                while (PORTA & 0x80)
+                    ; // Czekaj na przycisk 1
+                while (!(PORTA & 0x80))
+                    ; // i czekaj a¿ zwolniony
+                delay_ms(200);
+                prg_state = STANDBY; // i restart
+            }
+            else if ((bDALI_RX_Wait++) > 5) // maks. 0,5s czekaj na odpowiedŸ DALI
+            {
+                LATA |= 0x01; // LED1 (CZERWONY) W£ = B³¹d zapisu
+                while (PORTA & 0x80)
+                    ; // Czekaj na przycisk 1
+                while (!(PORTA & 0x80))
+                    ; // i czekaj a¿ zwolniony
+                delay_ms(200);
+                prg_state = STANDBY;
+            }
+            break;
+
+        case CHECK_ADR:       // ## Krok 7: SprawdŸ nowy Adr (UPROSZCZONA WERSJA)
             LATA &= 0xC0;     // Wszystkie LED WY£
             LATB |= (1 << 5); // RB5: PrzekaŸnik/S66 W£
             LATA |= 0x10;     // LED5 (¯Ó£TY) W£: Sprawdzanie Adr trwa...
@@ -595,13 +620,13 @@ void main(void)
             // Wyœlij QUERY_STATUS do danego adresu
             TX_DALI((unsigned char)((bDALI_Adr << 1) | 1), D_QUERY_STATUS);
 
-            // Czekaj na odpowiedŸ (maksymalnie 200ms)
+            // Czekaj na odpowiedŸ (maksymalnie 100ms)
             bDALI_RX_Dat = 0;
             xDALI_RX_OK = 0;
             {
                 unsigned char timeout = 0;
                 unsigned char rx_data = 0;
-                while (timeout < 200) // Timeout 200ms
+                while (timeout < 100) // Timeout 100ms
                 {
                     if (RX_DALI(&rx_data))
                     {
@@ -614,17 +639,18 @@ void main(void)
                 }
             }
 
-            // Wy³¹cz LED5 (¿ó³t¹) przed wynikiem
-            LATA &= 0xC0; // Wszystkie LED WY£
+            // DEBUG: Poka¿ wartoœæ przez 1 sekundê
+            LATA &= 0xC0;
+            LATA |= (bDALI_RX_Dat & 0x3F);
+            delay_ms(1000);
+            LATA &= 0xC0;
 
-            // WA¯NE: OdpowiedŸ QUERY_STATUS powinna byæ 0x80 lub 0x81 (czasem 0xFF)
-            // Musi byæ DOK£ADNIE otrzymana (xDALI_RX_OK = 1)
-            if (xDALI_RX_OK == 1 && (bDALI_RX_Dat == 0x80 || bDALI_RX_Dat == 0x81 || bDALI_RX_Dat == 0xFF))
+            if (xDALI_RX_OK && bDALI_RX_Dat >= 0x80) // OdpowiedŸ OK (0x80 lub wy¿sza)
             {
                 LATA |= 0x20;        // LED6 (ZIELONY) W£ = Adr OK
                 prg_state = DIM_ADR; // PrzejdŸ do œciemniania
             }
-            else // Brak prawid³owej odpowiedzi lub b³êdny adres
+            else // Brak prawid³owej odpowiedzi
             {
                 LATA |= 0x08; // LED4 (CZERWONY) W£ = B³¹d Adr
                 // Czekaj na przycisk S2 aby wróciæ
@@ -664,15 +690,11 @@ void main(void)
             prg_state = STANDBY;
             break;
 
-        default:               // ## Ostatni krok: Nieznany Case
-            LATA |= 0x01;      // LED1 (CZERWONY) krótko W£
-            state_counter = 2; // 200ms
-            prg_state = SHOW_RESULT;
+        default:          // ## Ostatni krok: Nieznany Case
+            LATA |= 0x01; // LED1 (CZERWONY) krótko W£
+            delay_ms(200);
+            prg_state = STANDBY;
             break;
         }
-
-        // Wyczyœæ œmieci z bufora DALI (jak w oryginale)
-        xDALI_RX_OK = 0;
-        bDALI_RX_Dat = 0;
     }
 }
