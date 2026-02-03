@@ -23,10 +23,21 @@ from pathlib import Path
 from typing import List, Optional, Sequence
 
 try:
-    from saleae import automation  # type: ignore
-    from saleae.automation import LogicDeviceConfiguration, CaptureConfiguration  # type: ignore
+    from saleae import automation
+    from saleae.automation import (
+        Manager,
+        CaptureConfiguration,
+        LogicDeviceConfiguration,
+    )
+    from saleae.automation import TimedCaptureMode
+
+    automation_available = True
 except ImportError:
-    automation = None
+    automation_available = False
+    Manager = None
+    CaptureConfiguration = None
+    LogicDeviceConfiguration = None
+    TimedCaptureMode = None
 
 
 @dataclass
@@ -49,12 +60,11 @@ class Frame:
 
 
 def _require_automation():
-    if automation is None:
+    if not automation_available:
         raise RuntimeError(
-            "saleae automation package is not installed.\n"
-            "Install via: pip install saleae\n"
-            "Also ensure Logic 2 app is running with automation enabled:\n"
-            "  Preferences -> Developer -> Enable scripting socket server"
+            "logic2-automation package is not installed.\n"
+            "Install via: pip install logic2-automation\n"
+            "Also ensure Logic 2 app is running (automation server is enabled by default)."
         )
 
 
@@ -63,7 +73,16 @@ def capture_logic2(args: argparse.Namespace) -> None:
     _require_automation()
 
     print("Connecting to Logic 2...")
-    manager = automation.Manager.connect()
+    try:
+        manager = Manager.connect(port=10430)
+    except Exception as e:
+        raise RuntimeError(
+            f"Nie mozna polaczyc sie z Logic 2: {e}\n"
+            "Upewnij sie ze:\n"
+            "  1. Aplikacja Logic 2 jest uruchomiona\n"
+            "  2. Edit -> Settings -> Automation -> Enable automation server jest wlaczone\n"
+            "  3. Port 10430 jest dostepny"
+        )
 
     # Get connected device
     device_config = LogicDeviceConfiguration(
@@ -73,7 +92,7 @@ def capture_logic2(args: argparse.Namespace) -> None:
 
     # Configure capture
     capture_config = CaptureConfiguration(
-        capture_mode=automation.TimedCaptureMode(duration_seconds=args.seconds)
+        capture_mode=TimedCaptureMode(duration_seconds=args.seconds)
     )
 
     print(
@@ -92,7 +111,7 @@ def capture_logic2(args: argparse.Namespace) -> None:
             "Manchester",
             label="DALI_RX",
             settings={
-                "Input Channel": 0,
+                "Manchester": 0,
                 "Bit Rate (Bits/s)": 1200,  # DALI bit rate
             },
         )
@@ -102,7 +121,7 @@ def capture_logic2(args: argparse.Namespace) -> None:
             "Manchester",
             label="DALI_TX",
             settings={
-                "Input Channel": 1,
+                "Manchester": 1,
                 "Bit Rate (Bits/s)": 1200,  # DALI bit rate
             },
         )
@@ -137,30 +156,30 @@ def _parse_float(value: str) -> float:
         return float(value.replace(",", "."))
 
 
-def decode(args: argparse.Namespace) -> None:
-    """Decode Manchester CSV export."""
-    csv_path = Path(args.csv)
-    if not csv_path.exists():
-        raise FileNotFoundError(f"File not found: {csv_path}")
-
+def _decode_csv_file(csv_path: Path, label: str) -> List[Frame]:
+    """Decode CSV file and return list of frames."""
     frames: List[Frame] = []
+
     with csv_path.open(newline="", encoding="utf-8") as csv_file:
         reader = csv.DictReader(csv_file)
         lower_headers = {h.lower(): h for h in reader.fieldnames or []}
 
         time_key = (
-            lower_headers.get("time[s]")
+            lower_headers.get("start_time")
+            or lower_headers.get("time[s]")
             or lower_headers.get("time [s]")
             or lower_headers.get("start time")
             or lower_headers.get("time")
         )
         data_key = lower_headers.get("data") or lower_headers.get("value")
         if not time_key or not data_key:
-            raise ValueError(
-                "CSV must contain 'Time' and 'Data' columns - export from Saleae analyzer first."
-            )
+            return frames  # Return empty list if columns not found
 
-        source_key = lower_headers.get("channel") or lower_headers.get("source")
+        source_key = (
+            lower_headers.get("name")
+            or lower_headers.get("channel")
+            or lower_headers.get("source")
+        )
 
         for row in reader:
             raw_value = row[data_key].strip()
@@ -175,7 +194,7 @@ def decode(args: argparse.Namespace) -> None:
                 except ValueError:
                     continue
 
-            source = row[source_key] if source_key else args.label
+            source = row[source_key] if source_key else label
             frames.append(
                 Frame(
                     timestamp=_parse_float(row[time_key]),
@@ -183,6 +202,17 @@ def decode(args: argparse.Namespace) -> None:
                     source=source,
                 )
             )
+
+    return frames
+
+
+def decode(args: argparse.Namespace) -> None:
+    """Decode Manchester CSV export."""
+    csv_path = Path(args.csv)
+    if not csv_path.exists():
+        raise FileNotFoundError(f"File not found: {csv_path}")
+
+    frames = _decode_csv_file(csv_path, args.label)
 
     if not frames:
         print("No frames decoded - check the CSV export.")
@@ -307,48 +337,71 @@ def interactive_menu() -> int:
             input("\nNacisnij Enter aby wrocic do menu...")
 
         elif choice == "2":
-            # Quick DALI Decode - find and decode latest CSV
+            # Quick DALI Decode - find and decode latest CSV files (RX and TX)
             print("\n--- Quick DALI Decode ---")
             script_dir = Path(__file__).parent
 
-            # Find all CSV files in script directory
-            csv_files = [
-                f for f in script_dir.glob("*.csv") if f.name.startswith("dali_")
-            ]
+            # Find RX and TX CSV files
+            rx_csv = script_dir / "dali_rx_manchester.csv"
+            tx_csv = script_dir / "dali_tx_manchester.csv"
 
-            if not csv_files:
-                print(
-                    f"Blad: Brak plikow CSV zaczynajacych sie od 'dali_' w {script_dir}"
+            all_frames: List[Frame] = []
+
+            # Decode RX file if exists
+            if rx_csv.exists():
+                print(f"Dekodowanie RX: {rx_csv.name}")
+                parser = build_arg_parser()
+                args = parser.parse_args(
+                    ["decode", "--csv", str(rx_csv), "--label", "DALI_RX"]
                 )
-                print("Wykonaj najpierw Quick DALI Capture (opcja 1).")
+                try:
+                    # Read frames from RX
+                    frames_rx = _decode_csv_file(rx_csv, "DALI_RX")
+                    all_frames.extend(frames_rx)
+                    print(f"  Znaleziono {len(frames_rx)} ramek RX")
+                except Exception as exc:
+                    print(f"  Blad RX: {exc}")
+            else:
+                print(f"Plik RX nie istnieje: {rx_csv}")
+
+            # Decode TX file if exists
+            if tx_csv.exists():
+                print(f"Dekodowanie TX: {tx_csv.name}")
+                try:
+                    frames_tx = _decode_csv_file(tx_csv, "DALI_TX")
+                    all_frames.extend(frames_tx)
+                    print(f"  Znaleziono {len(frames_tx)} ramek TX")
+                except Exception as exc:
+                    print(f"  Blad TX: {exc}")
+            else:
+                print(f"Plik TX nie istnieje: {tx_csv}")
+
+            if not all_frames:
+                print("\nBrak ramek do wyswietlenia.")
                 input("\nNacisnij Enter aby wrocic do menu...")
                 continue
 
-            # Sort by modification time and get the latest
-            latest_csv = max(csv_files, key=lambda p: p.stat().st_mtime)
+            # Sort all frames by timestamp
+            all_frames.sort(key=lambda f: f.timestamp)
 
-            print(f"Znaleziono plik: {latest_csv.name}")
-            print(f"Sciezka: {latest_csv}")
+            print(f"\n{'='*60}")
+            print(f"Zdekodowano lacznie {len(all_frames)} ramek:")
+            print(f"{'='*60}")
+            for frame in all_frames:
+                print(
+                    f"{frame.timestamp:9.6f}s  {frame.source:>10}  0x{frame.value:02X}  {frame.ascii}"
+                )
 
-            # Create JSON output path
-            json_output = latest_csv.with_suffix(".json")
-
-            args_list = [
-                "decode",
-                "--csv",
-                str(latest_csv),
-                "--label",
-                "DALI",
-                "--json",
-                str(json_output),
-            ]
-
-            parser = build_arg_parser()
-            args = parser.parse_args(args_list)
-            try:
-                args.func(args)
-            except Exception as exc:
-                print(f"\nBlad: {exc}")
+            # Save to JSON
+            json_output = script_dir / "dali_combined.json"
+            summary = {
+                "files": [str(rx_csv), str(tx_csv)],
+                "frame_count": len(all_frames),
+                "frames": [f.to_dict() for f in all_frames],
+            }
+            with json_output.open("w", encoding="utf-8") as json_file:
+                json.dump(summary, json_file, indent=2)
+            print(f"\nJSON zapisany: {json_output}")
 
             input("\nNacisnij Enter aby wrocic do menu...")
 

@@ -1,0 +1,75 @@
+{
+  "files": [
+    "d:\\MOJE PROJEKTY\\Skrytpy\\Addressing_tool\\dali_rx_manchester.csv",
+    "d:\\MOJE PROJEKTY\\Skrytpy\\Addressing_tool\\dali_tx_manchester.csv"
+  ],
+  "frame_count": 11,
+  "frames": [
+    {
+      "time": 3.034772958,
+      "value": 233,
+      "ascii": ".",
+      "source": "DALI_RX"
+    },
+    {
+      "time": 3.99521875,
+      "value": 255,
+      "ascii": ".",
+      "source": "DALI_RX"
+    },
+    {
+      "time": 4.001719958,
+      "value": 20,
+      "ascii": ".",
+      "source": "DALI_RX"
+    },
+    {
+      "time": 4.095735292,
+      "value": 255,
+      "ascii": ".",
+      "source": "DALI_RX"
+    },
+    {
+      "time": 4.102237458,
+      "value": 4,
+      "ascii": ".",
+      "source": "DALI_RX"
+    },
+    {
+      "time": 4.196261583,
+      "value": 255,
+      "ascii": ".",
+      "source": "DALI_RX"
+    },
+    {
+      "time": 4.202763542,
+      "value": 148,
+      "ascii": ".",
+      "source": "DALI_RX"
+    },
+    {
+      "time": 4.296787667,
+      "value": 255,
+      "ascii": ".",
+      "source": "DALI_RX"
+    },
+    {
+      "time": 4.3032895,
+      "value": 4,
+      "ascii": ".",
+      "source": "DALI_RX"
+    },
+    {
+      "time": 4.397310875,
+      "value": 255,
+      "ascii": ".",
+      "source": "DALI_RX"
+    },
+    {
+      "time": 4.403812833,
+      "value": 100,
+      "ascii": "d",
+      "source": "DALI_RX"
+    }
+  ]
+}
