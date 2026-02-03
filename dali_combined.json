@@ -3,72 +3,126 @@
     "d:\\MOJE PROJEKTY\\Skrytpy\\Addressing_tool\\dali_rx_manchester.csv",
     "d:\\MOJE PROJEKTY\\Skrytpy\\Addressing_tool\\dali_tx_manchester.csv"
   ],
-  "frame_count": 11,
+  "frame_count": 20,
   "frames": [
     {
-      "time": 3.034772958,
+      "time": 1.240261792,
       "value": 233,
       "ascii": ".",
       "source": "DALI_RX"
     },
     {
-      "time": 3.99521875,
+      "time": 2.195403375,
       "value": 255,
       "ascii": ".",
       "source": "DALI_RX"
     },
     {
-      "time": 4.001719958,
+      "time": 2.201916,
       "value": 20,
       "ascii": ".",
       "source": "DALI_RX"
     },
     {
-      "time": 4.095735292,
+      "time": 2.296125833,
       "value": 255,
       "ascii": ".",
       "source": "DALI_RX"
     },
     {
-      "time": 4.102237458,
+      "time": 2.302639042,
       "value": 4,
       "ascii": ".",
       "source": "DALI_RX"
     },
     {
-      "time": 4.196261583,
+      "time": 2.396858667,
       "value": 255,
       "ascii": ".",
       "source": "DALI_RX"
     },
     {
-      "time": 4.202763542,
+      "time": 2.403371417,
       "value": 148,
       "ascii": ".",
       "source": "DALI_RX"
     },
     {
-      "time": 4.296787667,
+      "time": 2.497589333,
       "value": 255,
       "ascii": ".",
       "source": "DALI_RX"
     },
     {
-      "time": 4.3032895,
+      "time": 2.504102125,
       "value": 4,
       "ascii": ".",
       "source": "DALI_RX"
     },
     {
-      "time": 4.397310875,
+      "time": 2.598323375,
       "value": 255,
       "ascii": ".",
       "source": "DALI_RX"
     },
     {
-      "time": 4.403812833,
+      "time": 2.604836042,
       "value": 100,
       "ascii": "d",
+      "source": "DALI_RX"
+    },
+    {
+      "time": 2.618035875,
+      "value": 21,
+      "ascii": ".",
+      "source": "DALI_RX"
+    },
+    {
+      "time": 3.327776833,
+      "value": 139,
+      "ascii": ".",
+      "source": "DALI_RX"
+    },
+    {
+      "time": 3.334351625,
+      "value": 161,
+      "ascii": ".",
+      "source": "DALI_RX"
+    },
+    {
+      "time": 3.347432458,
+      "value": 169,
+      "ascii": ".",
+      "source": "DALI_RX"
+    },
+    {
+      "time": 3.956431375,
+      "value": 255,
+      "ascii": ".",
+      "source": "DALI_RX"
+    },
+    {
+      "time": 3.963004458,
+      "value": 3,
+      "ascii": ".",
+      "source": "DALI_RX"
+    },
+    {
+      "time": 4.078452,
+      "value": 255,
+      "ascii": ".",
+      "source": "DALI_RX"
+    },
+    {
+      "time": 4.08502575,
+      "value": 3,
+      "ascii": ".",
+      "source": "DALI_RX"
+    },
+    {
+      "time": 4.100936208,
+      "value": 105,
+      "ascii": "i",
       "source": "DALI_RX"
     }
   ]

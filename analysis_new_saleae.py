@@ -249,8 +249,8 @@ def build_arg_parser() -> argparse.ArgumentParser:
     capture_parser.add_argument(
         "--seconds",
         type=float,
-        default=5.0,
-        help="Capture length in seconds (default: 5.0)",
+        default=20.0,
+        help="Capture length in seconds (default: 20.0)",
     )
     capture_parser.add_argument(
         "--digital-sample-rate",
@@ -284,7 +284,7 @@ def interactive_menu() -> int:
         print("\n" + "=" * 40)
         print("=== Saleae Logic 2.x DALI Analyzer ===")
         print("=" * 40)
-        print("1. Quick DALI Manchester Capture (5s)")
+        print("1. Quick DALI Manchester Capture (20s)")
         print("2. Quick DALI Decode (ostatni plik)")
         print("3. Custom Capture")
         print("4. Decode CSV file")
@@ -297,7 +297,7 @@ def interactive_menu() -> int:
             # Quick DALI Manchester Capture
             print("\n--- Quick DALI Manchester Capture ---")
             print("Ustawienia:")
-            print("  - Czas: 5 sekund")
+            print("  - Czas: 20 sekund")
             print("  - Kanaly: 0 i 1 (RX/TX)")
             print("  - Sample rate: 24 MHz")
             print("  - Manchester analyzer: automatycznie dodany")
@@ -314,7 +314,7 @@ def interactive_menu() -> int:
             args_list = [
                 "capture",
                 "--seconds",
-                "5.0",
+                "20.0",
                 "--digital-sample-rate",
                 "24000000",
                 "--output",
