@@ -114,7 +114,7 @@ def capture_logic2(args: argparse.Namespace) -> None:
             settings={
                 "Manchester": 0,
                 "Bit Rate (Bits/s)": 1200,  # DALI bit rate
-                "Inverted": "Yes",  # RX pull-up wymaga inwersji
+                "Edge Polarity": "negative edge is binary zero",  # RX pull-up
             },
         )
 
@@ -126,7 +126,7 @@ def capture_logic2(args: argparse.Namespace) -> None:
             settings={
                 "Manchester": 1,
                 "Bit Rate (Bits/s)": 1200,  # DALI bit rate
-                "Inverted": "No",  # TX push-pull bez inwersji
+                "Edge Polarity": "negative edge is binary one",  # TX push-pull
             },
         )
 
@@ -259,8 +259,8 @@ def build_arg_parser() -> argparse.ArgumentParser:
     capture_parser.add_argument(
         "--digital-sample-rate",
         type=int,
-        default=24_000_000,
-        help="Digital sample rate (Hz, default: 24MHz)",
+        default=2_000_000,
+        help="Digital sample rate (Hz, default: 2MHz)",
     )
     capture_parser.add_argument(
         "--output", type=str, default=".", help="Directory for exported data"
@@ -303,7 +303,7 @@ def interactive_menu() -> int:
             print("Ustawienia:")
             print("  - Czas: 20 sekund")
             print("  - Kanaly: 0 i 1 (RX/TX)")
-            print("  - Sample rate: 24 MHz")
+            print("  - Sample rate: 2 MHz")
             print("  - Manchester analyzer: automatycznie dodany")
 
             script_dir = Path(__file__).parent
