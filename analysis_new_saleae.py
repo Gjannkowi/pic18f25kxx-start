@@ -107,22 +107,26 @@ def capture_logic2(args: argparse.Namespace) -> None:
         print("Capture finished! Adding Manchester analyzer...")
 
         # Add Manchester analyzer for channel 0 (RX)
+        # RX jest podciagniety do zasilania i kluczowany do zera (pull-up, inwersja)
         manchester_rx = capture.add_analyzer(
             "Manchester",
             label="DALI_RX",
             settings={
                 "Manchester": 0,
                 "Bit Rate (Bits/s)": 1200,  # DALI bit rate
+                "Inverted": "Yes",  # RX pull-up wymaga inwersji
             },
         )
 
         # Add Manchester analyzer for channel 1 (TX)
+        # TX jest 0 i podnosi sie do zasilania (push-pull, bez inwersji)
         manchester_tx = capture.add_analyzer(
             "Manchester",
             label="DALI_TX",
             settings={
                 "Manchester": 1,
                 "Bit Rate (Bits/s)": 1200,  # DALI bit rate
+                "Inverted": "No",  # TX push-pull bez inwersji
             },
         )
 
