@@ -68,31 +68,47 @@ def capture(args: argparse.Namespace) -> None:
         f"Starting capture ({args.seconds}s @ {args.digital_sample_rate}Hz digital)..."
     )
     logic.capture_start_and_wait_until_finished()
+    print("Capture finished! Exporting data...")
 
     out_dir = Path(args.output)
     out_dir.mkdir(parents=True, exist_ok=True)
-
-    export_basename = out_dir / "capture"
-    logic.export_data2(
-        str(out_dir),
-        digital_channels=digital_channels,
-        analog_channels=[],
-        sample_rate=args.digital_sample_rate,
-        filename_prefix=str(export_basename),
-    )
-    print(f"Raw digital samples saved under {out_dir}")
+    print(f"Created output directory: {out_dir.absolute()}")
 
     # Export analyzer data if a Manchester analyzer was configured in the GUI
     analyzers = logic.get_analyzers()
     if analyzers:
         analyzer_path = out_dir / "analyzers"
         analyzer_path.mkdir(exist_ok=True)
+        print(f"Found {len(analyzers)} analyzer(s)")
         for analyzer_index, analyzer in enumerate(analyzers):
             target = analyzer_path / f"analyzer_{analyzer_index}_{analyzer.name}.csv"
+            print(
+                f"Exporting analyzer {analyzer_index} ({analyzer.name}) to {target}..."
+            )
             logic.export_analyzer(analyzer_index, str(target))
-            print(f"Analyzer export -> {target}")
+            print(f"Analyzer export completed -> {target}")
     else:
-        print("No analyzers configured in Saleae GUI; skipping analyzer export.")
+        print("WARNING: No analyzers configured in Saleae GUI!")
+        print("To decode DALI frames, add a Manchester analyzer in Saleae Logic:")
+        print("  1. Click '+' to add analyzer")
+        print("  2. Select 'Manchester' analyzer")
+        print("  3. Configure for your DALI channels")
+        print("  4. Run capture again")
+
+    # Try to export raw data as well
+    try:
+        export_basename = out_dir / "capture"
+        print(f"Attempting to export raw data to {export_basename}...")
+        logic.export_data2(
+            str(out_dir),
+            digital_channels=digital_channels,
+            analog_channels=[],
+            sample_rate=args.digital_sample_rate,
+            filename_prefix=str(export_basename),
+        )
+        print(f"Raw digital samples saved under {out_dir}")
+    except Exception as e:
+        print(f"Note: Raw data export not available ({e})")
 
 
 def _parse_float(value: str) -> float:
@@ -316,7 +332,7 @@ def interactive_menu() -> int:
             print("  - Sample rate: 24 MHz")
 
             script_dir = Path(__file__).parent
-            output_dir = script_dir / "dali_captures"
+            output_dir = script_dir
 
             print(f"  - Folder wyjsciowy: {output_dir}")
 
@@ -356,19 +372,13 @@ def interactive_menu() -> int:
             # Quick DALI Decode - find and decode latest CSV
             print("\n--- Quick DALI Decode ---")
             script_dir = Path(__file__).parent
-            dali_captures_dir = script_dir / "dali_captures"
 
-            if not dali_captures_dir.exists():
-                print(f"Blad: Folder {dali_captures_dir} nie istnieje.")
-                print("Wykonaj najpierw Quick DALI Capture (opcja 3).")
-                input("\nNacisnij Enter aby wrocic do menu...")
-                continue
-
-            # Find all CSV files in dali_captures and subdirectories
-            csv_files = list(dali_captures_dir.rglob("*.csv"))
+            # Find all CSV files in script directory and subdirectories
+            csv_files = list(script_dir.rglob("*.csv"))
 
             if not csv_files:
-                print(f"Blad: Brak plikow CSV w {dali_captures_dir}")
+                print(f"Blad: Brak plikow CSV w {script_dir}")
+                print("Wykonaj najpierw Quick DALI Capture (opcja 3).")
                 input("\nNacisnij Enter aby wrocic do menu...")
                 continue
 
