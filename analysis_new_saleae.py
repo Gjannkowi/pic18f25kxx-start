@@ -74,7 +74,7 @@ def capture_logic2(args: argparse.Namespace) -> None:
 
     print("Connecting to Logic 2...")
     try:
-        manager = Manager.connect(port=10430)
+        manager = Manager.connect(port=10430, connect_timeout_seconds=10)
     except Exception as e:
         raise RuntimeError(
             f"Nie mozna polaczyc sie z Logic 2: {e}\n"
@@ -99,10 +99,13 @@ def capture_logic2(args: argparse.Namespace) -> None:
         f"Starting capture ({args.seconds}s @ {args.digital_sample_rate}Hz digital)..."
     )
 
-    with manager.start_capture(
-        device_configuration=device_config, capture_configuration=capture_config
-    ) as capture:
+    try:
+        capture = manager.start_capture(
+            device_configuration=device_config, capture_configuration=capture_config
+        )
+
         # Wait for capture to complete
+        print("Waiting for capture to complete...")
         capture.wait()
         print("Capture finished! Adding Manchester analyzer...")
 
@@ -131,6 +134,7 @@ def capture_logic2(args: argparse.Namespace) -> None:
         )
 
         # Wait for analyzers to complete
+        print("Processing analyzers...")
         capture.wait()
 
         out_dir = Path(args.output)
@@ -147,10 +151,17 @@ def capture_logic2(args: argparse.Namespace) -> None:
         capture.export_data_table(filepath=str(tx_csv), analyzers=[manchester_tx])
         print(f"TX data exported: {tx_csv}")
 
+        # Close capture
+        capture.close()
+
         print("\n" + "=" * 40)
         print("Capture completed successfully!")
         print(f"Files saved in: {out_dir.absolute()}")
         print("=" * 40)
+
+    except Exception as e:
+        print(f"\nBlad podczas capture: {e}")
+        raise
 
 
 def _parse_float(value: str) -> float:
@@ -253,14 +264,14 @@ def build_arg_parser() -> argparse.ArgumentParser:
     capture_parser.add_argument(
         "--seconds",
         type=float,
-        default=20.0,
-        help="Capture length in seconds (default: 20.0)",
+        default=12.0,
+        help="Capture length in seconds (default: 12.0)",
     )
     capture_parser.add_argument(
         "--digital-sample-rate",
         type=int,
-        default=2_000_000,
-        help="Digital sample rate (Hz, default: 2MHz)",
+        default=12_000_000,
+        help="Digital sample rate (Hz, default: 12MHz)",
     )
     capture_parser.add_argument(
         "--output", type=str, default=".", help="Directory for exported data"
@@ -318,9 +329,9 @@ def interactive_menu() -> int:
             args_list = [
                 "capture",
                 "--seconds",
-                "20.0",
+                "12.0",
                 "--digital-sample-rate",
-                "24000000",
+                "12000000",
                 "--output",
                 str(script_dir),
             ]
@@ -412,10 +423,10 @@ def interactive_menu() -> int:
         elif choice == "3":
             # Custom capture
             print("\n--- Custom Capture Configuration ---")
-            seconds = input("Czas capture w sekundach [5.0]: ").strip() or "5.0"
+            seconds = input("Czas capture w sekundach [12.0]: ").strip() or "12.0"
             sample_rate = (
-                input("Czestotliwosc probkowania (Hz) [24000000]: ").strip()
-                or "24000000"
+                input("Czestotliwosc probkowania (Hz) [12000000]: ").strip()
+                or "12000000"
             )
             output = input("Folder wyjsciowy [.]: ").strip() or "."
 
